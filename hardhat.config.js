@@ -1,11 +1,12 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
 require("hardhat-deploy");
+require("@nomiclabs/hardhat-ethers");
 require("solidity-coverage");
 require("hardhat-gas-reporter");
 require("hardhat-contract-sizer");
 require("dotenv").config();
-
+require("hardhat-change-network");
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
@@ -60,6 +61,12 @@ module.exports = {
       //   },
       saveDeployments: true,
       chainId: 421613,
+    },
+    scrollSepolia: {
+      url: "https://sepolia-rpc.scroll.io" || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      chainId: 534351,
     },
   },
   etherscan: {

@@ -1,0 +1,51 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Test.sol": {
+      "lastModificationDate": 1697357975906,
+      "contentHash": "3dd62c3197e5e49d5f50315ae08f95d6",
+      "sourceName": "contracts/Test.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "evmVersion": "istanbul",
+          "optimizer": {
+            "enabled": true,
+            "runs": 1,
+            "details": {
+              "yul": false
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Test"
+      ]
+    }
+  }
+}
