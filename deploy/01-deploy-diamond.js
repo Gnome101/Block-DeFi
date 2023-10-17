@@ -4,10 +4,10 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
   log("------------------------------------------------------------");
-  let args = [1231];
+  let args = [];
   console.log("Chain ID", network.config.chainId);
 
-  //Deploying Test
+  //Deploying Facets
   const Test = await deploy("Test", {
     from: deployer,
     args: args,
