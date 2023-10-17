@@ -1,5 +1,4 @@
 /* global describe it before ethers */
-const hre = require("hardhat");
 const { ethers } = require("hardhat");
 
 const { assert } = require("chai");
@@ -12,20 +11,12 @@ describe("System Test ", async function () {
     accounts = await ethers.getSigners(); // could also do with getNamedAccounts
     deployer = accounts[0];
     user = accounts[1];
-    await deployments.fixture(["SCROLL"]);
-    await deployments.fixture(["ARBG"]);
+    await deployments.fixture(["all"]);
   });
 
-  it("can store numbers and read them Scroll", async () => {
-    hre.changeNetwork("scrollSepolia");
-    test = await ethers.getContractAt("Test");
+  it("can store numbers and read them", async () => {
+    test = await ethers.getContract("Test");
 
-    const num = await test.num();
-    console.log(num.toString());
-  });
-  it("can store numbers and read them ARBG", async () => {
-    hre.changeNetwork("arbgoerli");
-    test = await ethers.getContractAt("Test");
     const num = await test.num();
     console.log(num.toString());
   });
