@@ -93,15 +93,11 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.10",
+        version: "0.8.20",
         settings: {
-          evmVersion: "istanbul",
           optimizer: {
             enabled: true,
             runs: 1,
-            details: {
-              yul: false,
-            },
           },
         },
       },

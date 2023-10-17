@@ -8,11 +8,11 @@ pragma solidity ^0.8.0;
 * Implementation of a diamond.
 /******************************************************************************/
 
-import {LibDiamond} from "./Libraries/LibDiamond.sol";
-import {IDiamondCut} from "./Interfaces/IDiamondCut.sol";
-import {IDiamondLoupe} from "./Interfaces/IDiamondLoupe.sol";
-import {IERC173} from "./Interfaces/IERC173.sol";
-import {IERC165} from "./Interfaces/IERC165.sol";
+import {LibDiamond} from "./DiamondStuff/Libraries/LibDiamond.sol";
+import {IDiamondCut} from "./DiamondStuff/Interfaces/IDiamondCut.sol";
+import {IDiamondLoupe} from "./DiamondStuff/Interfaces/IDiamondLoupe.sol";
+import {IERC173} from "./DiamondStuff/Interfaces/IERC173.sol";
+import {IERC165} from "./DiamondStuff/Interfaces/IERC165.sol";
 
 // When no function exists for function called
 error FunctionNotFound(bytes4 _functionSelector);

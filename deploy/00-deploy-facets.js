@@ -6,6 +6,14 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("------------------------------------------------------------");
   let args = [];
   console.log("Chain ID", network.config.chainId);
+  //Deploying Hook-Factory
+  const UniswapHooksFactory = await deploy("UniswapHooksFactory", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+
   //Deploying DiamondInit
   const DiamondInit = await deploy("DiamondInit", {
     from: deployer,
