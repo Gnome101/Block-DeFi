@@ -26,7 +26,7 @@ library TestLib {
 
     function setNum(uint256 n) internal {
         TestState storage testState = diamondStorage();
-        testState.myNum = n;
+        testState.myNum = n * 3;
     }
 }
 

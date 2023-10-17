@@ -1,6 +1,7 @@
 const { network, ethers } = require("hardhat");
 //We need to use the selectors given to us by the gracious Nick Mudge
 const { getSelectors, FacetCutAction } = require("../utils/diamond.js");
+const { getSalt } = require("../utils/hookTools.js");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
@@ -50,12 +51,17 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   };
   //Deploying Diamond
   args = [facetCut, diamondArgs];
+
+  const hooksFactory = await ethers.getContract("UniswapHooksFactory");
+  const salt = await getSalt(hooksFactory, facetCut, diamondArgs, 0x8c);
+  console.log("Le salt:", salt);
   const Diamond = await deploy("Diamond", {
     from: deployer,
     args: args,
     log: true,
     blockConfirmations: 2,
   });
+  await hooksFactory.deploy(facetCut, diamondArgs, salt);
   console.log("Finished Deployment\n");
 };
 module.exports.tags = ["all", "Test", "ARBG"];

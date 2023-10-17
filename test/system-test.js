@@ -7,13 +7,16 @@ const bigDecimal = require("js-big-decimal");
 describe("System Test ", async function () {
   let Diamond;
   let testFacet;
+  let hookFactory;
   before(async function () {
     accounts = await ethers.getNamedSigners(); // could also do with getNamedAccounts
     deployer = accounts[0];
     user = accounts[1];
     await deployments.fixture(["all"]);
-    Diamond = await ethers.getContract("Diamond");
-    const diamondAddress = Diamond.target;
+    hookFactory = await ethers.getContract("UniswapHooksFactory");
+    const diamondHook = await hookFactory.hooks(0);
+
+    const diamondAddress = diamondHook;
     testFacet = await ethers.getContractAt("Test1Facet", diamondAddress);
   });
 
