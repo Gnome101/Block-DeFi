@@ -1,4 +1,4 @@
-const { network } = require("hardhat");
+const { network, ethers } = require("hardhat");
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
@@ -6,6 +6,13 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("------------------------------------------------------------");
   let args = [];
   console.log("Chain ID", network.config.chainId);
+  //Deploying DiamondInit
+  const DiamondInit = await deploy("DiamondInit", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
 
   //Deploying Facets
   const DiamondCutFacet = await deploy("DiamondCutFacet", {
@@ -14,7 +21,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
-  const DiamondLoupeFacet = await deploy("DiamondLoupeFacet ", {
+  const DiamondLoupeFacet = await deploy("DiamondLoupeFacet", {
     from: deployer,
     args: args,
     log: true,

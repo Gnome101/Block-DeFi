@@ -1,55 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Test.sol": {
-      "lastModificationDate": 1697357975906,
-      "contentHash": "3dd62c3197e5e49d5f50315ae08f95d6",
-      "sourceName": "contracts/Test.sol",
-      "solcConfig": {
-        "version": "0.8.10",
-        "settings": {
-          "evmVersion": "istanbul",
-          "optimizer": {
-            "enabled": true,
-            "runs": 1,
-            "details": {
-              "yul": false
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Test"
-      ]
-    },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Diamond.sol": {
-      "lastModificationDate": 1697518040813,
-      "contentHash": "d41d8cd98f00b204e9800998ecf8427e",
+      "lastModificationDate": 1697518682513,
+      "contentHash": "60a1676c28242726dd008bad7209d9f6",
       "sourceName": "contracts/Diamond.sol",
       "solcConfig": {
         "version": "0.8.10",
@@ -85,57 +39,18 @@
           }
         }
       },
-      "imports": [],
-      "versionPragmas": [],
-      "artifacts": []
-    },
-    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/DiamondCutFacet.sol": {
-      "lastModificationDate": 1697518418023,
-      "contentHash": "304064344d9d62c8add4ec692c979af9",
-      "sourceName": "contracts/Facets/Diamond/DiamondCutFacet.sol",
-      "solcConfig": {
-        "version": "0.8.10",
-        "settings": {
-          "evmVersion": "istanbul",
-          "optimizer": {
-            "enabled": true,
-            "runs": 1,
-            "details": {
-              "yul": false
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
       "imports": [
-        "../../Interfaces/IDiamondCut.sol",
-        "../../Libraries/LibDiamond.sol"
+        "./Libraries/LibDiamond.sol",
+        "./Interfaces/IDiamondCut.sol",
+        "./Interfaces/IDiamondLoupe.sol",
+        "./Interfaces/IERC173.sol",
+        "./Interfaces/IERC165.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "DiamondCutFacet"
+        "Diamond"
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Interfaces/IDiamondCut.sol": {
@@ -184,6 +99,144 @@
       ],
       "artifacts": [
         "IDiamondCut"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Interfaces/IDiamondLoupe.sol": {
+      "lastModificationDate": 1697518207103,
+      "contentHash": "6fd4ab8b357a4971eea00e9d8506d4bd",
+      "sourceName": "contracts/Interfaces/IDiamondLoupe.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "evmVersion": "istanbul",
+          "optimizer": {
+            "enabled": true,
+            "runs": 1,
+            "details": {
+              "yul": false
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IDiamondLoupe"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Interfaces/IERC173.sol": {
+      "lastModificationDate": 1697518193733,
+      "contentHash": "f8e67e5a20027fa9453a3016ef92229e",
+      "sourceName": "contracts/Interfaces/IERC173.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "evmVersion": "istanbul",
+          "optimizer": {
+            "enabled": true,
+            "runs": 1,
+            "details": {
+              "yul": false
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC173"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Interfaces/IERC165.sol": {
+      "lastModificationDate": 1697518198603,
+      "contentHash": "f8f9ee2c76e1678bfead7a3fad131934",
+      "sourceName": "contracts/Interfaces/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "evmVersion": "istanbul",
+          "optimizer": {
+            "enabled": true,
+            "runs": 1,
+            "details": {
+              "yul": false
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Libraries/LibDiamond.sol": {
@@ -333,194 +386,6 @@
         "DiamondInit"
       ]
     },
-    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Interfaces/IDiamondLoupe.sol": {
-      "lastModificationDate": 1697518207103,
-      "contentHash": "6fd4ab8b357a4971eea00e9d8506d4bd",
-      "sourceName": "contracts/Interfaces/IDiamondLoupe.sol",
-      "solcConfig": {
-        "version": "0.8.10",
-        "settings": {
-          "evmVersion": "istanbul",
-          "optimizer": {
-            "enabled": true,
-            "runs": 1,
-            "details": {
-              "yul": false
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IDiamondLoupe"
-      ]
-    },
-    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Interfaces/IERC173.sol": {
-      "lastModificationDate": 1697518193733,
-      "contentHash": "f8e67e5a20027fa9453a3016ef92229e",
-      "sourceName": "contracts/Interfaces/IERC173.sol",
-      "solcConfig": {
-        "version": "0.8.10",
-        "settings": {
-          "evmVersion": "istanbul",
-          "optimizer": {
-            "enabled": true,
-            "runs": 1,
-            "details": {
-              "yul": false
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC173"
-      ]
-    },
-    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Interfaces/IERC165.sol": {
-      "lastModificationDate": 1697518198603,
-      "contentHash": "f8f9ee2c76e1678bfead7a3fad131934",
-      "sourceName": "contracts/Interfaces/IERC165.sol",
-      "solcConfig": {
-        "version": "0.8.10",
-        "settings": {
-          "evmVersion": "istanbul",
-          "optimizer": {
-            "enabled": true,
-            "runs": 1,
-            "details": {
-              "yul": false
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC165"
-      ]
-    },
-    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Test2Facet.sol": {
-      "lastModificationDate": 1697518432053,
-      "contentHash": "39c96dc4ec14c3f54f386b1190f7ae23",
-      "sourceName": "contracts/Facets/Test2Facet.sol",
-      "solcConfig": {
-        "version": "0.8.10",
-        "settings": {
-          "evmVersion": "istanbul",
-          "optimizer": {
-            "enabled": true,
-            "runs": 1,
-            "details": {
-              "yul": false
-            }
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "../Libraries/LibDiamond.sol",
-        "../Interfaces/IDiamondLoupe.sol",
-        "../Interfaces/IERC165.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "DiamondLoupeFacet"
-      ]
-    },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/DiamondLoupeFacet.sol": {
       "lastModificationDate": 1697518460763,
       "contentHash": "c86c878364df0ab28b14a49a2aef0f56",
@@ -569,6 +434,55 @@
       ],
       "artifacts": [
         "DiamondLoupeFacet"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/DiamondCutFacet.sol": {
+      "lastModificationDate": 1697518418023,
+      "contentHash": "304064344d9d62c8add4ec692c979af9",
+      "sourceName": "contracts/Facets/Diamond/DiamondCutFacet.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "evmVersion": "istanbul",
+          "optimizer": {
+            "enabled": true,
+            "runs": 1,
+            "details": {
+              "yul": false
+            }
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../../Interfaces/IDiamondCut.sol",
+        "../../Libraries/LibDiamond.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "DiamondCutFacet"
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/OwnershipFacet.sol": {
@@ -669,8 +583,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/Test1Facet.sol": {
-      "lastModificationDate": 1697518393293,
-      "contentHash": "013e26c6ee1608ba8c58dd770b932817",
+      "lastModificationDate": 1697522792793,
+      "contentHash": "0bb8e9e5fadadc2346c5697f79de22e9",
       "sourceName": "contracts/Facets/Diamond/Test1Facet.sol",
       "solcConfig": {
         "version": "0.8.10",

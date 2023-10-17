@@ -17,173 +17,34 @@
       "type": "event"
     },
     {
+      "inputs": [],
+      "name": "num",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
-          "internalType": "bytes4",
-          "name": "_interfaceID",
-          "type": "bytes4"
+          "internalType": "uint256",
+          "name": "n",
+          "type": "uint256"
         }
       ],
-      "name": "supportsInterface",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func1",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func10",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func11",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func12",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func13",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func14",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func15",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func16",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func17",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func18",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func19",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func2",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func20",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func3",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func4",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func5",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func6",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func7",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func8",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "test1Func9",
+      "name": "setNum",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b506102a3806100206000396000f3fe608060405234801561001057600080fd5b50600436106101075760003560e01c806301ffc9a71461010c5780630716c2ae14610136578063110460471461014b57806319c841ab1461014b57806319e3b5331461014d57806324c1d5a71461014b578063292c460d1461014b5780632cb832481461014b5780634484b3b91461014b57806350eb3f431461014b57806351b68a4d1461014b57806371a99d6f1461014b57806377e9d0d61461014b57806381b5207d1461014b57806387952d221461014b5780639abf97aa1461014b578063b0e8fcc71461014b578063cbb835f61461014b578063cd0bae091461014b578063cf3bbe181461014b578063db32da151461014b575b600080fd5b61012061011a366004610204565b50600090565b60405161012d9190610237565b60405180910390f35b61013e610155565b60405161012d919061025f565b005b61014b610166565b600061015f61016f565b905090565b565b6101643061018a565b60008061017a6101b6565b546001600160a01b031692915050565b60006101946101b6565b80546001600160a01b0319166001600160a01b03939093169290921790915550565b7fe172d0f8decaecdd4c56ac9d5abd3aebbc2d423f323d7c1b0d0a8a21feef1df390565b6001600160e01b0319811681146101f057600080fd5b50565b80356101fe816101da565b92915050565b60006020828403121561021957610219600080fd5b600061022584846101f3565b949350505050565b8015155b82525050565b602081016101fe828461022d565b60006001600160a01b0382166101fe565b61023181610245565b602081016101fe828461025656fea26469706673582212206cb495c606e595150cdba6d73075a91d760bc707b5c0a0a5272e4eb68fe5237d64736f6c634300080a0033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106101075760003560e01c806301ffc9a71461010c5780630716c2ae14610136578063110460471461014b57806319c841ab1461014b57806319e3b5331461014d57806324c1d5a71461014b578063292c460d1461014b5780632cb832481461014b5780634484b3b91461014b57806350eb3f431461014b57806351b68a4d1461014b57806371a99d6f1461014b57806377e9d0d61461014b57806381b5207d1461014b57806387952d221461014b5780639abf97aa1461014b578063b0e8fcc71461014b578063cbb835f61461014b578063cd0bae091461014b578063cf3bbe181461014b578063db32da151461014b575b600080fd5b61012061011a366004610204565b50600090565b60405161012d9190610237565b60405180910390f35b61013e610155565b60405161012d919061025f565b005b61014b610166565b600061015f61016f565b905090565b565b6101643061018a565b60008061017a6101b6565b546001600160a01b031692915050565b60006101946101b6565b80546001600160a01b0319166001600160a01b03939093169290921790915550565b7fe172d0f8decaecdd4c56ac9d5abd3aebbc2d423f323d7c1b0d0a8a21feef1df390565b6001600160e01b0319811681146101f057600080fd5b50565b80356101fe816101da565b92915050565b60006020828403121561021957610219600080fd5b600061022584846101f3565b949350505050565b8015155b82525050565b602081016101fe828461022d565b60006001600160a01b0382166101fe565b61023181610245565b602081016101fe828461025656fea26469706673582212206cb495c606e595150cdba6d73075a91d760bc707b5c0a0a5272e4eb68fe5237d64736f6c634300080a0033",
+  "bytecode": "0x608060405234801561001057600080fd5b50610131806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c80634e70b1dc146037578063cd16ecbf146051575b600080fd5b603d6062565b6040516048919060c2565b60405180910390f35b6060605c36600460d6565b606f565b005b6000606a6079565b905090565b607681608c565b50565b6000806082609e565b6001015492915050565b60006094609e565b6001019190915550565b7fe172d0f8decaecdd4c56ac9d5abd3aebbc2d423f323d7c1b0d0a8a21feef1df390565b818152602081015b92915050565b803560ca565b60006020828403121560e95760e9600080fd5b600060f3848460d0565b94935050505056fea2646970667358221220da899a774d5f0c6fcb4082e05505a92fc45a40f930f7ae5bc8c3ccf30978fbcc64736f6c634300080a0033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c80634e70b1dc146037578063cd16ecbf146051575b600080fd5b603d6062565b6040516048919060c2565b60405180910390f35b6060605c36600460d6565b606f565b005b6000606a6079565b905090565b607681608c565b50565b6000806082609e565b6001015492915050565b60006094609e565b6001019190915550565b7fe172d0f8decaecdd4c56ac9d5abd3aebbc2d423f323d7c1b0d0a8a21feef1df390565b818152602081015b92915050565b803560ca565b60006020828403121560e95760e9600080fd5b600060f3848460d0565b94935050505056fea2646970667358221220da899a774d5f0c6fcb4082e05505a92fc45a40f930f7ae5bc8c3ccf30978fbcc64736f6c634300080a0033",
   "linkReferences": {},
   "deployedLinkReferences": {}
 }
