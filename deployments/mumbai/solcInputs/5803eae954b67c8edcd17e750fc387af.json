@@ -1,0 +1,48 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Facets/HyperFacet.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\nimport \"./Hyperlane/IMailbox.sol\";\nimport \"./Hyperlane/IInterchainGasPaymaster.sol\";\n\nlibrary HyperLib {\n    bytes32 constant DIAMOND_STORAGE_POSITION =\n        keccak256(\"diamond.hyperlane.storage\");\n\n    struct HyperState {\n        address mailBox;\n        address igp;\n        address ism;\n        mapping(uint256 => address) domainToAddress;\n        uint256 counter;\n    }\n\n    function diamondStorage() internal pure returns (HyperState storage ds) {\n        bytes32 position = DIAMOND_STORAGE_POSITION;\n        assembly {\n            ds.slot := position\n        }\n    }\n\n    function setDomainToAddress(\n        uint256 domainID,\n        address recipentAddy\n    ) internal {\n        HyperState storage hyperState = diamondStorage();\n        hyperState.domainToAddress[domainID] = recipentAddy;\n    }\n\n    function getRecipient(uint256 domainID) internal view returns (address) {\n        HyperState storage hyperState = diamondStorage();\n        return hyperState.domainToAddress[domainID];\n    }\n\n    function increaseCounter() internal {\n        HyperState storage hyperState = diamondStorage();\n        hyperState.counter = hyperState.counter + 1;\n    }\n\n    function getCounter() internal view returns (uint256) {\n        HyperState storage hyperState = diamondStorage();\n        return hyperState.counter;\n    }\n\n    function hitEmUp(uint32 targetDomain, uint256 gasAmount) internal {\n        HyperState storage hyperState = diamondStorage();\n        IMailbox MailBox = IMailbox(hyperState.mailBox);\n        IInterchainGasPaymaster IGP = IInterchainGasPaymaster(hyperState.igp);\n\n        address targetAddress = hyperState.domainToAddress[targetDomain];\n        bytes32 messageID = MailBox.dispatch(\n            targetDomain,\n            addressToBytes32(targetAddress),\n            abi.encode(msg.sender)\n        );\n\n        IGP.payForGas{value: msg.value}(\n            messageID,\n            targetDomain,\n            gasAmount,\n            msg.sender // refunds are returned to the sender\n        );\n    }\n\n    function addressToBytes32(address _addr) internal pure returns (bytes32) {\n        return bytes32(uint256(uint160(_addr)));\n    }\n\n    function interchainSecurityModule() internal view returns (address) {\n        HyperState storage hyperState = diamondStorage();\n        return hyperState.ism;\n    }\n\n    function setMailBox(address maiLBox) internal {\n        HyperState storage hyperState = diamondStorage();\n        hyperState.mailBox = maiLBox;\n    }\n\n    function setGasMaster(address localIGP) internal {\n        HyperState storage hyperState = diamondStorage();\n        hyperState.igp = localIGP;\n    }\n\n    function setISM(address ism) internal {\n        HyperState storage hyperState = diamondStorage();\n        hyperState.ism = ism;\n    }\n}\n\ncontract HyperFacet {\n    function handle() external {\n        HyperLib.increaseCounter();\n    }\n\n    function hitEmUp(uint32 domain, uint256 gasAmount) external payable {\n        HyperLib.hitEmUp(domain, gasAmount);\n    }\n\n    function interchainSecurityModule() external view returns (address) {\n        return HyperLib.interchainSecurityModule();\n    }\n\n    function setMailBox(address maiLBox) external {\n        HyperLib.setMailBox(maiLBox);\n    }\n\n    function setGasMaster(address localIGP) external {\n        HyperLib.setGasMaster(localIGP);\n    }\n\n    function setISM(address ism) external {\n        HyperLib.setISM(ism);\n    }\n\n    function getCounter() external view returns (uint256) {\n        return HyperLib.getCounter();\n    }\n}\n"
+    },
+    "contracts/Facets/Hyperlane/EmptyISM.sol": {
+      "content": "// SPDX-License-Identifier: MIT OR Apache-2.0\npragma solidity >=0.6.11;\nimport \"./IInterchainSecurityModule.sol\";\n\ncontract EmptyIsm is IInterchainSecurityModule {\n    //https://docs.uma.xyz/developers/quick-start\n    /**\n     * @notice Returns an enum that represents the type of security model\n     * encoded by this ISM.\n     * @dev Relayers infer how to fetch and format metadata.\n     */\n    function moduleType() external view returns (uint8) {\n        return 6;\n    }\n\n    function verify(\n        bytes calldata _metadata,\n        bytes calldata _message\n    ) external returns (bool) {\n        return true;\n    }\n}\n"
+    },
+    "contracts/Facets/Hyperlane/IInterchainGasPaymaster.sol": {
+      "content": "// SPDX-License-Identifier: MIT OR Apache-2.0\npragma solidity >=0.6.11;\n\n/**\n * @title IInterchainGasPaymaster\n * @notice Manages payments on a source chain to cover gas costs of relaying\n * messages to destination chains.\n */\ninterface IInterchainGasPaymaster {\n    /**\n     * @notice Emitted when a payment is made for a message's gas costs.\n     * @param messageId The ID of the message to pay for.\n     * @param gasAmount The amount of destination gas paid for.\n     * @param payment The amount of native tokens paid.\n     */\n    event GasPayment(\n        bytes32 indexed messageId,\n        uint256 gasAmount,\n        uint256 payment\n    );\n\n    function payForGas(\n        bytes32 _messageId,\n        uint32 _destinationDomain,\n        uint256 _gasAmount,\n        address _refundAddress\n    ) external payable;\n\n    function quoteGasPayment(\n        uint32 _destinationDomain,\n        uint256 _gasAmount\n    ) external view returns (uint256);\n}\n"
+    },
+    "contracts/Facets/Hyperlane/IInterchainSecurityModule.sol": {
+      "content": "// SPDX-License-Identifier: MIT OR Apache-2.0\npragma solidity >=0.6.11;\n\ninterface IInterchainSecurityModule {\n    /**\n     * @notice Returns an enum that represents the type of security model\n     * encoded by this ISM.\n     * @dev Relayers infer how to fetch and format metadata.\n     */\n    function moduleType() external view returns (uint8);\n\n    /**\n     * @notice Defines a security model responsible for verifying interchain\n     * messages based on the provided metadata.\n     * @param _metadata Off-chain metadata provided by a relayer, specific to\n     * the security model encoded by the module (e.g. validator signatures)\n     * @param _message Hyperlane encoded interchain message\n     * @return True if the message was verified\n     */\n    function verify(\n        bytes calldata _metadata,\n        bytes calldata _message\n    ) external returns (bool);\n}\n"
+    },
+    "contracts/Facets/Hyperlane/IMailbox.sol": {
+      "content": "// SPDX-License-Identifier: MIT OR Apache-2.0\npragma solidity >=0.8.0;\n\ninterface IMailbox {\n    function dispatch(\n        uint32 _destinationDomain,\n        bytes32 _recipientAddress,\n        bytes calldata _messageBody\n    ) external returns (bytes32);\n\n    function process(\n        bytes calldata _metadata,\n        bytes calldata _message\n    ) external;\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 1
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

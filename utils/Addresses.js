@@ -5,7 +5,7 @@ function getData(domain) {
         Network: "arbogerli",
         MailBox: "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
         GasPayMaster: "0x76189acFA212298d7022624a4633411eE0d2f26F",
-        Diamond: "0x01f4C28329eeB4F5E72D31aDf9b2b636B2270104",
+        Diamond: "0xff1f749f7Eaf9cFbd330440fCE21922bAA097fdE",
       };
     case 5:
       return {
@@ -18,7 +18,7 @@ function getData(domain) {
         Network: "scroll",
         MailBox: "0x3C5154a193D6e2955650f9305c8d80c18C814A68",
         GasPayMaster: "0x86fb9F1c124fB20ff130C41a79a432F770f67AFD",
-        Diamond: "0xF5A235DC0d413FecBf15D5008F27Ed3F937f9f52",
+        Diamond: "0xE361bD876c95D608Ee2c97625CA32736030810d9",
       };
     case 84531:
       return {
@@ -29,8 +29,9 @@ function getData(domain) {
     case 80001:
       return {
         Network: "mumbai",
-        MailBox: "0x2d1889fe5B092CD988972261434F7E5f26041115",
-        GasPayMaster: "0x8aB67CAF605c6ee83cbFeFb0D8d67FDd3BF7B591",
+        MailBox: "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
+        GasPayMaster: "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a",
+        Diamond: "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759",
       };
     case 31337:
       return {

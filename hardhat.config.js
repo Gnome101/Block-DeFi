@@ -43,15 +43,6 @@ module.exports = {
     localhost: {
       chainId: 31337,
     },
-    rinkeby: {
-      url: RINKEBY_RPC_URL,
-      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-      //   accounts: {
-      //     mnemonic: MNEMONIC,
-      //   },
-      saveDeployments: true,
-      chainId: 4,
-    },
     arbgoerli: {
       url: ARBGOERLI_RPC_URL,
       accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
@@ -66,6 +57,12 @@ module.exports = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
       chainId: 534351,
+    },
+    mumbai: {
+      url: "https://polygon-mumbai-bor.publicnode.com" || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      chainId: 80001,
     },
   },
   etherscan: {

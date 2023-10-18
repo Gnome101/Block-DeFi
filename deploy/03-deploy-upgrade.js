@@ -44,4 +44,4 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   }
   log("------------------------------------------------------------");
 };
-module.exports.tags = ["all", "FacetChange", "Upgrade"];
+module.exports.tags = ["FacetChange", "Upgrade"];

@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 import "./Hyperlane/IMailbox.sol";
 import "./Hyperlane/IInterchainGasPaymaster.sol";
+import "hardhat/console.sol";
 
 library HyperLib {
     bytes32 constant DIAMOND_STORAGE_POSITION =
@@ -92,6 +93,11 @@ library HyperLib {
         HyperState storage hyperState = diamondStorage();
         hyperState.ism = ism;
     }
+
+    function getGasMaster() internal view returns (address) {
+        HyperState storage hyperState = diamondStorage();
+        return hyperState.igp;
+    }
 }
 
 contract HyperFacet {
@@ -121,6 +127,10 @@ contract HyperFacet {
 
     function setGasMaster(address localIGP) external {
         HyperLib.setGasMaster(localIGP);
+    }
+
+    function getGasMaster() external view returns (address) {
+        return HyperLib.getGasMaster();
     }
 
     function setISM(address ism) external {

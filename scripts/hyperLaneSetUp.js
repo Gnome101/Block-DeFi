@@ -8,11 +8,14 @@ async function main() {
   hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
   //Scroll from arbgoerli network
   // const targetDomain = 534351;
-  // const targetAddy = "0xF5A235DC0d413FecBf15D5008F27Ed3F937f9f52";
+  // const targetAddy = "0xE361bD876c95D608Ee2c97625CA32736030810d9";
+  //Mumbai from arbgoerli
+  const targetDomain = 80001;
+  const targetAddy = "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759";
 
   //ArbGoerli from scroll network
-  const targetDomain = 421613;
-  const targetAddy = "0x01f4C28329eeB4F5E72D31aDf9b2b636B2270104";
+  // const targetDomain = 421613;
+  // const targetAddy = "0xff1f749f7Eaf9cFbd330440fCE21922bAA097fdE";
 
   let tx = await hyperFacet.setDomainToAddress(targetDomain, targetAddy);
   await tx.wait();

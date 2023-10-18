@@ -1674,8 +1674,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/HyperFacet.sol": {
-      "lastModificationDate": 1697615454299,
-      "contentHash": "aa032e273f97335a25907db104fa09a6",
+      "lastModificationDate": 1697644899431,
+      "contentHash": "00f4dff092b26bf84eb48111c944ee89",
       "sourceName": "contracts/Facets/HyperFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1710,7 +1710,8 @@
       },
       "imports": [
         "./Hyperlane/IMailbox.sol",
-        "./Hyperlane/IInterchainGasPaymaster.sol"
+        "./Hyperlane/IInterchainGasPaymaster.sol",
+        "hardhat/console.sol"
       ],
       "versionPragmas": [
         "^0.8.0"

@@ -31,8 +31,10 @@ describe("System Test ", async function () {
   it("can read counter", async () => {
     let c = await hyperFacet.getCounter();
     console.log(c.toString());
-    await hyperFacet.handle();
-    c = await hyperFacet.getCounter();
-    console.log(c.toString());
+  });
+  it("message sending", async () => {
+    await hyperFacet.hitEmUp(1000, 50000, "50000000000000000", {
+      value: ethers.parseEther("0.1"),
+    });
   });
 });
