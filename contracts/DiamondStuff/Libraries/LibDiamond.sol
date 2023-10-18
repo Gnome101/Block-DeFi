@@ -7,7 +7,7 @@ pragma solidity ^0.8.0;
 /******************************************************************************/
 import {IDiamond} from "../Interfaces/IDiamond.sol";
 import {IDiamondCut} from "../Interfaces/IDiamondCut.sol";
-
+import "hardhat/console.sol";
 // Remember to add the loupe functions from DiamondLoupeFacet to the diamond.
 // The loupe functions are required by the EIP2535 Diamonds standard
 
@@ -185,6 +185,7 @@ library LibDiamond {
                 revert CannotReplaceImmutableFunction(selector);
             }
             if (oldFacetAddress == _facetAddress) {
+                console.log("Addresses:", oldFacetAddress, _facetAddress);
                 revert CannotReplaceFunctionWithTheSameFunctionFromTheSameFacet(
                     selector
                 );

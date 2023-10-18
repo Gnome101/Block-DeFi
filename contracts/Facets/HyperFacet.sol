@@ -45,7 +45,11 @@ library HyperLib {
         return hyperState.counter;
     }
 
-    function hitEmUp(uint32 targetDomain, uint256 gasAmount) internal {
+    function hitEmUp(
+        uint32 targetDomain,
+        uint256 gasAmount,
+        uint256 _value
+    ) internal {
         HyperState storage hyperState = diamondStorage();
         IMailbox MailBox = IMailbox(hyperState.mailBox);
         IInterchainGasPaymaster IGP = IInterchainGasPaymaster(hyperState.igp);
@@ -57,7 +61,7 @@ library HyperLib {
             abi.encode(msg.sender)
         );
 
-        IGP.payForGas{value: msg.value}(
+        IGP.payForGas{value: _value}(
             messageID,
             targetDomain,
             gasAmount,
@@ -91,12 +95,20 @@ library HyperLib {
 }
 
 contract HyperFacet {
-    function handle() external {
+    function handle(
+        uint32 _origin,
+        bytes32 _sender,
+        bytes calldata _body
+    ) external {
         HyperLib.increaseCounter();
     }
 
-    function hitEmUp(uint32 domain, uint256 gasAmount) external payable {
-        HyperLib.hitEmUp(domain, gasAmount);
+    function hitEmUp(
+        uint32 domain,
+        uint256 gasAmount,
+        uint256 _value
+    ) external payable {
+        HyperLib.hitEmUp(domain, gasAmount, _value);
     }
 
     function interchainSecurityModule() external view returns (address) {
@@ -117,5 +129,12 @@ contract HyperFacet {
 
     function getCounter() external view returns (uint256) {
         return HyperLib.getCounter();
+    }
+
+    function setDomainToAddress(
+        uint256 domainID,
+        address recipentAddy
+    ) external {
+        HyperLib.setDomainToAddress(domainID, recipentAddy);
     }
 }

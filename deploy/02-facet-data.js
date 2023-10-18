@@ -11,11 +11,15 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   hookFactory = await ethers.getContract("UniswapHooksFactory");
   emptyISM = await ethers.getContract("EmptyIsm");
 
-  const diamondAddress = await hookFactory.hooks(0);
-
+  // let diamondAddress = await hookFactory.hooks(0);
+  let Diamond = await ethers.getContract("Diamond");
+  diamondAddress = Diamond.target;
   hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
-  await hyperFacet.setMailBox(hyperLaneData.MailBox);
-  await hyperFacet.setGasMaster(hyperLaneData.GasPayMaster);
-  await hyperFacet.setISM(emptyISM.target);
+  let tx = await hyperFacet.setMailBox(hyperLaneData.MailBox);
+  await tx.wait();
+  tx = await hyperFacet.setGasMaster(hyperLaneData.GasPayMaster);
+  await tx.wait();
+  tx = await hyperFacet.setISM(emptyISM.target);
+  await tx.wait();
 };
 module.exports.tags = ["all", "Test", "gyg"];

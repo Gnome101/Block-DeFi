@@ -15,9 +15,10 @@ describe("System Test ", async function () {
     user = accounts[1];
     await deployments.fixture(["all"]);
     hookFactory = await ethers.getContract("UniswapHooksFactory");
-    const diamondHook = await hookFactory.hooks(0);
+    //let diamondAddress = await hookFactory.hooks(0);
 
-    const diamondAddress = diamondHook;
+    Diamond = await ethers.getContract("Diamond");
+    diamondAddress = Diamond.target;
     testFacet = await ethers.getContractAt("Test1Facet", diamondAddress);
     hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
   });

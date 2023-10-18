@@ -1,0 +1,170 @@
+{
+  "address": "0xe39683a042bF752d5FeED156cC6f720d1E672ac4",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getCounter",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_origin",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_sender",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_body",
+          "type": "bytes"
+        }
+      ],
+      "name": "handle",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "domain",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "gasAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "hitEmUp",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "interchainSecurityModule",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "domainID",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "recipentAddy",
+          "type": "address"
+        }
+      ],
+      "name": "setDomainToAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "localIGP",
+          "type": "address"
+        }
+      ],
+      "name": "setGasMaster",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "ism",
+          "type": "address"
+        }
+      ],
+      "name": "setISM",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "maiLBox",
+          "type": "address"
+        }
+      ],
+      "name": "setMailBox",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x0653a4df156ecf8c3b4136a38464bcb358a36eb4ae1a7cb39a5b832971bdb263",
+  "receipt": {
+    "to": null,
+    "from": "0x19d96301865fdD07427db3c445508A051BC6D352",
+    "contractAddress": "0xe39683a042bF752d5FeED156cC6f720d1E672ac4",
+    "transactionIndex": 1,
+    "gasUsed": "412566",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xf27746e5083f07fe179509932f92945dd3ef16f7e37bef4921e14bba3d7f3307",
+    "transactionHash": "0x0653a4df156ecf8c3b4136a38464bcb358a36eb4ae1a7cb39a5b832971bdb263",
+    "logs": [],
+    "blockNumber": 48836150,
+    "cumulativeGasUsed": "412566",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "5f0bbf94afc315529946fe866dc544b7",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_origin\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"_sender\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"_body\",\"type\":\"bytes\"}],\"name\":\"handle\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"domain\",\"type\":\"uint32\"},{\"internalType\":\"uint256\",\"name\":\"gasAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"hitEmUp\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"interchainSecurityModule\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"domainID\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"recipentAddy\",\"type\":\"address\"}],\"name\":\"setDomainToAddress\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"localIGP\",\"type\":\"address\"}],\"name\":\"setGasMaster\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ism\",\"type\":\"address\"}],\"name\":\"setISM\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"maiLBox\",\"type\":\"address\"}],\"name\":\"setMailBox\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Facets/HyperFacet.sol\":\"HyperFacet\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":1},\"remappings\":[]},\"sources\":{\"contracts/Facets/HyperFacet.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\nimport \\\"./Hyperlane/IMailbox.sol\\\";\\nimport \\\"./Hyperlane/IInterchainGasPaymaster.sol\\\";\\n\\nlibrary HyperLib {\\n    bytes32 constant DIAMOND_STORAGE_POSITION =\\n        keccak256(\\\"diamond.hyperlane.storage\\\");\\n\\n    struct HyperState {\\n        address mailBox;\\n        address igp;\\n        address ism;\\n        mapping(uint256 => address) domainToAddress;\\n        uint256 counter;\\n    }\\n\\n    function diamondStorage() internal pure returns (HyperState storage ds) {\\n        bytes32 position = DIAMOND_STORAGE_POSITION;\\n        assembly {\\n            ds.slot := position\\n        }\\n    }\\n\\n    function setDomainToAddress(\\n        uint256 domainID,\\n        address recipentAddy\\n    ) internal {\\n        HyperState storage hyperState = diamondStorage();\\n        hyperState.domainToAddress[domainID] = recipentAddy;\\n    }\\n\\n    function getRecipient(uint256 domainID) internal view returns (address) {\\n        HyperState storage hyperState = diamondStorage();\\n        return hyperState.domainToAddress[domainID];\\n    }\\n\\n    function increaseCounter() internal {\\n        HyperState storage hyperState = diamondStorage();\\n        hyperState.counter = hyperState.counter + 1;\\n    }\\n\\n    function getCounter() internal view returns (uint256) {\\n        HyperState storage hyperState = diamondStorage();\\n        return hyperState.counter;\\n    }\\n\\n    function hitEmUp(\\n        uint32 targetDomain,\\n        uint256 gasAmount,\\n        uint256 _value\\n    ) internal {\\n        HyperState storage hyperState = diamondStorage();\\n        IMailbox MailBox = IMailbox(hyperState.mailBox);\\n        IInterchainGasPaymaster IGP = IInterchainGasPaymaster(hyperState.igp);\\n\\n        address targetAddress = hyperState.domainToAddress[targetDomain];\\n        bytes32 messageID = MailBox.dispatch(\\n            targetDomain,\\n            addressToBytes32(targetAddress),\\n            abi.encode(msg.sender)\\n        );\\n\\n        IGP.payForGas{value: _value}(\\n            messageID,\\n            targetDomain,\\n            gasAmount,\\n            msg.sender // refunds are returned to the sender\\n        );\\n    }\\n\\n    function addressToBytes32(address _addr) internal pure returns (bytes32) {\\n        return bytes32(uint256(uint160(_addr)));\\n    }\\n\\n    function interchainSecurityModule() internal view returns (address) {\\n        HyperState storage hyperState = diamondStorage();\\n        return hyperState.ism;\\n    }\\n\\n    function setMailBox(address maiLBox) internal {\\n        HyperState storage hyperState = diamondStorage();\\n        hyperState.mailBox = maiLBox;\\n    }\\n\\n    function setGasMaster(address localIGP) internal {\\n        HyperState storage hyperState = diamondStorage();\\n        hyperState.igp = localIGP;\\n    }\\n\\n    function setISM(address ism) internal {\\n        HyperState storage hyperState = diamondStorage();\\n        hyperState.ism = ism;\\n    }\\n}\\n\\ncontract HyperFacet {\\n    function handle(\\n        uint32 _origin,\\n        bytes32 _sender,\\n        bytes calldata _body\\n    ) external {\\n        HyperLib.increaseCounter();\\n    }\\n\\n    function hitEmUp(\\n        uint32 domain,\\n        uint256 gasAmount,\\n        uint256 _value\\n    ) external payable {\\n        HyperLib.hitEmUp(domain, gasAmount, _value);\\n    }\\n\\n    function interchainSecurityModule() external view returns (address) {\\n        return HyperLib.interchainSecurityModule();\\n    }\\n\\n    function setMailBox(address maiLBox) external {\\n        HyperLib.setMailBox(maiLBox);\\n    }\\n\\n    function setGasMaster(address localIGP) external {\\n        HyperLib.setGasMaster(localIGP);\\n    }\\n\\n    function setISM(address ism) external {\\n        HyperLib.setISM(ism);\\n    }\\n\\n    function getCounter() external view returns (uint256) {\\n        return HyperLib.getCounter();\\n    }\\n\\n    function setDomainToAddress(\\n        uint256 domainID,\\n        address recipentAddy\\n    ) external {\\n        HyperLib.setDomainToAddress(domainID, recipentAddy);\\n    }\\n}\\n\",\"keccak256\":\"0xd59fa6cd244d04e37fe57106379e1a02edf36b6fdb71f1aad70ccc6859535624\",\"license\":\"MIT\"},\"contracts/Facets/Hyperlane/IInterchainGasPaymaster.sol\":{\"content\":\"// SPDX-License-Identifier: MIT OR Apache-2.0\\npragma solidity >=0.6.11;\\n\\n/**\\n * @title IInterchainGasPaymaster\\n * @notice Manages payments on a source chain to cover gas costs of relaying\\n * messages to destination chains.\\n */\\ninterface IInterchainGasPaymaster {\\n    /**\\n     * @notice Emitted when a payment is made for a message's gas costs.\\n     * @param messageId The ID of the message to pay for.\\n     * @param gasAmount The amount of destination gas paid for.\\n     * @param payment The amount of native tokens paid.\\n     */\\n    event GasPayment(\\n        bytes32 indexed messageId,\\n        uint256 gasAmount,\\n        uint256 payment\\n    );\\n\\n    function payForGas(\\n        bytes32 _messageId,\\n        uint32 _destinationDomain,\\n        uint256 _gasAmount,\\n        address _refundAddress\\n    ) external payable;\\n\\n    function quoteGasPayment(\\n        uint32 _destinationDomain,\\n        uint256 _gasAmount\\n    ) external view returns (uint256);\\n}\\n\",\"keccak256\":\"0xea5705377bcae5ff9dee6599d66f88c7e76a61169c2046a5efedcf4034354045\",\"license\":\"MIT OR Apache-2.0\"},\"contracts/Facets/Hyperlane/IMailbox.sol\":{\"content\":\"// SPDX-License-Identifier: MIT OR Apache-2.0\\npragma solidity >=0.8.0;\\n\\ninterface IMailbox {\\n    function dispatch(\\n        uint32 _destinationDomain,\\n        bytes32 _recipientAddress,\\n        bytes calldata _messageBody\\n    ) external returns (bytes32);\\n\\n    function process(\\n        bytes calldata _metadata,\\n        bytes calldata _message\\n    ) external;\\n}\\n\",\"keccak256\":\"0xa43ec8f0dc8cab47ed22e647d3df0863633ee6972d6e3de7c0716aa25e8251dd\",\"license\":\"MIT OR Apache-2.0\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610681806100206000396000f3fe60806040526004361061006b5760003560e01c80632c2cd7491461007057806337e935fb1461009257806356d5d475146100a5578063759524ed146100c55780638ada066e146100e5578063cc4c515d1461010d578063de4a787f1461012d578063de523cf31461014d575b600080fd5b34801561007c57600080fd5b5061009061008b366004610479565b61016f565b005b6100906100a03660046104af565b61017b565b3480156100b157600080fd5b506100906100c03660046104e2565b61018b565b3480156100d157600080fd5b506100906100e0366004610479565b610199565b3480156100f157600080fd5b506100fa6101a2565b6040519081526020015b60405180910390f35b34801561011957600080fd5b50610090610128366004610568565b6101b1565b34801561013957600080fd5b50610090610148366004610479565b6101bf565b34801561015957600080fd5b506101626101c8565b6040516101049190610594565b610178816101d2565b50565b6101868383836101fe565b505050565b610193610349565b50505050565b6101788161036e565b60006101ac61039d565b905090565b6101bb82826103b2565b5050565b610178816103ec565b60006101ac61041b565b60006101dc610439565b80546001600160a01b0319166001600160a01b03939093169290921790915550565b6000610208610439565b8054600182015463ffffffff871660009081526003840160205260408120549394506001600160a01b039283169391831692909116908363fa31de018984336040516020016102579190610594565b6040516020818303038152906040526040518463ffffffff1660e01b8152600401610284939291906105a8565b6020604051808303816000875af11580156102a3573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102c7919061060b565b604051630237e58360e31b81526004810182905263ffffffff8a166024820152604481018990523360648201529091506001600160a01b038416906311bf2c189088906084016000604051808303818588803b15801561032657600080fd5b505af115801561033a573d6000803e3d6000fd5b50505050505050505050505050565b6000610353610439565b9050806004015460016103669190610624565b600490910155565b6000610378610439565b60010180546001600160a01b0319166001600160a01b03939093169290921790915550565b6000806103a8610439565b6004015492915050565b60006103bc610439565b600093845260030160205250604090912080546001600160a01b0319166001600160a01b03909216919091179055565b60006103f6610439565b60020180546001600160a01b0319166001600160a01b03939093169290921790915550565b600080610426610439565b600201546001600160a01b031692915050565b7f34fbc1afd8e1b9169b38b6c80a52777e06873abc0d2b3f992f7608bdf1bf6ade90565b80356001600160a01b038116811461047457600080fd5b919050565b60006020828403121561048b57600080fd5b6104948261045d565b9392505050565b803563ffffffff8116811461047457600080fd5b6000806000606084860312156104c457600080fd5b6104cd8461049b565b95602085013595506040909401359392505050565b600080600080606085870312156104f857600080fd5b6105018561049b565b93506020850135925060408501356001600160401b038082111561052457600080fd5b818701915087601f83011261053857600080fd5b81358181111561054757600080fd5b88602082850101111561055957600080fd5b95989497505060200194505050565b6000806040838503121561057b57600080fd5b8235915061058b6020840161045d565b90509250929050565b6001600160a01b0391909116815260200190565b63ffffffff8416815260006020848184015260606040840152835180606085015260005b818110156105e8578581018301518582016080015282016105cc565b506000608082860101526080601f19601f83011685010192505050949350505050565b60006020828403121561061d57600080fd5b5051919050565b8082018082111561064557634e487b7160e01b600052601160045260246000fd5b9291505056fea2646970667358221220fedc0a684b7f5c72e67c04803f0428712cb4733bcfe244c93f47a6e90f358fb864736f6c63430008140033",
+  "deployedBytecode": "0x60806040526004361061006b5760003560e01c80632c2cd7491461007057806337e935fb1461009257806356d5d475146100a5578063759524ed146100c55780638ada066e146100e5578063cc4c515d1461010d578063de4a787f1461012d578063de523cf31461014d575b600080fd5b34801561007c57600080fd5b5061009061008b366004610479565b61016f565b005b6100906100a03660046104af565b61017b565b3480156100b157600080fd5b506100906100c03660046104e2565b61018b565b3480156100d157600080fd5b506100906100e0366004610479565b610199565b3480156100f157600080fd5b506100fa6101a2565b6040519081526020015b60405180910390f35b34801561011957600080fd5b50610090610128366004610568565b6101b1565b34801561013957600080fd5b50610090610148366004610479565b6101bf565b34801561015957600080fd5b506101626101c8565b6040516101049190610594565b610178816101d2565b50565b6101868383836101fe565b505050565b610193610349565b50505050565b6101788161036e565b60006101ac61039d565b905090565b6101bb82826103b2565b5050565b610178816103ec565b60006101ac61041b565b60006101dc610439565b80546001600160a01b0319166001600160a01b03939093169290921790915550565b6000610208610439565b8054600182015463ffffffff871660009081526003840160205260408120549394506001600160a01b039283169391831692909116908363fa31de018984336040516020016102579190610594565b6040516020818303038152906040526040518463ffffffff1660e01b8152600401610284939291906105a8565b6020604051808303816000875af11580156102a3573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102c7919061060b565b604051630237e58360e31b81526004810182905263ffffffff8a166024820152604481018990523360648201529091506001600160a01b038416906311bf2c189088906084016000604051808303818588803b15801561032657600080fd5b505af115801561033a573d6000803e3d6000fd5b50505050505050505050505050565b6000610353610439565b9050806004015460016103669190610624565b600490910155565b6000610378610439565b60010180546001600160a01b0319166001600160a01b03939093169290921790915550565b6000806103a8610439565b6004015492915050565b60006103bc610439565b600093845260030160205250604090912080546001600160a01b0319166001600160a01b03909216919091179055565b60006103f6610439565b60020180546001600160a01b0319166001600160a01b03939093169290921790915550565b600080610426610439565b600201546001600160a01b031692915050565b7f34fbc1afd8e1b9169b38b6c80a52777e06873abc0d2b3f992f7608bdf1bf6ade90565b80356001600160a01b038116811461047457600080fd5b919050565b60006020828403121561048b57600080fd5b6104948261045d565b9392505050565b803563ffffffff8116811461047457600080fd5b6000806000606084860312156104c457600080fd5b6104cd8461049b565b95602085013595506040909401359392505050565b600080600080606085870312156104f857600080fd5b6105018561049b565b93506020850135925060408501356001600160401b038082111561052457600080fd5b818701915087601f83011261053857600080fd5b81358181111561054757600080fd5b88602082850101111561055957600080fd5b95989497505060200194505050565b6000806040838503121561057b57600080fd5b8235915061058b6020840161045d565b90509250929050565b6001600160a01b0391909116815260200190565b63ffffffff8416815260006020848184015260606040840152835180606085015260005b818110156105e8578581018301518582016080015282016105cc565b506000608082860101526080601f19601f83011685010192505050949350505050565b60006020828403121561061d57600080fd5b5051919050565b8082018082111561064557634e487b7160e01b600052601160045260246000fd5b9291505056fea2646970667358221220fedc0a684b7f5c72e67c04803f0428712cb4733bcfe244c93f47a6e90f358fb864736f6c63430008140033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

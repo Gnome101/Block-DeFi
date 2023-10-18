@@ -5,6 +5,7 @@ function getData(domain) {
         Network: "arbogerli",
         MailBox: "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
         GasPayMaster: "0x76189acFA212298d7022624a4633411eE0d2f26F",
+        Diamond: "0x01f4C28329eeB4F5E72D31aDf9b2b636B2270104",
       };
     case 5:
       return {
@@ -17,6 +18,7 @@ function getData(domain) {
         Network: "scroll",
         MailBox: "0x3C5154a193D6e2955650f9305c8d80c18C814A68",
         GasPayMaster: "0x86fb9F1c124fB20ff130C41a79a432F770f67AFD",
+        Diamond: "0xF5A235DC0d413FecBf15D5008F27Ed3F937f9f52",
       };
     case 84531:
       return {

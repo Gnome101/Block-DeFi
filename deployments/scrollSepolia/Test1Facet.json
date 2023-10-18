@@ -1,0 +1,80 @@
+{
+  "address": "0xcE0ac0791336Fe30BA63dC85511e6AF3c2926572",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "something",
+          "type": "address"
+        }
+      ],
+      "name": "TestEvent",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "num",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "n",
+          "type": "uint256"
+        }
+      ],
+      "name": "setNum",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x47974ca7ce5320d57086abcbef27b4af47d773daff492babb3946a686a042ec3",
+  "receipt": {
+    "to": null,
+    "from": "0x19d96301865fdD07427db3c445508A051BC6D352",
+    "contractAddress": "0xcE0ac0791336Fe30BA63dC85511e6AF3c2926572",
+    "transactionIndex": 3,
+    "gasUsed": "127489",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xa6f87529dd7f1fa2fbbbb01254b592c94a1db098a346426d1835cd8063c2c163",
+    "transactionHash": "0x47974ca7ce5320d57086abcbef27b4af47d773daff492babb3946a686a042ec3",
+    "logs": [],
+    "blockNumber": 1686759,
+    "cumulativeGasUsed": "524766",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "d36afe9114b4e84da1da481c807a514a",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"something\",\"type\":\"address\"}],\"name\":\"TestEvent\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"num\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"n\",\"type\":\"uint256\"}],\"name\":\"setNum\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Facets/Diamond/Test1Facet.sol\":\"Test1Facet\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":1},\"remappings\":[]},\"sources\":{\"contracts/Facets/Diamond/Test1Facet.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\n// Example library to show a simple example of diamond storage\\n\\nlibrary TestLib {\\n    bytes32 constant DIAMOND_STORAGE_POSITION =\\n        keccak256(\\\"diamond.standard.test.storage\\\");\\n\\n    struct TestState {\\n        address myAddress;\\n        uint256 myNum;\\n    }\\n\\n    function diamondStorage() internal pure returns (TestState storage ds) {\\n        bytes32 position = DIAMOND_STORAGE_POSITION;\\n        assembly {\\n            ds.slot := position\\n        }\\n    }\\n\\n    function num() internal view returns (uint256) {\\n        TestState storage testState = diamondStorage();\\n        return testState.myNum;\\n    }\\n\\n    function setNum(uint256 n) internal {\\n        TestState storage testState = diamondStorage();\\n        testState.myNum = n * 3;\\n    }\\n}\\n\\ncontract Test1Facet {\\n    event TestEvent(address something);\\n\\n    function num() external view returns (uint256) {\\n        return TestLib.num();\\n    }\\n\\n    function setNum(uint256 n) external {\\n        TestLib.setNum(n);\\n    }\\n}\\n\",\"keccak256\":\"0x311e0b6b3262bc9723fcd4de4769e4cb70a9ed68286760cb51916aab587bdbc3\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610158806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80634e70b1dc1461003b578063cd16ecbf14610055575b600080fd5b61004361006a565b60405190815260200160405180910390f35b6100686100633660046100de565b610079565b005b6000610074610085565b905090565b6100828161009a565b50565b6000806100906100ba565b6001015492915050565b60006100a46100ba565b90506100b18260036100f7565b60019091015550565b7fe172d0f8decaecdd4c56ac9d5abd3aebbc2d423f323d7c1b0d0a8a21feef1df390565b6000602082840312156100f057600080fd5b5035919050565b808202811582820484141761011c57634e487b7160e01b600052601160045260246000fd5b9291505056fea2646970667358221220b1f7b9c009ba9045e43c35167b4cececfc62818569cb8fbb03b64fba2e1e5f7b64736f6c63430008140033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c80634e70b1dc1461003b578063cd16ecbf14610055575b600080fd5b61004361006a565b60405190815260200160405180910390f35b6100686100633660046100de565b610079565b005b6000610074610085565b905090565b6100828161009a565b50565b6000806100906100ba565b6001015492915050565b60006100a46100ba565b90506100b18260036100f7565b60019091015550565b7fe172d0f8decaecdd4c56ac9d5abd3aebbc2d423f323d7c1b0d0a8a21feef1df390565b6000602082840312156100f057600080fd5b5035919050565b808202811582820484141761011c57634e487b7160e01b600052601160045260246000fd5b9291505056fea2646970667358221220b1f7b9c009ba9045e43c35167b4cececfc62818569cb8fbb03b64fba2e1e5f7b64736f6c63430008140033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

@@ -43,12 +43,13 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
 
   const hyperFacet = await ethers.getContract("HyperFacet");
-
+  console.log(hyperFacet.target);
   facetCut.push({
     facetAddress: hyperFacet.target,
     action: FacetCutAction.Add,
     functionSelectors: getSelectors(hyperFacet),
   });
+  console.log(getSelectors(hyperFacet));
   //Now that all of the facets and their cut data is organized we continue
   let functionCall = diamondInit.interface.encodeFunctionData("init");
 
@@ -61,7 +62,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   args = [facetCut, diamondArgs];
 
   const hooksFactory = await ethers.getContract("UniswapHooksFactory");
-  const salt = await getSalt(hooksFactory, facetCut, diamondArgs, 0x8c);
+  //const salt = await getSalt(hooksFactory, facetCut, diamondArgs, 0x8c);
+  const salt = 0;
   console.log("Le salt:", salt);
   const Diamond = await deploy("Diamond", {
     from: deployer,
@@ -69,7 +71,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
-  await hooksFactory.deploy(facetCut, diamondArgs, salt);
+  //await hooksFactory.deploy(facetCut, diamondArgs, salt);
   console.log("Finished Deployment\n");
 };
 module.exports.tags = ["all", "Test", "ARBG"];

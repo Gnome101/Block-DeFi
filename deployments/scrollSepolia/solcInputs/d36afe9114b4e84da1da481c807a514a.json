@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Facets/Diamond/Test1Facet.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\n// Example library to show a simple example of diamond storage\n\nlibrary TestLib {\n    bytes32 constant DIAMOND_STORAGE_POSITION =\n        keccak256(\"diamond.standard.test.storage\");\n\n    struct TestState {\n        address myAddress;\n        uint256 myNum;\n    }\n\n    function diamondStorage() internal pure returns (TestState storage ds) {\n        bytes32 position = DIAMOND_STORAGE_POSITION;\n        assembly {\n            ds.slot := position\n        }\n    }\n\n    function num() internal view returns (uint256) {\n        TestState storage testState = diamondStorage();\n        return testState.myNum;\n    }\n\n    function setNum(uint256 n) internal {\n        TestState storage testState = diamondStorage();\n        testState.myNum = n * 3;\n    }\n}\n\ncontract Test1Facet {\n    event TestEvent(address something);\n\n    function num() external view returns (uint256) {\n        return TestLib.num();\n    }\n\n    function setNum(uint256 n) external {\n        TestLib.setNum(n);\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 1
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
