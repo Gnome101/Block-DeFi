@@ -98,6 +98,22 @@ library HyperLib {
         HyperState storage hyperState = diamondStorage();
         return hyperState.igp;
     }
+
+    function getAddressForDomain(
+        uint256 domainID
+    ) internal view returns (address) {
+        HyperState storage hyperState = diamondStorage();
+        return hyperState.domainToAddress[domainID];
+    }
+
+    function getQuote(
+        uint32 domain,
+        uint256 amount
+    ) internal view returns (uint256) {
+        HyperState storage hyperState = diamondStorage();
+        IInterchainGasPaymaster IGP = IInterchainGasPaymaster(hyperState.igp);
+        return IGP.quoteGasPayment(domain, amount);
+    }
 }
 
 contract HyperFacet {
@@ -146,5 +162,11 @@ contract HyperFacet {
         address recipentAddy
     ) external {
         HyperLib.setDomainToAddress(domainID, recipentAddy);
+    }
+
+    function getAddressForDomain(
+        uint256 domainID
+    ) external view returns (address) {
+        HyperLib.getAddressForDomain(domainID);
     }
 }

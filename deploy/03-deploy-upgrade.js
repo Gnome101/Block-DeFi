@@ -18,7 +18,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
   const hyperFacet = await ethers.getContract("HyperFacet");
 
-  const selectors = getSelectors(hyperFacet);
+  let selectors = getSelectors(hyperFacet);
   console.log(selectors);
   console.log(Diamond.target);
   const diamondCutFacet = await ethers.getContractAt(
@@ -26,6 +26,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     diamondAddress
   );
   console.log(NewHyperFacet.address, ethers.ZeroAddress.toString());
+
   tx = await diamondCutFacet.diamondCut(
     [
       {

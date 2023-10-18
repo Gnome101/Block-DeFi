@@ -12,9 +12,7 @@ function getSelectors(contract) {
       selectors.push(fragment.selector.toString());
     }
   }
-  selectors.contract = contract;
-  selectors.remove = remove;
-  selectors.get = get;
+
   return selectors;
 }
 
