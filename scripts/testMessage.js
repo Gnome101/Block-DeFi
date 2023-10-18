@@ -6,7 +6,7 @@ async function main() {
   hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
   //Test from arbGoerli to Scroll
 
-  let tx = await hyperFacet.hitEmUp(80001, 100000, "100000000000000000", {
+  let tx = await hyperFacet.hitEmUp(421613, 100000, "100000000000000000", {
     value: ethers.parseEther("0.1"),
   });
   await tx.wait();

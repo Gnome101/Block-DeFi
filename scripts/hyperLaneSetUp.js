@@ -9,16 +9,21 @@ async function main() {
   //Scroll from arbgoerli network
   // const targetDomain = 534351;
   // const targetAddy = "0xE361bD876c95D608Ee2c97625CA32736030810d9";
-  //Mumbai from arbgoerli
-  const targetDomain = 80001;
-  const targetAddy = "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759";
+  // //Mumbai from arbgoerli
+  // const targetDomain = 80001;
+  // const targetAddy = "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759";
 
   //ArbGoerli from scroll network
-  // const targetDomain = 421613;
-  // const targetAddy = "0xff1f749f7Eaf9cFbd330440fCE21922bAA097fdE";
-
-  let tx = await hyperFacet.setDomainToAddress(targetDomain, targetAddy);
+  const targetDomain = 421613;
+  const hyperLaneData = getData(network.config.chainId);
+  console.log(hyperLaneData);
+  const targetAddy = "0xff1f749f7Eaf9cFbd330440fCE21922bAA097fdE";
+  let tx = await hyperFacet.setMailBox(hyperLaneData.MailBox);
   await tx.wait();
+  tx = await hyperFacet.setGasMaster(hyperLaneData.GasPayMaster);
+  await tx.wait();
+  // let tx = await hyperFacet.setDomainToAddress(targetDomain, targetAddy);
+  // await tx.wait();
 }
 main().catch((error) => {
   console.error(error);
