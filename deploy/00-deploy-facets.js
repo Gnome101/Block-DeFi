@@ -49,5 +49,18 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+  const EmptyIsm = await deploy("EmptyIsm", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+
+  const HyperFacet = await deploy("HyperFacet", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
 };
 module.exports.tags = ["all", "Facets"];

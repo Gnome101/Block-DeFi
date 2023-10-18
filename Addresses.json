@@ -1,0 +1,27 @@
+{
+    "421613": {
+        "Network": "arbgoerli",
+        "MailBox": "0xe55b32afB94133381655357108dC972Da4aF9e98",
+        "GasPayMaster": "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
+    },
+    "5": {
+        "Network": "goerli",
+        "MailBox": "0xe55b32afB94133381655357108dC972Da4aF9e98",
+        "GasPayMaster": "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
+    },
+    "534351": {
+        "Network": "scroll",
+        "MailBox": "0xe55b32afB94133381655357108dC972Da4aF9e98",
+        "GasPayMaster": "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
+    },
+    "84531": {
+        "Network": "basegoerli",
+        "MailBox": "0xe55b32afB94133381655357108dC972Da4aF9e98",
+        "GasPayMaster": "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
+    },
+    "80001": {
+        "Network": "mumbai",
+        "MailBox": "0xe55b32afB94133381655357108dC972Da4aF9e98",
+        "GasPayMaster": "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
+    }
+}

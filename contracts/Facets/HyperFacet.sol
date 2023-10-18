@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import "./Hyperlane/IMailbox.sol";
+import "./Hyperlane/IInterchainGasPaymaster.sol";
 
 library HyperLib {
     bytes32 constant DIAMOND_STORAGE_POSITION =
@@ -8,7 +9,7 @@ library HyperLib {
 
     struct HyperState {
         address mailBox;
-        address localIGP;
+        address igp;
         address ism;
         mapping(uint256 => address) domainToAddress;
         uint256 counter;
@@ -44,14 +45,23 @@ library HyperLib {
         return hyperState.counter;
     }
 
-    function hitEmUp(uint32 targetDomain) internal {
+    function hitEmUp(uint32 targetDomain, uint256 gasAmount) internal {
         HyperState storage hyperState = diamondStorage();
         IMailbox MailBox = IMailbox(hyperState.mailBox);
+        IInterchainGasPaymaster IGP = IInterchainGasPaymaster(hyperState.igp);
+
         address targetAddress = hyperState.domainToAddress[targetDomain];
-        MailBox.dispatch(
+        bytes32 messageID = MailBox.dispatch(
             targetDomain,
             addressToBytes32(targetAddress),
             abi.encode(msg.sender)
+        );
+
+        IGP.payForGas{value: msg.value}(
+            messageID,
+            targetDomain,
+            gasAmount,
+            msg.sender // refunds are returned to the sender
         );
     }
 
@@ -59,7 +69,7 @@ library HyperLib {
         return bytes32(uint256(uint160(_addr)));
     }
 
-    function interchainSecurityModule() external view returns (address) {
+    function interchainSecurityModule() internal view returns (address) {
         HyperState storage hyperState = diamondStorage();
         return hyperState.ism;
     }
@@ -71,7 +81,7 @@ library HyperLib {
 
     function setGasMaster(address localIGP) internal {
         HyperState storage hyperState = diamondStorage();
-        hyperState.ism = localIGP;
+        hyperState.igp = localIGP;
     }
 
     function setISM(address ism) internal {
@@ -83,5 +93,29 @@ library HyperLib {
 contract HyperFacet {
     function handle() external {
         HyperLib.increaseCounter();
+    }
+
+    function hitEmUp(uint32 domain, uint256 gasAmount) external payable {
+        HyperLib.hitEmUp(domain, gasAmount);
+    }
+
+    function interchainSecurityModule() external view returns (address) {
+        return HyperLib.interchainSecurityModule();
+    }
+
+    function setMailBox(address maiLBox) external {
+        HyperLib.setMailBox(maiLBox);
+    }
+
+    function setGasMaster(address localIGP) external {
+        HyperLib.setGasMaster(localIGP);
+    }
+
+    function setISM(address ism) external {
+        HyperLib.setISM(ism);
+    }
+
+    function getCounter() external view returns (uint256) {
+        return HyperLib.getCounter();
     }
 }
