@@ -44,9 +44,19 @@ library HyperLib {
         return hyperState.counter;
     }
 
-    function poke(uint32 targetDomain) internal {
+    function hitEmUp(uint32 targetDomain) internal {
         HyperState storage hyperState = diamondStorage();
         IMailbox MailBox = IMailbox(hyperState.mailBox);
+        address targetAddress = hyperState.domainToAddress[targetDomain];
+        MailBox.dispatch(
+            targetDomain,
+            addressToBytes32(targetAddress),
+            abi.encode(msg.sender)
+        );
+    }
+
+    function addressToBytes32(address _addr) internal pure returns (bytes32) {
+        return bytes32(uint256(uint160(_addr)));
     }
 
     function interchainSecurityModule() external view returns (address) {
