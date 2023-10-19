@@ -167,6 +167,13 @@ contract HyperFacet {
     function getAddressForDomain(
         uint256 domainID
     ) external view returns (address) {
-        HyperLib.getAddressForDomain(domainID);
+        return HyperLib.getAddressForDomain(domainID);
+    }
+
+    function getQuote(
+        uint32 domain,
+        uint256 amount
+    ) external view returns (uint256) {
+        return HyperLib.getQuote(domain, amount);
     }
 }

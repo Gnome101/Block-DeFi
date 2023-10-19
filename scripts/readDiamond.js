@@ -7,11 +7,7 @@ async function main() {
     "DiamondLoupeFacet",
     diamondAddress
   );
-  console.log(
-    await diamondLoupeFacet.facetFunctionSelectors(
-      "0xbb6587566c3C7AA61a397C455487eD67FfF2d716"
-    )
-  );
+  console.log(await diamondLoupeFacet.facetAddresses());
 }
 main().catch((error) => {
   console.error(error);
