@@ -152,53 +152,53 @@ library ManagerLib {
 contract ManagerFacet {
     function convertBytes5ArrayToBytes(
         bytes5[] memory data
-    ) public pure returns (bytes memory res) {
+    ) external pure returns (bytes memory res) {
         return ManagerLib.convertBytes5ArrayToBytes(data);
     }
 
-    function convertAddyToNum(address a) public pure returns (uint256) {
+    function convertAddyToNum(address a) external pure returns (uint256) {
         return ManagerLib.convertAddyToNum(a);
     }
 
-    function convertNumToAddy(uint256 a) public pure returns (address) {
+    function convertNumToAddy(uint256 a) external pure returns (address) {
         return ManagerLib.convertNumToAddy(a);
     }
 
     function testDecodePacked(
         bytes memory packed
-    ) public pure returns (bytes5 info, bytes memory) {
+    ) external pure returns (bytes5 info, bytes memory) {
         return ManagerLib.testDecodePacked(packed);
     }
 
     function addDataToFront(
         uint256[] memory data,
         bytes memory packedInfo
-    ) public pure returns (bytes memory packedResult) {
+    ) external pure returns (bytes memory packedResult) {
         return ManagerLib.addDataToFront(data, packedInfo);
     }
 
     function readData(
         bytes memory data
-    ) public pure returns (uint256[] memory, bytes memory) {
+    ) external pure returns (uint256[] memory, bytes memory) {
         return ManagerLib.readData(data);
     }
 
     function executeInstruction(
         uint256[] memory inputs,
         bytes5 instruction
-    ) public returns (uint256[] memory outPuts) {
+    ) external returns (uint256[] memory outPuts) {
         return ManagerLib.executeInstruction(inputs, instruction);
     }
 
     function parseInstruction(
         bytes5 data
-    ) public pure returns (bytes4 selector, uint8 inp, uint8 out) {
+    ) external pure returns (bytes4 selector, uint8 inp, uint8 out) {
         return ManagerLib.parseInstruction(data);
     }
 
     function startWorking(
         bytes memory dataFlow
-    ) public returns (uint256[] memory finalOutputs) {
+    ) external returns (uint256[] memory finalOutputs) {
         return ManagerLib.startWorking(dataFlow);
     }
 }

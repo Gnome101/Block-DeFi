@@ -1,0 +1,180 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "CometStorage",
+  "sourceName": "comet/contracts/CometStorage.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "isAllowed",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "liquidatorPoints",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "numAbsorbs",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint64",
+          "name": "numAbsorbed",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint128",
+          "name": "approxSpend",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_reserved",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "totalsCollateral",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "totalSupplyAsset",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "_reserved",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userBasic",
+      "outputs": [
+        {
+          "internalType": "int104",
+          "name": "principal",
+          "type": "int104"
+        },
+        {
+          "internalType": "uint64",
+          "name": "baseTrackingIndex",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint64",
+          "name": "baseTrackingAccrued",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint16",
+          "name": "assetsIn",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_reserved",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userCollateral",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "balance",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "_reserved",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userNonce",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b50610340806100206000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c80632b92a07d146100675780632e04b8e7146100cb57806359e017bd146100f9578063a16543791461012d578063c5fa15cf1461016b578063dc4abafd146101ff575b600080fd5b6100a66100753660046102b5565b60066020908152600092835260408084209091529082529020546001600160801b0380821691600160801b90041682565b604080516001600160801b039384168152929091166020830152015b60405180910390f35b6100eb6100d93660046102e8565b60046020526000908152604090205481565b6040519081526020016100c2565b6100a66101073660046102e8565b6002602052600090815260409020546001600160801b0380821691600160801b90041682565b61015b61013b3660046102b5565b600360209081526000928352604080842090915290825290205460ff1681565b60405190151581526020016100c2565b6101be6101793660046102e8565b60076020526000908152604090205463ffffffff808216916001600160401b03600160201b820416916001600160801b03600160601b83041691600160e01b90041684565b6040805163ffffffff95861681526001600160401b0390941660208501526001600160801b03909216918301919091529190911660608201526080016100c2565b61025961020d3660046102e8565b600560205260009081526040902054600c81900b906001600160401b03600160681b8204811691600160a81b81049091169061ffff600160e81b8204169060ff600160f81b9091041685565b60408051600c9690960b86526001600160401b039485166020870152929093169184019190915261ffff16606083015260ff16608082015260a0016100c2565b80356001600160a01b03811681146102b057600080fd5b919050565b600080604083850312156102c857600080fd5b6102d183610299565b91506102df60208401610299565b90509250929050565b6000602082840312156102fa57600080fd5b61030382610299565b939250505056fea264697066735822122002fdccf349ceba6fda97b890327c69d11cb2c9f03d6a4f0f1095655e034e370664736f6c63430008140033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c80632b92a07d146100675780632e04b8e7146100cb57806359e017bd146100f9578063a16543791461012d578063c5fa15cf1461016b578063dc4abafd146101ff575b600080fd5b6100a66100753660046102b5565b60066020908152600092835260408084209091529082529020546001600160801b0380821691600160801b90041682565b604080516001600160801b039384168152929091166020830152015b60405180910390f35b6100eb6100d93660046102e8565b60046020526000908152604090205481565b6040519081526020016100c2565b6100a66101073660046102e8565b6002602052600090815260409020546001600160801b0380821691600160801b90041682565b61015b61013b3660046102b5565b600360209081526000928352604080842090915290825290205460ff1681565b60405190151581526020016100c2565b6101be6101793660046102e8565b60076020526000908152604090205463ffffffff808216916001600160401b03600160201b820416916001600160801b03600160601b83041691600160e01b90041684565b6040805163ffffffff95861681526001600160401b0390941660208501526001600160801b03909216918301919091529190911660608201526080016100c2565b61025961020d3660046102e8565b600560205260009081526040902054600c81900b906001600160401b03600160681b8204811691600160a81b81049091169061ffff600160e81b8204169060ff600160f81b9091041685565b60408051600c9690960b86526001600160401b039485166020870152929093169184019190915261ffff16606083015260ff16608082015260a0016100c2565b80356001600160a01b03811681146102b057600080fd5b919050565b600080604083850312156102c857600080fd5b6102d183610299565b91506102df60208401610299565b90509250929050565b6000602082840312156102fa57600080fd5b61030382610299565b939250505056fea264697066735822122002fdccf349ceba6fda97b890327c69d11cb2c9f03d6a4f0f1095655e034e370664736f6c63430008140033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "CometMath",
+  "sourceName": "comet/contracts/CometMath.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "InvalidInt104",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidInt256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidUInt104",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidUInt128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidUInt64",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NegativeNumber",
+      "type": "error"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220d6f60acb737406cba6d72b38e5c96fb64b8f10ad0ad679e08bbffd78258b765164736f6c63430008140033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220d6f60acb737406cba6d72b38e5c96fb64b8f10ad0ad679e08bbffd78258b765164736f6c63430008140033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
