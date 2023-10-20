@@ -28,11 +28,13 @@ describe("System Test ", async function () {
 
     Diamond = await ethers.getContract("Diamond");
     diamondAddress = Diamond.target;
+    poolManager = await ethers.getContract("PoolManager");
+
     testFacet = await ethers.getContractAt("Test1Facet", diamondAddress);
     hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
     uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
+    await uniswapFacet.setPoolManager(poolManager.target);
     leverageFacet = await ethers.getContractAt("LeverageFacet", diamondAddress);
-    poolManager = await ethers.getContract("PoolManager");
     const wethAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
     WETH = await ethers.getContractAt("IWETH9", wethAddress);
 
@@ -146,7 +148,18 @@ describe("System Test ", async function () {
       };
       const sqrtPrice = calculateSqrtPriceX96(1, 18, 18);
       console.log(sqrtPrice.toFixed());
-      await poolManager.initialize(poolKey, sqrtPrice.toFixed(), "0x");
+      // const a = await poolManager.initialize.staticCall(
+      //   poolKey,
+      //   sqrtPrice.toFixed(),
+      //   "0x"
+      // );
+      // console.log(a.toString());
+      await uniswapFacet.initializePool(
+        addresses[0].toString().trim(),
+        addresses[1].toString().trim(),
+        sqrtPrice.toFixed(),
+        "0x"
+      );
       const lowerTick = 0 - parseInt(poolKey.tickSpacing) * 10;
       const upperTick = 0 + parseInt(poolKey.tickSpacing) * 10;
 

@@ -11,8 +11,9 @@ import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol";
 import "@uniswap/v4-core/contracts/libraries/TickMath.sol";
 import "@uniswap/v4-core/contracts/types/PoolId.sol";
+import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
 
-struct position {
+struct userPosition {
     int24 lowerBound;
     int24 upperBound;
     PoolId poolID;
@@ -33,7 +34,7 @@ library UniswapLib {
         mapping(uint256 => IPoolManager.ModifyPositionParams) modLiqs;
         uint256 swapCounter;
         uint256 liqCounter;
-        mapping(address => position[]) userPositions;
+        mapping(address => userPosition[]) userPositions;
         mapping(address => mapping(address => PoolKey)) tokensToPool;
     }
 
@@ -157,9 +158,16 @@ library UniswapLib {
         uint256 token1Amount
     ) internal returns (int256, int256) {
         UniswapState storage uniswapState = diamondStorage();
-
-        //Need to get ID from pool key
         PoolId id = PoolIdLibrary.toId(poolKey);
+
+        uniswapState.userPositions[msg.sender].push(
+            userPosition({
+                lowerBound: tickLower,
+                upperBound: tickUpper,
+                poolID: id
+            })
+        );
+        //Need to get ID from pool key
         (uint160 startPrice, , , ) = uniswapState.poolManager.getSlot0(id);
 
         int256 liquidtyDelta = int256(
@@ -194,15 +202,24 @@ library UniswapLib {
     }
 
     function initializePool(
-        PoolKey memory poolkey,
+        address token0,
+        address token1,
         uint160 poolStartPrice,
-        bytes memory hookData
+        bytes calldata hookData
     ) internal {
         UniswapState storage uniswapState = diamondStorage();
-        address token0 = Currency.unwrap(poolkey.currency0);
-        address token1 = Currency.unwrap(poolkey.currency1);
-        uniswapState.tokensToPool[token0][token1] = poolkey;
-        uniswapState.poolManager.initialize(poolkey, poolStartPrice, hookData);
+        // address token0 = Currency.unwrap(poolkey.currency0);
+        // address token1 = Currency.unwrap(poolkey.currency1);
+        PoolKey memory newKey = PoolKey(
+            Currency.wrap(token0),
+            Currency.wrap(token1),
+            3000,
+            60,
+            IHooks(0x0000000000000000000000000000000000000000)
+        );
+        uniswapState.tokensToPool[token0][token1] = newKey;
+
+        uniswapState.poolManager.initialize(newKey, poolStartPrice, hookData);
     }
 
     function completeLiquidtyAdd(
@@ -344,5 +361,14 @@ contract UniswapFacet {
                 token0Amount,
                 token1Amount
             );
+    }
+
+    function initializePool(
+        address token0,
+        address token1,
+        uint160 poolStartPrice,
+        bytes calldata hookData
+    ) external {
+        UniswapLib.initializePool(token0, token1, poolStartPrice, hookData);
     }
 }

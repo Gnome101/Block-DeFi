@@ -3218,8 +3218,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/UniswapFacet.sol": {
-      "lastModificationDate": 1697802101740,
-      "contentHash": "d937ab393cf6c83ec12898fb3199e729",
+      "lastModificationDate": 1697830302680,
+      "contentHash": "864015e3b8a10c01d63a0e76af9c1bfd",
       "sourceName": "contracts/Facets/UniswapFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3261,7 +3261,10 @@
         "hardhat/console.sol",
         "@uniswap/v3-periphery/contracts/interfaces/external/IWETH9.sol",
         "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol",
-        "@uniswap/v4-core/contracts/types/PoolId.sol"
+        "@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol",
+        "@uniswap/v4-core/contracts/libraries/TickMath.sol",
+        "@uniswap/v4-core/contracts/types/PoolId.sol",
+        "@uniswap/v4-core/contracts/interfaces/IHooks.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
@@ -3357,6 +3360,138 @@
       ],
       "artifacts": [
         "IUniswapV3SwapCallback"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "e040a720fab89989a06e1e6316b51f4b",
+      "sourceName": "@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "@uniswap/v3-core/contracts/libraries/FullMath.sol",
+        "@uniswap/v3-core/contracts/libraries/FixedPoint96.sol"
+      ],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "LiquidityAmounts"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v3-core/contracts/libraries/FullMath.sol": {
+      "lastModificationDate": 1697829351200,
+      "contentHash": "11a022f00c376567401cc41b617967ed",
+      "sourceName": "@uniswap/v3-core/contracts/libraries/FullMath.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.0 <=0.8.20"
+      ],
+      "artifacts": [
+        "FullMath"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v3-core/contracts/libraries/FixedPoint96.sol": {
+      "lastModificationDate": 1697517840153,
+      "contentHash": "f3ab03d6bbfd7c6834ecd3fc311cb0e7",
+      "sourceName": "@uniswap/v3-core/contracts/libraries/FixedPoint96.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.0"
+      ],
+      "artifacts": [
+        "FixedPoint96"
       ]
     }
   }
