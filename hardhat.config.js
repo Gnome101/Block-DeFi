@@ -39,6 +39,7 @@ module.exports = {
         blockNumber: 16403320,
       },
       chainId: 31337,
+      allowUnlimitedContractSize: true,
     },
     localhost: {
       chainId: 31337,

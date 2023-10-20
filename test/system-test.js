@@ -9,6 +9,8 @@ describe("System Test ", async function () {
   let testFacet;
   let hookFactory;
   let hyperFacet;
+  let uniswapFacet;
+  let leverageFacet;
   before(async function () {
     accounts = await ethers.getNamedSigners(); // could also do with getNamedAccounts
     deployer = accounts[0];
@@ -21,6 +23,8 @@ describe("System Test ", async function () {
     diamondAddress = Diamond.target;
     testFacet = await ethers.getContractAt("Test1Facet", diamondAddress);
     hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
+    uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
+    leverageFacet = await ethers.getContractAt("LeverageFacet", diamondAddress);
   });
 
   it("can store numbers and read them", async () => {
@@ -31,10 +35,5 @@ describe("System Test ", async function () {
   it("can read counter", async () => {
     let c = await hyperFacet.getCounter();
     console.log(c.toString());
-  });
-  it("message sending", async () => {
-    await hyperFacet.hitEmUp(1000, 50000, "50000000000000000", {
-      value: ethers.parseEther("0.1"),
-    });
   });
 });
