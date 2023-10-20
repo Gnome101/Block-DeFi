@@ -2,7 +2,7 @@
 const { ethers } = require("hardhat");
 const { calculateSqrtPriceX96 } = require("../utils/uniswapCalculations");
 const { assert } = require("chai");
-const bigDecimal = require("js-big-decimal");
+const Big = require("big.js");
 
 describe("System Test ", async function () {
   let Diamond;
@@ -146,8 +146,8 @@ describe("System Test ", async function () {
         tickSpacing: "60",
         hooks: hook,
       };
-      const sqrtPrice = calculateSqrtPriceX96(1, 18, 18);
-      console.log(sqrtPrice.toFixed());
+      const price = 1;
+      const sqrtPrice = calculateSqrtPriceX96(price, 6, 18);
       // const a = await poolManager.initialize.staticCall(
       //   poolKey,
       //   sqrtPrice.toFixed(),
@@ -160,14 +160,32 @@ describe("System Test ", async function () {
         sqrtPrice.toFixed(),
         "0x"
       );
-      const lowerTick = 0 - parseInt(poolKey.tickSpacing) * 10;
-      const upperTick = 0 + parseInt(poolKey.tickSpacing) * 10;
+      const lowerTick = 0 - parseInt(poolKey.tickSpacing) * 30;
+      const upperTick = 0 + parseInt(poolKey.tickSpacing) * 30;
+      //Since price is basically 1:1
+      //we will just use an even amount
+      const ten = new Big(10);
+      const wethDecimals = ten.pow(18);
+      const usdcDecimals = ten.pow(6);
 
-      const ModifyPositionParams = {
-        tickLower: lowerTick,
-        tickUpper: upperTick,
-        liquidityDelta: 0,
-      };
+      let wethAmount = new Big(5);
+      const bigPrice = new Big(price);
+      let usdcAmount = wethAmount.times(bigPrice);
+      wethAmount = wethAmount.times(wethDecimals).round();
+      usdcAmount = usdcAmount.times(usdcDecimals).round();
+      await USDC.transfer(diamondAddress, usdcAmount.toFixed());
+
+      await WETH.transfer(diamondAddress, wethAmount.toFixed());
+      await uniswapFacet.addLiquidty(
+        WETH.target,
+        USDC.target,
+        lowerTick,
+        upperTick,
+        wethAmount.toFixed(),
+        usdcAmount.toFixed()
+      );
+      const swapAmount = ethers.parseEther("1");
+      await uniswapFacet.swap(WETH.target, USDC.target.swapAmount.toString());
     });
   });
 });

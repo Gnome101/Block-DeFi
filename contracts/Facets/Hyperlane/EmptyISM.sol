@@ -9,7 +9,7 @@ contract EmptyIsm is IInterchainSecurityModule {
      * encoded by this ISM.
      * @dev Relayers infer how to fetch and format metadata.
      */
-    function moduleType() external view returns (uint8) {
+    function moduleType() external pure returns (uint8) {
         return 6;
     }
 

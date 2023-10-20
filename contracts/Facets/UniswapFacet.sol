@@ -98,31 +98,15 @@ library UniswapLib {
         return abi.decode(res, (int256, int256));
     }
 
-    function completeSwap(
-        PoolKey memory poolKey,
-        uint256 counter
-    ) internal returns (int128, int128) {
-        BalanceDelta delta;
-        UniswapState storage uniswapState = diamondStorage();
-        delta = uniswapState.poolManager.swap(
-            poolKey,
-            uniswapState.swaps[counter],
-            "0x"
-        );
-
-        uniswapState.swapCounter++;
-
-        _settleCurrencyBalance(poolKey.currency0, delta.amount0());
-        _settleCurrencyBalance(poolKey.currency1, delta.amount1());
-        return (delta.amount0(), delta.amount1());
-    }
-
     function closePosition(
-        PoolKey calldata poolKey,
+        address token0,
+        address token1,
         int24 lowerBound,
         int24 upperBound
     ) internal returns (int128, int128) {
         UniswapState storage uniswapState = diamondStorage();
+        (token0, token1) = getTokens(token0, token1);
+        PoolKey memory poolKey = uniswapState.tokensToPool[token0][token1];
 
         int128 liquidtyAmount = int128(
             uniswapState.poolManager.getLiquidity(
@@ -150,14 +134,58 @@ library UniswapLib {
         return (t0, t1);
     }
 
+    function getTokens(
+        address token0Maybe,
+        address token1Maybe,
+        uint256 t0Amount,
+        uint256 t1Amount
+    ) internal pure returns (address, address, uint256, uint256) {
+        if (token0Maybe < token1Maybe) {
+            return (token0Maybe, token1Maybe, t0Amount, t1Amount);
+        } else {
+            return (token1Maybe, token0Maybe, t1Amount, t0Amount);
+        }
+    }
+
+    function getTokens(
+        address token0Maybe,
+        address token1Maybe
+    ) internal pure returns (address, address) {
+        if (token0Maybe < token1Maybe) {
+            return (token0Maybe, token1Maybe);
+        } else {
+            return (token1Maybe, token0Maybe);
+        }
+    }
+
     function addLiquidty(
-        PoolKey calldata poolKey,
+        address token0, //Order does not matter
+        address token1,
         int24 tickLower,
         int24 tickUpper,
         uint256 token0Amount,
         uint256 token1Amount
     ) internal returns (int256, int256) {
         UniswapState storage uniswapState = diamondStorage();
+        console.log(IERC20(token0).balanceOf(address(this)));
+        console.log(IERC20(token1).balanceOf(address(this)));
+
+        (token0, token1, token0Amount, token1Amount) = getTokens(
+            token0,
+            token1,
+            token0Amount,
+            token1Amount
+        );
+        // SafeERC20.safeTransferFrom(
+        //     token0,
+        //     msg.sender,
+        //     address(this),
+        //     token0Amount
+        // );
+        // SafeERC20.safeTransferFrom(token0, token0Amount, address(this));
+
+        PoolKey memory poolKey = uniswapState.tokensToPool[token0][token1];
+
         PoolId id = PoolIdLibrary.toId(poolKey);
 
         uniswapState.userPositions[msg.sender].push(
@@ -197,8 +225,8 @@ library UniswapLib {
                 uniswapState.liqCounter
             )
         );
-
-        return abi.decode(res, (int256, int256));
+        (int128 t0, int128 t1) = abi.decode(res, (int128, int128));
+        return (t0, t1);
     }
 
     function initializePool(
@@ -235,7 +263,6 @@ library UniswapLib {
         );
 
         uniswapState.liqCounter++;
-
         _settleCurrencyBalance(poolKey.currency0, delta.amount0());
         _settleCurrencyBalance(poolKey.currency1, delta.amount1());
         return (delta.amount0(), delta.amount1());
@@ -243,7 +270,7 @@ library UniswapLib {
 
     function processCallBack(
         bytes calldata data
-    ) internal returns (int128 t0Amount, int128 t1Amount) {
+    ) internal returns (bytes memory info) {
         //The Pool Manager will call this after I call lock on the pool
         (
             address user,
@@ -252,11 +279,14 @@ library UniswapLib {
             uint256 counter
         ) = abi.decode(data, (address, PoolKey, ActionType, uint256));
         //Need to decode the data that was just sent from the Pool Manager after we called swap or liquidtyAdd
+        int128 t0Amount;
+        int128 t1Amount;
         if (action == ActionType.Swap) {
             (t0Amount, t1Amount) = completeSwap(poolKey, counter);
         } else {
-            completeLiquidtyAdd(poolKey, counter);
+            (t0Amount, t1Amount) = completeLiquidtyAdd(poolKey, counter);
         }
+        info = abi.encode(t0Amount, t1Amount);
         SafeERC20.safeTransfer(
             IERC20(Currency.unwrap(poolKey.currency0)),
             user,
@@ -264,6 +294,7 @@ library UniswapLib {
                 (address(this))
             )
         );
+
         SafeERC20.safeTransfer(
             IERC20(Currency.unwrap(poolKey.currency1)),
             user,
@@ -271,6 +302,25 @@ library UniswapLib {
                 (address(this))
             )
         );
+    }
+
+    function completeSwap(
+        PoolKey memory poolKey,
+        uint256 counter
+    ) internal returns (int128, int128) {
+        BalanceDelta delta;
+        UniswapState storage uniswapState = diamondStorage();
+        delta = uniswapState.poolManager.swap(
+            poolKey,
+            uniswapState.swaps[counter],
+            "0x"
+        );
+
+        uniswapState.swapCounter++;
+
+        _settleCurrencyBalance(poolKey.currency0, delta.amount0());
+        _settleCurrencyBalance(poolKey.currency1, delta.amount1());
+        return (delta.amount0(), delta.amount1());
     }
 
     function _settleCurrencyBalance(
@@ -308,7 +358,7 @@ library UniswapLib {
         uint160 currentPrice,
         uint256 token0Amount,
         uint256 token1Amount
-    ) internal view returns (uint128 liq) {
+    ) internal pure returns (uint128 liq) {
         liq = LiquidityAmounts.getLiquidityForAmounts(
             lowerPrice,
             upperPrice,
@@ -320,9 +370,7 @@ library UniswapLib {
 }
 
 contract UniswapFacet {
-    function lockAcquired(
-        bytes calldata data
-    ) external returns (int128, int128) {
+    function lockAcquired(bytes calldata data) external returns (bytes memory) {
         return UniswapLib.processCallBack(data);
     }
 
@@ -339,15 +387,17 @@ contract UniswapFacet {
     }
 
     function closePosition(
-        PoolKey calldata poolKey,
+        address token0,
+        address token1,
         int24 lowerBound,
         int24 upperBound
     ) external returns (int128, int128) {
-        return UniswapLib.closePosition(poolKey, lowerBound, upperBound);
+        return UniswapLib.closePosition(token0, token1, lowerBound, upperBound);
     }
 
     function addLiquidty(
-        PoolKey calldata poolKey,
+        address token0, //Order does not matter, they are sorted
+        address token1,
         int24 tickLower,
         int24 tickUpper,
         uint256 token0Amount,
@@ -355,7 +405,8 @@ contract UniswapFacet {
     ) external returns (int256, int256) {
         return
             UniswapLib.addLiquidty(
-                poolKey,
+                token0,
+                token1,
                 tickLower,
                 tickUpper,
                 token0Amount,
