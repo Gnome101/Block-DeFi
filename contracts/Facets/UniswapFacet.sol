@@ -89,12 +89,30 @@ library UniswapLib {
     ) internal returns (int128, int128) {
         UniswapState storage uniswapState = diamondStorage();
 
-        uint128 liquidtyAmount = uniswapState.poolManager.getLiquidity(
-            PoolIdLibrary.toId(poolKey),
-            address(this),
-            lowerBound,
-            upperBound
+        int128 liquidtyAmount = int128(
+            uniswapState.poolManager.getLiquidity(
+                PoolIdLibrary.toId(poolKey),
+                address(this),
+                lowerBound,
+                upperBound
+            )
         );
+        uniswapState.modLiqs[uniswapState.liqCounter] = IPoolManager
+            .ModifyPositionParams(lowerBound, upperBound, -liquidtyAmount);
+        //Negative so that we remove that amount of liqudity
+        uniswapState.liqCounter++;
+        bytes memory res = uniswapState.poolManager.lock(
+            abi.encode(
+                msg.sender,
+                poolKey,
+                ActionType.LiquidityChange,
+                uniswapState.liqCounter
+            )
+        );
+        uniswapState.liqCounter++;
+        (int128 t0, int128 t1) = abi.decode(res, (int128, int128));
+        //console.log(t0, t1);
+        return (t0, t1);
     }
 
     function liquidityAdd(

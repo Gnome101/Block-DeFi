@@ -3218,8 +3218,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/UniswapFacet.sol": {
-      "lastModificationDate": 1697796113650,
-      "contentHash": "98cc60155f7aec6f33287743e35e28d6",
+      "lastModificationDate": 1697797957970,
+      "contentHash": "84724008f9d434a7f780cb3799379c0d",
       "sourceName": "contracts/Facets/UniswapFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3259,7 +3259,8 @@
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
         "hardhat/console.sol",
-        "@uniswap/v3-periphery/contracts/interfaces/external/IWETH9.sol"
+        "@uniswap/v3-periphery/contracts/interfaces/external/IWETH9.sol",
+        "@uniswap/v4-core/contracts/types/PoolId.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
