@@ -4,8 +4,8 @@ function getData(domain) {
       return {
         Network: "arbogerli",
         MailBox: "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
-        GasPayMaster: "0x76189acFA212298d7022624a4633411eE0d2f26F",
-        Diamond: "0xff1f749f7Eaf9cFbd330440fCE21922bAA097fdE",
+        GasPayMaster: "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a",
+        Diamond: "0xDbD0a46Bc529570Ab594b79A8f4467A6A6F289eA",
       };
     case 5:
       return {
@@ -38,6 +38,12 @@ function getData(domain) {
         Network: "forkedMainNet",
         MailBox: "0x35231d4c2D8B8ADcB5617A638A0c4548684c7C70",
         GasPayMaster: "0x6cA0B6D22da47f091B7613223cD4BB03a2d77918",
+      };
+    case 11155111:
+      return {
+        Network: "sepolia",
+        MailBox: "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
+        GasPayMaster: "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a",
       };
     default:
       console.log(domain, "is not in database");

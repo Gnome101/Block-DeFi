@@ -11,20 +11,26 @@ async function main() {
   // const targetAddy = "0xE361bD876c95D608Ee2c97625CA32736030810d9";
   // //Mumbai from arbgoerli
   // const targetDomain = 80001;
-  // const targetAddy = "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759";
+  const targetAddy = "0xDbD0a46Bc529570Ab594b79A8f4467A6A6F289eA";
 
   //ArbGoerli from scroll network
-  const targetDomain = 421613;
+  // const targetDomain = 421613;
   const hyperLaneData = getData(network.config.chainId);
   console.log(hyperLaneData);
-  const targetAddy = "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759";
-  const igp = await hyperFacet.getQuote(5, 10000);
-  console.log(igp.toString());
+  // const targetAddy = "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759";
+  // const igp = await hyperFacet.getQuote(80001, 100000);
+  // console.log(igp.toString());
+  // let targetAddy = "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759";
   // let tx = await hyperFacet.setMailBox(hyperLaneData.MailBox);
   // await tx.wait();
   // tx = await hyperFacet.setGasMaster(hyperLaneData.GasPayMaster);
   // await tx.wait();
-  // let tx = await hyperFacet.setDomainToAddress(80001, targetAddy);
+  // tx = await hyperFacet.setDomainToAddress(421613, targetAddy);
+  // await tx.wait();
+  emptyISM = await ethers.getContract("EmptyIsm");
+  const n = await emptyISM.count();
+  console.log(n.toString());
+  // tx = await hyperFacet.setISM(emptyISM.target);
   // await tx.wait();
 }
 main().catch((error) => {

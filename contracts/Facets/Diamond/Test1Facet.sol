@@ -10,6 +10,7 @@ library TestLib {
     struct TestState {
         address myAddress;
         uint256 myNum;
+        string word;
     }
 
     function diamondStorage() internal pure returns (TestState storage ds) {
@@ -28,6 +29,10 @@ library TestLib {
         TestState storage testState = diamondStorage();
         testState.myNum = n * 3;
     }
+
+    function getNum() internal view returns (uint256) {
+        return 5;
+    }
 }
 
 contract Test1Facet {
@@ -39,5 +44,9 @@ contract Test1Facet {
 
     function setNum(uint256 n) external {
         TestLib.setNum(n);
+    }
+
+    function getNum() external view returns (uint256) {
+        return TestLib.getNum();
     }
 }

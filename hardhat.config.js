@@ -64,6 +64,18 @@ module.exports = {
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
       chainId: 80001,
     },
+    basegoerli: {
+      url: "https://goerli.base.org" || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      chainId: 84531,
+    },
+    sepolia: {
+      url: "https://rpc.sepolia.org" || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      chainId: 11155111,
+    },
   },
   etherscan: {
     // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>

@@ -1,8 +1,8 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Diamond.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Diamond.sol": {
+      "lastModificationDate": 1697523874393,
       "contentHash": "0c1c77b58625ad07058f4e87acdac912",
       "sourceName": "contracts/Diamond.sol",
       "solcConfig": {
@@ -50,8 +50,182 @@
         "Diamond"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/Libraries/LibDiamond.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/Interfaces/IDiamondCut.sol": {
+      "lastModificationDate": 1697518322813,
+      "contentHash": "4ba144bc27ad8fe49801fa9abaddf986",
+      "sourceName": "contracts/DiamondStuff/Interfaces/IDiamondCut.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./IDiamond.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IDiamondCut"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/Interfaces/IDiamondLoupe.sol": {
+      "lastModificationDate": 1697518207103,
+      "contentHash": "6fd4ab8b357a4971eea00e9d8506d4bd",
+      "sourceName": "contracts/DiamondStuff/Interfaces/IDiamondLoupe.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IDiamondLoupe"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/Interfaces/IERC173.sol": {
+      "lastModificationDate": 1697518193733,
+      "contentHash": "f8e67e5a20027fa9453a3016ef92229e",
+      "sourceName": "contracts/DiamondStuff/Interfaces/IERC173.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC173"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/Interfaces/IERC165.sol": {
+      "lastModificationDate": 1697518198603,
+      "contentHash": "f8f9ee2c76e1678bfead7a3fad131934",
+      "sourceName": "contracts/DiamondStuff/Interfaces/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/Libraries/LibDiamond.sol": {
+      "lastModificationDate": 1697616062629,
       "contentHash": "344505518627559e599acf835374a0cb",
       "sourceName": "contracts/DiamondStuff/Libraries/LibDiamond.sol",
       "solcConfig": {
@@ -97,182 +271,8 @@
         "LibDiamond"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/Interfaces/IDiamondCut.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "4ba144bc27ad8fe49801fa9abaddf986",
-      "sourceName": "contracts/DiamondStuff/Interfaces/IDiamondCut.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "./IDiamond.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IDiamondCut"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/Interfaces/IDiamondLoupe.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "6fd4ab8b357a4971eea00e9d8506d4bd",
-      "sourceName": "contracts/DiamondStuff/Interfaces/IDiamondLoupe.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IDiamondLoupe"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/Interfaces/IERC173.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "f8e67e5a20027fa9453a3016ef92229e",
-      "sourceName": "contracts/DiamondStuff/Interfaces/IERC173.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC173"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/Interfaces/IERC165.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "f8f9ee2c76e1678bfead7a3fad131934",
-      "sourceName": "contracts/DiamondStuff/Interfaces/IERC165.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC165"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/Interfaces/IDiamond.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/Interfaces/IDiamond.sol": {
+      "lastModificationDate": 1697518320733,
       "contentHash": "00b4eb84c79309f941f505fa73f0c21f",
       "sourceName": "contracts/DiamondStuff/Interfaces/IDiamond.sol",
       "solcConfig": {
@@ -314,8 +314,8 @@
         "IDiamond"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1697655692988,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1697517838553,
       "contentHash": "896f68942c3a20e9ae3c3c5bfd3add54",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
@@ -357,8 +357,8 @@
         "console"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Hooks/HooksFactory.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Hooks/HooksFactory.sol": {
+      "lastModificationDate": 1697566801189,
       "contentHash": "e2cf11c2b6c5de6617e1f8cf20740d7e",
       "sourceName": "contracts/Hooks/HooksFactory.sol",
       "solcConfig": {
@@ -404,8 +404,8 @@
         "UniswapHooksFactory"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/interfaces/IPoolManager.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/interfaces/IPoolManager.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "fbb61a0871c9b0cb1e9cb4bad191ee73",
       "sourceName": "@uniswap/v4-core/contracts/interfaces/IPoolManager.sol",
       "solcConfig": {
@@ -457,8 +457,277 @@
         "IPoolManager"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/types/Currency.sol": {
-      "lastModificationDate": 1697655694188,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/interfaces/IFees.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "082efe2fb33f4f1388120a0e7d39afeb",
+      "sourceName": "@uniswap/v4-core/contracts/interfaces/IFees.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../types/Currency.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "IFees"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/interfaces/IHooks.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "662ce1ddcf62fd205d7c21d2b9b91154",
+      "sourceName": "@uniswap/v4-core/contracts/interfaces/IHooks.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../types/PoolKey.sol",
+        "../types/BalanceDelta.sol",
+        "./IPoolManager.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IHooks"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/types/BalanceDelta.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "65721a50fb3dd9d1a5d6040c244a5ea9",
+      "sourceName": "@uniswap/v4-core/contracts/types/BalanceDelta.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "BalanceDeltaLibrary"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@openzeppelin/contracts/token/ERC1155/IERC1155.sol": {
+      "lastModificationDate": 1697517839943,
+      "contentHash": "93aa9af4f5d2d2095a71ccde917038bb",
+      "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/types/PoolId.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "20fea32dc20c50f3f1592308951b81df",
+      "sourceName": "@uniswap/v4-core/contracts/types/PoolId.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./PoolKey.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "PoolIdLibrary"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/types/PoolKey.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "58f094affe44a7f54bf332904afaeef3",
+      "sourceName": "@uniswap/v4-core/contracts/types/PoolKey.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./Currency.sol",
+        "../interfaces/IHooks.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": []
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/types/Currency.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "2e24bb0a93845cdbce280795c3036bdf",
       "sourceName": "@uniswap/v4-core/contracts/types/Currency.sol",
       "solcConfig": {
@@ -502,8 +771,54 @@
         "CurrencyLibrary"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/Pool.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/Position.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "7ae41724bd36722a8e33625c969578d9",
+      "sourceName": "@uniswap/v4-core/contracts/libraries/Position.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./FullMath.sol",
+        "./FixedPoint128.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "Position"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/Pool.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "e92d369e395ba6bceb998e65f5af099b",
       "sourceName": "@uniswap/v4-core/contracts/libraries/Pool.sol",
       "solcConfig": {
@@ -555,323 +870,8 @@
         "Pool"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/types/BalanceDelta.sol": {
-      "lastModificationDate": 1697655694188,
-      "contentHash": "65721a50fb3dd9d1a5d6040c244a5ea9",
-      "sourceName": "@uniswap/v4-core/contracts/types/BalanceDelta.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "BalanceDeltaLibrary"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/types/PoolId.sol": {
-      "lastModificationDate": 1697655694188,
-      "contentHash": "20fea32dc20c50f3f1592308951b81df",
-      "sourceName": "@uniswap/v4-core/contracts/types/PoolId.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "./PoolKey.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "PoolIdLibrary"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/types/PoolKey.sol": {
-      "lastModificationDate": 1697655694188,
-      "contentHash": "58f094affe44a7f54bf332904afaeef3",
-      "sourceName": "@uniswap/v4-core/contracts/types/PoolKey.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "./Currency.sol",
-        "../interfaces/IHooks.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.19"
-      ],
-      "artifacts": []
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/Position.sol": {
-      "lastModificationDate": 1697655694178,
-      "contentHash": "7ae41724bd36722a8e33625c969578d9",
-      "sourceName": "@uniswap/v4-core/contracts/libraries/Position.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "./FullMath.sol",
-        "./FixedPoint128.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "Position"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@openzeppelin/contracts/token/ERC1155/IERC1155.sol": {
-      "lastModificationDate": 1697655694018,
-      "contentHash": "93aa9af4f5d2d2095a71ccde917038bb",
-      "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "../../utils/introspection/IERC165.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC1155"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/interfaces/IFees.sol": {
-      "lastModificationDate": 1697655694178,
-      "contentHash": "082efe2fb33f4f1388120a0e7d39afeb",
-      "sourceName": "@uniswap/v4-core/contracts/interfaces/IFees.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "../types/Currency.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.19"
-      ],
-      "artifacts": [
-        "IFees"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/interfaces/IHooks.sol": {
-      "lastModificationDate": 1697655694178,
-      "contentHash": "662ce1ddcf62fd205d7c21d2b9b91154",
-      "sourceName": "@uniswap/v4-core/contracts/interfaces/IHooks.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "../types/PoolKey.sol",
-        "../types/BalanceDelta.sol",
-        "./IPoolManager.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IHooks"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/interfaces/external/IERC20Minimal.sol": {
-      "lastModificationDate": 1697655694648,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/interfaces/external/IERC20Minimal.sol": {
+      "lastModificationDate": 1697517840663,
       "contentHash": "b1e20b81f1588bdc1857a7fc2bf2bedb",
       "sourceName": "@uniswap/v4-core/contracts/interfaces/external/IERC20Minimal.sol",
       "solcConfig": {
@@ -913,10 +913,10 @@
         "IERC20Minimal"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/SafeCast.sol": {
-      "lastModificationDate": 1697655694178,
-      "contentHash": "2c56bd3bb46889b72036eb7cf2f7c9d1",
-      "sourceName": "@uniswap/v4-core/contracts/libraries/SafeCast.sol",
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+      "lastModificationDate": 1697517839943,
+      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -950,59 +950,14 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.20"
+        "^0.8.0"
       ],
       "artifacts": [
-        "SafeCast"
+        "IERC165"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/TickBitmap.sol": {
-      "lastModificationDate": 1697655694178,
-      "contentHash": "6cd2e3876c5c43f9fd933bfaf5c7c233",
-      "sourceName": "@uniswap/v4-core/contracts/libraries/TickBitmap.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "./BitMath.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "TickBitmap"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/FullMath.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/FullMath.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "0d30542759085b67c00d7597cd7ca307",
       "sourceName": "@uniswap/v4-core/contracts/libraries/FullMath.sol",
       "solcConfig": {
@@ -1044,8 +999,8 @@
         "FullMath"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/FixedPoint128.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/FixedPoint128.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "81cee77f7d7c816ced348989df7371e9",
       "sourceName": "@uniswap/v4-core/contracts/libraries/FixedPoint128.sol",
       "solcConfig": {
@@ -1087,8 +1042,51 @@
         "FixedPoint128"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/SqrtPriceMath.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/SafeCast.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "2c56bd3bb46889b72036eb7cf2f7c9d1",
+      "sourceName": "@uniswap/v4-core/contracts/libraries/SafeCast.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "SafeCast"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/SqrtPriceMath.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "ea5ac26ec4942f280cfa1de2fc368c14",
       "sourceName": "@uniswap/v4-core/contracts/libraries/SqrtPriceMath.sol",
       "solcConfig": {
@@ -1135,8 +1133,8 @@
         "SqrtPriceMath"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/TickMath.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/TickMath.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "a5764c6a1787b73b1bde7b9884e45822",
       "sourceName": "@uniswap/v4-core/contracts/libraries/TickMath.sol",
       "solcConfig": {
@@ -1178,8 +1176,8 @@
         "TickMath"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/SwapMath.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/SwapMath.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "0c1cae3adbdc65101517bad68a9d923f",
       "sourceName": "@uniswap/v4-core/contracts/libraries/SwapMath.sol",
       "solcConfig": {
@@ -1224,10 +1222,10 @@
         "SwapMath"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/BitMath.sol": {
-      "lastModificationDate": 1697655694178,
-      "contentHash": "e09992e68cbfee6676578b28a8eb6985",
-      "sourceName": "@uniswap/v4-core/contracts/libraries/BitMath.sol",
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/TickBitmap.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "6cd2e3876c5c43f9fd933bfaf5c7c233",
+      "sourceName": "@uniswap/v4-core/contracts/libraries/TickBitmap.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -1259,59 +1257,18 @@
           }
         }
       },
-      "imports": [],
+      "imports": [
+        "./BitMath.sol"
+      ],
       "versionPragmas": [
         "^0.8.20"
       ],
       "artifacts": [
-        "BitMath"
+        "TickBitmap"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/UnsafeMath.sol": {
-      "lastModificationDate": 1697655694178,
-      "contentHash": "2fd744d4d8034e828e43d4e7cd79485d",
-      "sourceName": "@uniswap/v4-core/contracts/libraries/UnsafeMath.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "UnsafeMath"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@uniswap/v4-core/contracts/libraries/FixedPoint96.sol": {
-      "lastModificationDate": 1697655694178,
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/FixedPoint96.sol": {
+      "lastModificationDate": 1697517840163,
       "contentHash": "1776e4be5f4f059e34830b5573a4f615",
       "sourceName": "@uniswap/v4-core/contracts/libraries/FixedPoint96.sol",
       "solcConfig": {
@@ -1353,10 +1310,10 @@
         "FixedPoint96"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1697655694018,
-      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
-      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/UnsafeMath.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "2fd744d4d8034e828e43d4e7cd79485d",
+      "sourceName": "@uniswap/v4-core/contracts/libraries/UnsafeMath.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -1390,64 +1347,16 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.0"
+        "^0.8.20"
       ],
       "artifacts": [
-        "IERC165"
+        "UnsafeMath"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/HyperFacet.sol": {
-      "lastModificationDate": 1697658851690,
-      "contentHash": "045abc145f69c3d500edae21139ed7c6",
-      "sourceName": "contracts/Facets/HyperFacet.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [
-        "./Hyperlane/IMailbox.sol",
-        "./Hyperlane/IInterchainGasPaymaster.sol",
-        "hardhat/console.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "HyperFacet",
-        "HyperLib"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Hyperlane/IMailbox.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "392d917c63607b5e2a7787c860e04e45",
-      "sourceName": "contracts/Facets/Hyperlane/IMailbox.sol",
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@uniswap/v4-core/contracts/libraries/BitMath.sol": {
+      "lastModificationDate": 1697517840163,
+      "contentHash": "e09992e68cbfee6676578b28a8eb6985",
+      "sourceName": "@uniswap/v4-core/contracts/libraries/BitMath.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -1481,57 +1390,14 @@
       },
       "imports": [],
       "versionPragmas": [
-        ">=0.8.0"
+        "^0.8.20"
       ],
       "artifacts": [
-        "IMailbox"
+        "BitMath"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Hyperlane/IInterchainGasPaymaster.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "92512917df8a9ead7f7bb440f17f30eb",
-      "sourceName": "contracts/Facets/Hyperlane/IInterchainGasPaymaster.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "devdoc",
-                "userdoc",
-                "storageLayout",
-                "evm.gasEstimates"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          },
-          "metadata": {
-            "useLiteralContent": true
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.6.11"
-      ],
-      "artifacts": [
-        "IInterchainGasPaymaster"
-      ]
-    },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Diamond/OwnershipFacet.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/OwnershipFacet.sol": {
+      "lastModificationDate": 1697523911193,
       "contentHash": "dcbac7cb71c3477b0a61edb5fb618658",
       "sourceName": "contracts/Facets/Diamond/OwnershipFacet.sol",
       "solcConfig": {
@@ -1576,8 +1442,8 @@
         "OwnershipFacet"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/upgradeIntializers/DimaondInit.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/upgradeIntializers/DimaondInit.sol": {
+      "lastModificationDate": 1697518310673,
       "contentHash": "6f0439583a118616501666a4a9b4f981",
       "sourceName": "contracts/DiamondStuff/upgradeIntializers/DimaondInit.sol",
       "solcConfig": {
@@ -1625,8 +1491,8 @@
         "DiamondInit"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Diamond/DiamondLoupeFacet.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/DiamondLoupeFacet.sol": {
+      "lastModificationDate": 1697523906453,
       "contentHash": "5f52248b443119da08af8af54e3b2d9e",
       "sourceName": "contracts/Facets/Diamond/DiamondLoupeFacet.sol",
       "solcConfig": {
@@ -1672,8 +1538,8 @@
         "DiamondLoupeFacet"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Diamond/DiamondCutFacet.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/DiamondCutFacet.sol": {
+      "lastModificationDate": 1697523898043,
       "contentHash": "c987d48510ca476fd883d6ad66e47dda",
       "sourceName": "contracts/Facets/Diamond/DiamondCutFacet.sol",
       "solcConfig": {
@@ -1718,8 +1584,8 @@
         "DiamondCutFacet"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/DiamondStuff/upgradeIntializers/DiamondMultiInit.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/DiamondStuff/upgradeIntializers/DiamondMultiInit.sol": {
+      "lastModificationDate": 1697518234973,
       "contentHash": "a5764151d3fa671fec942b69969ba424",
       "sourceName": "contracts/DiamondStuff/upgradeIntializers/DiamondMultiInit.sol",
       "solcConfig": {
@@ -1763,9 +1629,9 @@
         "DiamondMultiInit"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Diamond/Test1Facet.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "bb7bcc319f4bf29291ed34d5c5d4fdd8",
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/Test1Facet.sol": {
+      "lastModificationDate": 1697696479925,
+      "contentHash": "3fef12b89b7daa299c0f0e84f0740fee",
       "sourceName": "contracts/Facets/Diamond/Test1Facet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1807,9 +1673,9 @@
         "TestLib"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Hyperlane/EmptyISM.sol": {
-      "lastModificationDate": 1697655409318,
-      "contentHash": "f96ae18b5b8aec72d395263f195f6c1f",
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Hyperlane/EmptyISM.sol": {
+      "lastModificationDate": 1697783466871,
+      "contentHash": "30269c0814a2c801368e9ae162bf5927",
       "sourceName": "contracts/Facets/Hyperlane/EmptyISM.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1843,7 +1709,7 @@
         }
       },
       "imports": [
-        "./IInterchainSecurityModule.sol"
+        "./Interfaces/IInterchainSecurityModule.sol"
       ],
       "versionPragmas": [
         ">=0.6.11"
@@ -1852,10 +1718,144 @@
         "EmptyIsm"
       ]
     },
-    "/home/thegnome/cryptoTIme/Block-DeFi/contracts/Facets/Hyperlane/IInterchainSecurityModule.sol": {
-      "lastModificationDate": 1697655409318,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Hyperlane/HyperFacet.sol": {
+      "lastModificationDate": 1697694885885,
+      "contentHash": "2f209c2074d8ebf9807583c2fefb914a",
+      "sourceName": "contracts/Facets/Hyperlane/HyperFacet.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "./Interfaces/IMailbox.sol",
+        "./Interfaces/IInterchainGasPaymaster.sol",
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "HyperFacet",
+        "HyperLib"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Hyperlane/Interfaces/IMailbox.sol": {
+      "lastModificationDate": 1697692239381,
+      "contentHash": "392d917c63607b5e2a7787c860e04e45",
+      "sourceName": "contracts/Facets/Hyperlane/Interfaces/IMailbox.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.8.0"
+      ],
+      "artifacts": [
+        "IMailbox"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Hyperlane/Interfaces/IInterchainGasPaymaster.sol": {
+      "lastModificationDate": 1697692239361,
+      "contentHash": "92512917df8a9ead7f7bb440f17f30eb",
+      "sourceName": "contracts/Facets/Hyperlane/Interfaces/IInterchainGasPaymaster.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.6.11"
+      ],
+      "artifacts": [
+        "IInterchainGasPaymaster"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Hyperlane/Interfaces/IInterchainSecurityModule.sol": {
+      "lastModificationDate": 1697692239371,
       "contentHash": "62e3abe6c41454a5fb3ea2c6dade30f8",
-      "sourceName": "contracts/Facets/Hyperlane/IInterchainSecurityModule.sol",
+      "sourceName": "contracts/Facets/Hyperlane/Interfaces/IInterchainSecurityModule.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -1893,6 +1893,93 @@
       ],
       "artifacts": [
         "IInterchainSecurityModule"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/IImportantTypes.sol": {
+      "lastModificationDate": 1697696632325,
+      "contentHash": "8f0a656e506e5dc84c25488da3cca396",
+      "sourceName": "contracts/Facets/IImportantTypes.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.8.10"
+      ],
+      "artifacts": [
+        "IImportantTypes"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/ManagerFacet.sol": {
+      "lastModificationDate": 1697745710711,
+      "contentHash": "29b3a79f0faab1d29dbcd0846ee145da",
+      "sourceName": "contracts/Facets/ManagerFacet.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ManagerFacet",
+        "ManagerLib"
       ]
     }
   }
