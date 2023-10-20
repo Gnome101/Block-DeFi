@@ -38,4 +38,8 @@ library LeverageLib {
     }
 }
 
-contract LeverageFacet {}
+contract LeverageFacet {
+    function leverageUp() external {
+        LeverageLib.leverageUp();
+    }
+}

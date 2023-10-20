@@ -223,4 +223,30 @@ contract UniswapFacet {
     ) external returns (int128, int128) {
         return UniswapLib.processCallBack(data);
     }
+
+    function setPoolManager(address managerAddy) external {
+        UniswapLib.setPoolManager(managerAddy);
+    }
+
+    function swap(
+        PoolKey calldata poolKey,
+        IPoolManager.SwapParams calldata swapParams
+    ) external returns (int256, int256) {
+        return UniswapLib.swap(poolKey, swapParams);
+    }
+
+    function closePosition(
+        PoolKey calldata poolKey,
+        int24 lowerBound,
+        int24 upperBound
+    ) external returns (int128, int128) {
+        return UniswapLib.closePosition(poolKey, lowerBound, upperBound);
+    }
+
+    function liquidityAdd(
+        PoolKey calldata poolKey,
+        IPoolManager.ModifyPositionParams calldata modifyLiquidtyParamss
+    ) external returns (int256, int256) {
+        return UniswapLib.liquidityAdd(poolKey, modifyLiquidtyParamss);
+    }
 }

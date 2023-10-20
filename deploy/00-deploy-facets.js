@@ -6,6 +6,15 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("------------------------------------------------------------");
   let args = [];
   console.log("Chain ID", network.config.chainId);
+  //Deploy Pool Manager (Big Boy!!)
+  args = [500000];
+  const PoolManager = await deploy("PoolManager", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+  args = [];
   //Deploying Hook-Factory
   const UniswapHooksFactory = await deploy("UniswapHooksFactory", {
     from: deployer,
@@ -57,6 +66,27 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
 
   const HyperFacet = await deploy("HyperFacet", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+
+  const LeverageFacet = await deploy("LeverageFacet", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+
+  const ManagerFacet = await deploy("ManagerFacet", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+
+  const UniswapFacet = await deploy("UniswapFacet", {
     from: deployer,
     args: args,
     log: true,

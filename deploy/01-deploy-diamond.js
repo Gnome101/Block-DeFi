@@ -43,13 +43,32 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
 
   const hyperFacet = await ethers.getContract("HyperFacet");
-  console.log(hyperFacet.target);
   facetCut.push({
     facetAddress: hyperFacet.target,
     action: FacetCutAction.Add,
     functionSelectors: getSelectors(hyperFacet),
   });
-  console.log(getSelectors(hyperFacet));
+
+  const leverageFacet = await ethers.getContract("LeverageFacet");
+  facetCut.push({
+    facetAddress: leverageFacet.target,
+    action: FacetCutAction.Add,
+    functionSelectors: getSelectors(leverageFacet),
+  });
+
+  const managerFacet = await ethers.getContract("ManagerFacet");
+  facetCut.push({
+    facetAddress: managerFacet.target,
+    action: FacetCutAction.Add,
+    functionSelectors: getSelectors(managerFacet),
+  });
+
+  const uniswapFacet = await ethers.getContract("UniswapFacet");
+  facetCut.push({
+    facetAddress: uniswapFacet.target,
+    action: FacetCutAction.Add,
+    functionSelectors: getSelectors(uniswapFacet),
+  });
   //Now that all of the facets and their cut data is organized we continue
   let functionCall = diamondInit.interface.encodeFunctionData("init");
 
