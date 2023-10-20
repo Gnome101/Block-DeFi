@@ -49,11 +49,40 @@ library UniswapLib {
         uniswapState.poolManager = IPoolManager(managerAddy);
     }
 
+    function determineZeroForOne(
+        address tokenFrom,
+        address tokenTo
+    ) internal pure returns (bool, address, address) {
+        if (tokenFrom < tokenTo) {
+            //TokenFrom is token 0
+            //TokenTo is token 1
+            //Therefore  zeroForOne is true
+            return (true, tokenFrom, tokenTo);
+        } else {
+            return (false, tokenTo, tokenFrom);
+        }
+    }
+
     function swap(
-        PoolKey calldata poolKey,
-        IPoolManager.SwapParams calldata swapParams
+        address tokenFrom,
+        address tokenTo,
+        int256 amount
     ) internal returns (int256, int256) {
         UniswapState storage uniswapState = diamondStorage();
+        (bool zeroForOne, address token0, address token1) = determineZeroForOne(
+            tokenFrom,
+            tokenTo
+        );
+        PoolKey memory poolKey = uniswapState.tokensToPool[token0][token1];
+        IPoolManager.SwapParams memory swapParams = IPoolManager.SwapParams({
+            zeroForOne: zeroForOne,
+            amountSpecified: amount,
+            sqrtPriceLimitX96: zeroForOne
+                ? TickMath.MIN_SQRT_RATIO + 1
+                : TickMath.MAX_SQRT_RATIO - 1
+        });
+        //Want to avoid sqrtPriceLimit
+
         uniswapState.swaps[uniswapState.swapCounter] = swapParams;
 
         bytes memory res = uniswapState.poolManager.lock(
@@ -162,6 +191,18 @@ library UniswapLib {
         );
 
         return abi.decode(res, (int256, int256));
+    }
+
+    function initializePool(
+        PoolKey memory poolkey,
+        uint160 poolStartPrice,
+        bytes memory hookData
+    ) internal {
+        UniswapState storage uniswapState = diamondStorage();
+        address token0 = Currency.unwrap(poolkey.currency0);
+        address token1 = Currency.unwrap(poolkey.currency1);
+        uniswapState.tokensToPool[token0][token1] = poolkey;
+        uniswapState.poolManager.initialize(poolkey, poolStartPrice, hookData);
     }
 
     function completeLiquidtyAdd(
@@ -273,10 +314,11 @@ contract UniswapFacet {
     }
 
     function swap(
-        PoolKey calldata poolKey,
-        IPoolManager.SwapParams calldata swapParams
+        address tokenFrom,
+        address tokenTo,
+        int256 amount
     ) external returns (int256, int256) {
-        return UniswapLib.swap(poolKey, swapParams);
+        return UniswapLib.swap(tokenFrom, tokenTo, amount);
     }
 
     function closePosition(
