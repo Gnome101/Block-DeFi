@@ -3218,8 +3218,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/UniswapFacet.sol": {
-      "lastModificationDate": 1697835227100,
-      "contentHash": "40782ed1883f9c5a59316746275a3c82",
+      "lastModificationDate": 1697842042230,
+      "contentHash": "b1414a5bb921e9d8b330e0357d2e9273",
       "sourceName": "contracts/Facets/UniswapFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3257,6 +3257,7 @@
         "@uniswap/v4-core/contracts/types/Currency.sol",
         "@uniswap/v4-core/contracts/types/PoolId.sol",
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
         "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
         "hardhat/console.sol",
         "@uniswap/v3-periphery/contracts/interfaces/external/IWETH9.sol",
@@ -3492,6 +3493,51 @@
       ],
       "artifacts": [
         "FixedPoint96"
+      ]
+    },
+    "/home/gnome2/crpyto-stuff/Block-Defi/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+      "lastModificationDate": 1697517840593,
+      "contentHash": "909ab67fc5c25033fe6cd364f8c056f9",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [
+        "../IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20Metadata"
       ]
     }
   }

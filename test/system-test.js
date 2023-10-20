@@ -1,9 +1,11 @@
 /* global describe it before ethers */
 const { ethers } = require("hardhat");
-const { calculateSqrtPriceX96 } = require("../utils/uniswapCalculations");
+const {
+  calculateSqrtPriceX96,
+  getNearestUsableTick,
+} = require("../utils/uniswapCalculations");
 const { assert } = require("chai");
-const Big = require("big.js");
-
+const Decimal = require("decimal.js");
 describe("System Test ", async function () {
   let Diamond;
   let testFacet;
@@ -146,36 +148,52 @@ describe("System Test ", async function () {
         tickSpacing: "60",
         hooks: hook,
       };
-      const price = 1;
-      const sqrtPrice = calculateSqrtPriceX96(price, 6, 18);
+      //const sqrtPrice = calculateSqrtPriceX96(price, 6, 18);
+      const currentTick = getNearestUsableTick(
+        202494, //Tick copied from the V3 Pool
+
+        parseInt(poolKey.tickSpacing)
+      );
+
+      let price = Decimal.pow(1.0001, 202494);
+      let dividor = Decimal.pow(10, 12);
+      let res = price.dividedBy(dividor);
+
+      res = new Decimal(1).dividedBy(res);
+      console.log(res.toFixed());
+      let sqrtPrice = await uniswapFacet.getSqrtAtTick(currentTick);
+      sqrtPrice = new Decimal(sqrtPrice.toString());
       // const a = await poolManager.initialize.staticCall(
       //   poolKey,
       //   sqrtPrice.toFixed(),
       //   "0x"
       // );
       // console.log(a.toString());
+      console.log(addresses[0], addresses[1]);
       await uniswapFacet.initializePool(
         addresses[0].toString().trim(),
         addresses[1].toString().trim(),
         sqrtPrice.toFixed(),
         "0x"
       );
-      const lowerTick = 0 - parseInt(poolKey.tickSpacing) * 30;
-      const upperTick = 0 + parseInt(poolKey.tickSpacing) * 30;
+
+      const lowerTick = currentTick - parseInt(poolKey.tickSpacing) * 30;
+      const upperTick = currentTick + parseInt(poolKey.tickSpacing) * 30;
       //Since price is basically 1:1
       //we will just use an even amount
-      const ten = new Big(10);
-      const wethDecimals = ten.pow(18);
-      const usdcDecimals = ten.pow(6);
+      const wethDecimals = Decimal.pow(10, 18);
+      const usdcDecimals = Decimal.pow(10, 6);
 
-      let wethAmount = new Big(5);
-      const bigPrice = new Big(price);
-      let usdcAmount = wethAmount.times(bigPrice);
+      let wethAmount = new Decimal(19.5);
+
+      let usdcAmount = wethAmount.times(res);
       wethAmount = wethAmount.times(wethDecimals).round();
       usdcAmount = usdcAmount.times(usdcDecimals).round();
       await USDC.transfer(diamondAddress, usdcAmount.toFixed());
-
+      wethAmount = new Decimal(19.52);
+      wethAmount = wethAmount.times(wethDecimals).round();
       await WETH.transfer(diamondAddress, wethAmount.toFixed());
+
       await uniswapFacet.addLiquidty(
         WETH.target,
         USDC.target,
@@ -184,8 +202,32 @@ describe("System Test ", async function () {
         wethAmount.toFixed(),
         usdcAmount.toFixed()
       );
+      let liq = await uniswapFacet.getPoolLiquidity(USDC.target, WETH.target);
+      console.log("Liquidity", liq.toString());
       const swapAmount = ethers.parseEther("1");
-      await uniswapFacet.swap(WETH.target, USDC.target.swapAmount.toString());
+      console.log(swapAmount.toString());
+
+      console.log(
+        "Balance Before",
+        (await USDC.balanceOf(deployer.address)).toString()
+      );
+      await WETH.transfer(diamondAddress, swapAmount.toString());
+
+      await uniswapFacet.swap(WETH.target, USDC.target, swapAmount.toString());
+      console.log(
+        "Balance After",
+        (await USDC.balanceOf(deployer.address)).toString()
+      );
+
+      await uniswapFacet.closePosition(
+        USDC.target,
+        WETH.target,
+        lowerTick,
+        upperTick
+      );
+
+      liq = await uniswapFacet.getPoolLiquidity(USDC.target, WETH.target);
+      console.log("Liquidity", liq.toString());
     });
   });
 });

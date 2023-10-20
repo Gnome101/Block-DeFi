@@ -4,6 +4,8 @@ import {IPoolManager, BalanceDelta} from "@uniswap/v4-core/contracts/PoolManager
 import {Currency, CurrencyLibrary} from "@uniswap/v4-core/contracts/types/Currency.sol";
 import {PoolKey, PoolId} from "@uniswap/v4-core/contracts/types/PoolId.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "hardhat/console.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/external/IWETH9.sol";
@@ -68,7 +70,7 @@ library UniswapLib {
         address tokenFrom,
         address tokenTo,
         int256 amount
-    ) internal returns (int256, int256) {
+    ) internal returns (int256, int256, bool) {
         UniswapState storage uniswapState = diamondStorage();
         (bool zeroForOne, address token0, address token1) = determineZeroForOne(
             tokenFrom,
@@ -85,8 +87,7 @@ library UniswapLib {
         //Want to avoid sqrtPriceLimit
 
         uniswapState.swaps[uniswapState.swapCounter] = swapParams;
-
-        bytes memory res = uniswapState.poolManager.lock(
+        bytes memory result = uniswapState.poolManager.lock(
             abi.encode(
                 msg.sender,
                 poolKey,
@@ -94,8 +95,9 @@ library UniswapLib {
                 uniswapState.swapCounter
             )
         );
+        (int128 t0, int128 t1) = abi.decode(result, (int128, int128));
 
-        return abi.decode(res, (int256, int256));
+        return (t0, t1, zeroForOne);
     }
 
     function closePosition(
@@ -119,7 +121,7 @@ library UniswapLib {
         uniswapState.modLiqs[uniswapState.liqCounter] = IPoolManager
             .ModifyPositionParams(lowerBound, upperBound, -liquidtyAmount);
         //Negative so that we remove that amount of liqudity
-        uniswapState.liqCounter++;
+
         bytes memory res = uniswapState.poolManager.lock(
             abi.encode(
                 msg.sender,
@@ -130,7 +132,7 @@ library UniswapLib {
         );
         uniswapState.liqCounter++;
         (int128 t0, int128 t1) = abi.decode(res, (int128, int128));
-        //console.log(t0, t1);
+
         return (t0, t1);
     }
 
@@ -167,8 +169,6 @@ library UniswapLib {
         uint256 token1Amount
     ) internal returns (int256, int256) {
         UniswapState storage uniswapState = diamondStorage();
-        console.log(IERC20(token0).balanceOf(address(this)));
-        console.log(IERC20(token1).balanceOf(address(this)));
 
         (token0, token1, token0Amount, token1Amount) = getTokens(
             token0,
@@ -176,6 +176,7 @@ library UniswapLib {
             token0Amount,
             token1Amount
         );
+
         // SafeERC20.safeTransferFrom(
         //     token0,
         //     msg.sender,
@@ -197,7 +198,6 @@ library UniswapLib {
         );
         //Need to get ID from pool key
         (uint160 startPrice, , , ) = uniswapState.poolManager.getSlot0(id);
-
         int256 liquidtyDelta = int256(
             int128(
                 getLiquidtyAmount(
@@ -261,7 +261,6 @@ library UniswapLib {
             uniswapState.modLiqs[counter],
             "0x"
         );
-
         uniswapState.liqCounter++;
         _settleCurrencyBalance(poolKey.currency0, delta.amount0());
         _settleCurrencyBalance(poolKey.currency1, delta.amount1());
@@ -281,12 +280,14 @@ library UniswapLib {
         //Need to decode the data that was just sent from the Pool Manager after we called swap or liquidtyAdd
         int128 t0Amount;
         int128 t1Amount;
+
         if (action == ActionType.Swap) {
             (t0Amount, t1Amount) = completeSwap(poolKey, counter);
         } else {
             (t0Amount, t1Amount) = completeLiquidtyAdd(poolKey, counter);
         }
         info = abi.encode(t0Amount, t1Amount);
+
         SafeERC20.safeTransfer(
             IERC20(Currency.unwrap(poolKey.currency0)),
             user,
@@ -367,6 +368,22 @@ library UniswapLib {
             token1Amount
         );
     }
+
+    function getPoolLiquidity(
+        address token0,
+        address token1
+    ) internal view returns (uint128) {
+        UniswapState storage uniswapState = diamondStorage();
+        (token0, token1) = getTokens(token0, token1);
+        PoolKey memory poolKey = uniswapState.tokensToPool[token0][token1];
+        PoolId id = PoolIdLibrary.toId(poolKey);
+        uint128 liq = uniswapState.poolManager.getLiquidity(id);
+        return liq;
+    }
+
+    function getSqrtAtTick(int24 tick) internal pure returns (uint160) {
+        return TickMath.getSqrtRatioAtTick(tick);
+    }
 }
 
 contract UniswapFacet {
@@ -382,7 +399,10 @@ contract UniswapFacet {
         address tokenFrom,
         address tokenTo,
         int256 amount
-    ) external returns (int256, int256) {
+    )
+        external
+        returns (int256 token0Amount, int256 token1Amount, bool zeroForOne)
+    {
         return UniswapLib.swap(tokenFrom, tokenTo, amount);
     }
 
@@ -391,7 +411,7 @@ contract UniswapFacet {
         address token1,
         int24 lowerBound,
         int24 upperBound
-    ) external returns (int128, int128) {
+    ) external returns (int256 token0Amount, int256 token1Amount) {
         return UniswapLib.closePosition(token0, token1, lowerBound, upperBound);
     }
 
@@ -402,7 +422,7 @@ contract UniswapFacet {
         int24 tickUpper,
         uint256 token0Amount,
         uint256 token1Amount
-    ) external returns (int256, int256) {
+    ) external returns (int256 token0Used, int256 token1Used) {
         return
             UniswapLib.addLiquidty(
                 token0,
@@ -421,5 +441,16 @@ contract UniswapFacet {
         bytes calldata hookData
     ) external {
         UniswapLib.initializePool(token0, token1, poolStartPrice, hookData);
+    }
+
+    function getPoolLiquidity(
+        address token0,
+        address token1
+    ) external view returns (uint128) {
+        return UniswapLib.getPoolLiquidity(token0, token1);
+    }
+
+    function getSqrtAtTick(int24 tick) external pure returns (uint160) {
+        return UniswapLib.getSqrtAtTick(tick);
     }
 }
