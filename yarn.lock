@@ -1678,6 +1678,11 @@ big-decimal@^1.0.2:
   resolved "https://registry.yarnpkg.com/big-decimal/-/big-decimal-1.0.2.tgz#dc546ea265ca89dfd70b0d2fd40acaa736cc848d"
   integrity sha512-tEfKTqORhsN5OADKPFCf720OJfWPVSL29RbN4IKzFooTSVtppMYXhegkXmO8RYre1eLW8Kj7NLqNJM0jVwqm3Q==
 
+big.js@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/big.js/-/big.js-6.2.1.tgz#7205ce763efb17c2e41f26f121c420c6a7c2744f"
+  integrity sha512-bCtHMwL9LeDIozFn+oNhhFoq+yQ3BNdnsLSASUxLciOb1vgvpHsIO1dsENiGMgbb4SkP5TrzWzRiLddn8ahVOQ==
+
 bigint-crypto-utils@^3.0.23:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/bigint-crypto-utils/-/bigint-crypto-utils-3.3.0.tgz#72ad00ae91062cf07f2b1def9594006c279c1d77"

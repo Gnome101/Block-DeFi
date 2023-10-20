@@ -8,8 +8,10 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 import "hardhat/console.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/external/IWETH9.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
-
+import "@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol";
+import "@uniswap/v4-core/contracts/libraries/TickMath.sol";
 import "@uniswap/v4-core/contracts/types/PoolId.sol";
+
 struct position {
     int24 lowerBound;
     int24 upperBound;
@@ -32,6 +34,7 @@ library UniswapLib {
         uint256 swapCounter;
         uint256 liqCounter;
         mapping(address => position[]) userPositions;
+        mapping(address => mapping(address => PoolKey)) tokensToPool;
     }
 
     function diamondStorage() internal pure returns (UniswapState storage ds) {
@@ -117,12 +120,37 @@ library UniswapLib {
         return (t0, t1);
     }
 
-    function liquidityAdd(
+    function addLiquidty(
         PoolKey calldata poolKey,
-        IPoolManager.ModifyPositionParams calldata modifyLiquidtyParamss
+        int24 tickLower,
+        int24 tickUpper,
+        uint256 token0Amount,
+        uint256 token1Amount
     ) internal returns (int256, int256) {
         UniswapState storage uniswapState = diamondStorage();
-        uniswapState.modLiqs[uniswapState.liqCounter] = modifyLiquidtyParamss;
+
+        //Need to get ID from pool key
+        PoolId id = PoolIdLibrary.toId(poolKey);
+        (uint160 startPrice, , , ) = uniswapState.poolManager.getSlot0(id);
+
+        int256 liquidtyDelta = int256(
+            int128(
+                getLiquidtyAmount(
+                    TickMath.getSqrtRatioAtTick(tickLower),
+                    TickMath.getSqrtRatioAtTick(tickUpper),
+                    startPrice,
+                    token0Amount,
+                    token1Amount
+                )
+            )
+        );
+        IPoolManager.ModifyPositionParams
+            memory modifyLiquidtyParams = IPoolManager.ModifyPositionParams({
+                tickLower: tickLower,
+                tickUpper: tickUpper,
+                liquidityDelta: liquidtyDelta
+            });
+        uniswapState.modLiqs[uniswapState.liqCounter] = modifyLiquidtyParams;
 
         bytes memory res = uniswapState.poolManager.lock(
             abi.encode(
@@ -215,6 +243,22 @@ library UniswapLib {
         );
         uniswapState.poolManager.settle(currency);
     }
+
+    function getLiquidtyAmount(
+        uint160 lowerPrice,
+        uint160 upperPrice,
+        uint160 currentPrice,
+        uint256 token0Amount,
+        uint256 token1Amount
+    ) internal view returns (uint128 liq) {
+        liq = LiquidityAmounts.getLiquidityForAmounts(
+            lowerPrice,
+            upperPrice,
+            currentPrice,
+            token0Amount,
+            token1Amount
+        );
+    }
 }
 
 contract UniswapFacet {
@@ -243,10 +287,20 @@ contract UniswapFacet {
         return UniswapLib.closePosition(poolKey, lowerBound, upperBound);
     }
 
-    function liquidityAdd(
+    function addLiquidty(
         PoolKey calldata poolKey,
-        IPoolManager.ModifyPositionParams calldata modifyLiquidtyParamss
+        int24 tickLower,
+        int24 tickUpper,
+        uint256 token0Amount,
+        uint256 token1Amount
     ) external returns (int256, int256) {
-        return UniswapLib.liquidityAdd(poolKey, modifyLiquidtyParamss);
+        return
+            UniswapLib.addLiquidty(
+                poolKey,
+                tickLower,
+                tickUpper,
+                token0Amount,
+                token1Amount
+            );
     }
 }

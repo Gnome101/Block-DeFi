@@ -1,6 +1,6 @@
 /* global describe it before ethers */
 const { ethers } = require("hardhat");
-
+const { calculateSqrtPriceX96 } = require("../utils/uniswapCalculations");
 const { assert } = require("chai");
 const bigDecimal = require("js-big-decimal");
 
@@ -138,11 +138,22 @@ describe("System Test ", async function () {
       addresses.sort();
       const hook = "0x0000000000000000000000000000000000000000";
       const poolKey = {
-        currency0: adresses[0].toString().trim(),
-        currency1: adresses[1].toString().trim(),
+        currency0: addresses[0].toString().trim(),
+        currency1: addresses[1].toString().trim(),
         fee: "3000",
         tickSpacing: "60",
         hooks: hook,
+      };
+      const sqrtPrice = calculateSqrtPriceX96(1, 18, 18);
+      console.log(sqrtPrice.toFixed());
+      await poolManager.initialize(poolKey, sqrtPrice.toFixed(), "0x");
+      const lowerTick = 0 - parseInt(poolKey.tickSpacing) * 10;
+      const upperTick = 0 + parseInt(poolKey.tickSpacing) * 10;
+
+      const ModifyPositionParams = {
+        tickLower: lowerTick,
+        tickUpper: upperTick,
+        liquidityDelta: 0,
       };
     });
   });
