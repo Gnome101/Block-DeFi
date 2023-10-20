@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "comet/contracts/CometMainInterface.sol";
 import {IPoolManager, BalanceDelta} from "@uniswap/v4-core/contracts/PoolManager.sol";
 import {Currency, CurrencyLibrary} from "@uniswap/v4-core/contracts/types/Currency.sol";
 import {PoolKey, PoolId} from "@uniswap/v4-core/contracts/types/PoolId.sol";
@@ -12,7 +11,6 @@ library LeverageLib {
         keccak256("diamond.leverage.storage");
 
     struct LeverageState {
-        CometMainInterface comet;
         IPoolManager poolManager;
     }
 
@@ -23,19 +21,30 @@ library LeverageLib {
         }
     }
 
-    function setComet(address cometAddy) internal {
+    function setPoolManager(address managerAddy) internal {
         LeverageState storage leverageState = diamondStorage();
-        leverageState.comet = CometMainInterface(cometAddy);
+        leverageState.poolManager = IPoolManager(managerAddy);
     }
 
-    function leverageUp() internal {
-        LeverageState storage leverageState = diamondStorage();
-        CometMainInterface comet = leverageState.comet;
-        //First we need to call swap on v4 pool
-        //Then we need to call supply with the amount we recieved
-        //Then we need to call withdraw to take the new tokens out
-        //Then we use the tokens withdrawn to pay off the v4 swap
-    }
+    function startSwap(
+        PoolKey calldata poolKey,
+        IPoolManager.SwapParams calldata swapParams
+    ) internal returns (int256, int256) {}
+
+    function completeSwap(
+        PoolKey calldata poolKey,
+        IPoolManager.SwapParams calldata swapParams
+    ) internal returns (int256, int256) {}
+
+    function startLiquidtyAdd(
+        PoolKey calldata poolKey,
+        IPoolManager.SwapParams calldata swapParams
+    ) internal returns (int256, int256) {}
+
+    function completeLiquidtyAdd(
+        PoolKey calldata poolKey,
+        IPoolManager.SwapParams calldata swapParams
+    ) internal returns (int256, int256) {}
 }
 
-contract LeverageFacet {}
+contract UniswapFacet {}
