@@ -7,6 +7,8 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "hardhat/console.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/external/IWETH9.sol";
+import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
+
 import "@uniswap/v4-core/contracts/types/PoolId.sol";
 struct position {
     int24 lowerBound;

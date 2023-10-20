@@ -53,6 +53,8 @@ describe("System Test ", async function () {
       const WETH = await ethers.getContractAt("IWETH9", wethAddress);
       await WETH.deposit({ value: amount });
       console.log((await WETH.balanceOf(deployer.address)).toString());
+      const swapAddy = "0xE592427A0AEce92De3Edee1F18E0157C05861564";
+      const swapRouter = await ethers.getContractAt("ISwapRouter", swapAddy);
     });
   });
 });
