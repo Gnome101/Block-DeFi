@@ -47,6 +47,11 @@ library SparkLib {
         sparkState.pool.borrow(asset, amount, 2, 0, address(this));
     }
 
+    function withdraw(address asset, uint256 amount) internal {
+        SparkState storage sparkState = diamondStorage();
+        sparkState.pool.withdraw(asset, amount, address(this));
+    }
+
     function getUserAccountData(
         address user
     )
@@ -151,32 +156,103 @@ library SparkLib {
         //Then we use the tokens withdrawn to pay off the v4 swap
     }
 
-    function closePosition(
-        address providedToken, //USDC
-        address collateral, //WETH
-        uint256 counter
+    function completeLeverageClose(
+        PoolKey memory poolKey,
+        uint256 counter,
+        address user
     ) internal {
+        SparkState storage sparkState = diamondStorage();
+
+        UniswapLib.UniswapState storage uniswapState = UniswapLib
+            .diamondStorage();
+        BalanceDelta delta;
+
+        UniswapLib.FlashLeverage memory leverageInfo = uniswapState.leveragePos[
+            counter
+        ];
+
+        delta = uniswapState.poolManager.swap(
+            poolKey,
+            uniswapState.swaps[counter],
+            "0x"
+        );
+        uint128 amountNeededToBorrow;
+        if (leverageInfo.providedToken < leverageInfo.collateral) {
+            //Provided token is t0
+            //We receved collateral
+            UniswapLib._settleCurrencyBalance(
+                poolKey.currency1,
+                delta.amount1()
+            );
+            amountNeededToBorrow = uint128(delta.amount0());
+        } else {
+            UniswapLib._settleCurrencyBalance(
+                poolKey.currency0,
+                delta.amount0()
+            );
+            amountNeededToBorrow = uint128(delta.amount1());
+        }
+        console.log(amountNeededToBorrow);
+        repay(leverageInfo.collateral, type(uint).max);
+        console.log(
+            IERC20(leverageInfo.providedToken).balanceOf(address(this))
+        );
+
+        withdraw(leverageInfo.providedToken, type(uint).max);
+        console.log(
+            IERC20(leverageInfo.providedToken).balanceOf(address(this))
+        );
+        sparkState.compPositons[sparkState.posCounter] = levPos({
+            userAmount: leverageInfo.userAmount,
+            swapAmount: leverageInfo.swapAmount,
+            borrowedAmount: amountNeededToBorrow,
+            collateral: leverageInfo.collateral,
+            providedToken: leverageInfo.providedToken
+        });
+        sparkState.userPositions[user].push(sparkState.posCounter);
+        sparkState.posCounter++;
+
+        UniswapLib._settleCurrencyBalance(
+            Currency.wrap(leverageInfo.providedToken),
+            int128(amountNeededToBorrow)
+        );
+        //withdraw(leverageInfo.collateral,)
+        //Then we need to call supply with the amount we recieved
+        //Then we need to call withdraw to take the new tokens out
+        //Then we use the tokens withdrawn to pay off the v4 swap
+    }
+
+    function repay(address asset, uint256 amount) internal {
+        SparkState storage sparkState = diamondStorage();
+        IERC20(asset).approve(address(sparkState.pool), amount);
+        sparkState.pool.repay(asset, amount, 2, address(this));
+    }
+
+    function closePosition(uint256 counter) internal {
         SparkState storage sparkState = diamondStorage();
         UniswapLib.UniswapState storage uniswapState = UniswapLib
             .diamondStorage();
+        address providedToken = sparkState.compPositons[counter].collateral;
+        address collateral = sparkState.compPositons[counter].providedToken;
 
         uint256 collateralBalanceBefore = IERC20(providedToken).balanceOf(
             address(uniswapState.poolManager)
         );
-        (uint256 amountOwed, , , , , ) = getUserAccountData(address(this));
+        (, uint256 amountOwedDai, , , , ) = getUserAccountData(address(this));
+        amountOwedDai = amountOwedDai * 10 ** 10;
         UniswapLib.FlashLeverage memory leverageInfo = UniswapLib
             .FlashLeverage({
                 collateral: collateral,
                 providedToken: providedToken,
                 userAmount: 0,
-                swapAmount: amountOwed
+                swapAmount: amountOwedDai
             });
         //Swap has been called
         bytes memory data = UniswapLib.flashSwapTokens(
             providedToken,
             collateral,
-            -int256(amountOwed),
-            ActionType.SparkLeverage,
+            -int256(amountOwedDai),
+            ActionType.SparkLeverageClose,
             leverageInfo
         );
 
@@ -188,8 +264,14 @@ library SparkLib {
             collateralBalanceAfter,
             collateralBalanceBefore
         );
+    }
 
-        console.log("WITHDRAW!!");
+    function getHF() internal returns (uint256) {
+        SparkState storage sparkState = diamondStorage();
+        (, , , , , uint256 HF) = sparkState.pool.getUserAccountData(
+            (address(this))
+        );
+        return HF;
     }
 }
 
@@ -239,11 +321,11 @@ contract SparkFacet {
         );
     }
 
-    function closePositionSpark(
-        address providedToken, //USDC
-        address collateral, //WETH
-        uint256 counter
-    ) external {
-        SparkLib.closePosition(providedToken, collateral, counter);
+    function closePositionSpark(uint256 counter) external {
+        SparkLib.closePosition(counter);
+    }
+
+    function getHF() internal returns (uint256) {
+        return SparkLib.getHF();
     }
 }

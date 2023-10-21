@@ -25,7 +25,8 @@ enum ActionType {
     Swap,
     LiquidityChange,
     CompLeverage,
-    SparkLeverage
+    SparkLeverage,
+    SparkLeverageClose
 }
 
 library UniswapLib {
@@ -183,8 +184,26 @@ library UniswapLib {
         address token0,
         address token1,
         int24 lowerBound,
-        int24 upperBound
-    ) internal {}
+        int24 upperBound,
+        int24 newlowerBound,
+        int24 newUpperBound
+    ) internal {
+        (int128 t0Recieved, int128 t1Recieved) = closePosition(
+            token0,
+            token1,
+            lowerBound,
+            upperBound
+        );
+
+        addLiquidty(
+            token0,
+            token1,
+            newlowerBound,
+            newUpperBound,
+            uint256(uint128(t0Recieved)),
+            uint256(uint128(t1Recieved))
+        );
+    }
 
     function getTokens(
         address token0Maybe,
@@ -338,9 +357,10 @@ library UniswapLib {
         } else if (action == ActionType.CompLeverage) {
             console.log("Whats going");
             LeverageLib.completeLeverage(poolKey, counter, user);
-        } else {
-            console.log("Sparks flying!");
+        } else if (action == ActionType.SparkLeverage) {
             SparkLib.completeLeverage(poolKey, counter, user);
+        } else {
+            SparkLib.completeLeverageClose(poolKey, counter, user);
         }
         info = abi.encode(t0Amount, t1Amount);
 
@@ -441,9 +461,20 @@ library UniswapLib {
         return TickMath.getSqrtRatioAtTick(tick);
     }
 
-    function returnBounds(address token0, address token1) internal returns(int24 lower,int24 upper){
+    function returnBounds()
+        internal
+        view
+        returns (uint160 lower, uint160 upper)
+    {
         UniswapState storage uniswapState = diamondStorage();
-        
+        return (
+            TickMath.getSqrtRatioAtTick(
+                uniswapState.userPositions[address(this)][0].lowerBound
+            ),
+            TickMath.getSqrtRatioAtTick(
+                uniswapState.userPositions[address(this)][0].upperBound
+            )
+        );
     }
 }
 
@@ -520,5 +551,13 @@ contract UniswapFacet {
 
     function getSqrtAtTick(int24 tick) external pure returns (uint160) {
         return UniswapLib.getSqrtAtTick(tick);
+    }
+
+    function returnBounds()
+        external
+        view
+        returns (uint160 lower, uint160 upper)
+    {
+        return UniswapLib.returnBounds();
     }
 }

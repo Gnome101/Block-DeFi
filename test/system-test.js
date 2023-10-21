@@ -487,7 +487,7 @@ describe("System Test ", async function () {
         let liq = await uniswapFacet.getPoolLiquidity(DAI.target, WETH.target);
         console.log("Liquidity", liq.toString());
       });
-      it("can leverage up ", async () => {
+      it("can leverage up 512", async () => {
         console.log("-----------------------------------");
         console.log("  Oh yeah, its leverage time\n");
         let decimalAdj = Decimal.pow(10, 18);
@@ -503,6 +503,10 @@ describe("System Test ", async function () {
           swapAmount.toFixed()
         );
         let info = await sparkFacet.getUserAccountData(diamondAddress);
+        console.log(info.toString());
+
+        await sparkFacet.closePositionSpark(0);
+        info = await sparkFacet.getUserAccountData(diamondAddress);
         console.log(info.toString());
         // console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
 

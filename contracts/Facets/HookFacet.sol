@@ -23,7 +23,7 @@ library HookLib {
     struct HookState {
         IPoolManager poolManager;
         uint256 counter;
-        int24 currentTick;
+        uint256 currentPrice;
     }
 
     function diamondStorage() internal pure returns (HookState storage ds) {
@@ -91,7 +91,7 @@ library HookLib {
         console.log(managerState.executionOccuring);
         PoolId poolID = PoolIdLibrary.toId(poolKey);
         (, int24 currentTick, , ) = uniswapState.poolManager.getSlot0(poolID);
-        hookState.currentTick = currentTick;
+        hookState.currentPrice = TickMath.getSqrtRatioAtTick(currentTick);
         if (!managerState.executionOccuring) {
             console.log("length", managerState.afterSwapFlows.length);
             for (uint i = 0; i < managerState.afterSwapFlows.length; i++) {
