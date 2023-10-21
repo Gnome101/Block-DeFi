@@ -69,6 +69,13 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     action: FacetCutAction.Add,
     functionSelectors: getSelectors(uniswapFacet),
   });
+
+  const hookFacet = await ethers.getContract("HookFacet");
+  facetCut.push({
+    facetAddress: hookFacet.target,
+    action: FacetCutAction.Add,
+    functionSelectors: getSelectors(hookFacet),
+  });
   //Now that all of the facets and their cut data is organized we continue
   let functionCall = diamondInit.interface.encodeFunctionData("init");
 
@@ -81,16 +88,16 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   args = [facetCut, diamondArgs];
 
   const hooksFactory = await ethers.getContract("UniswapHooksFactory");
-  //const salt = await getSalt(hooksFactory, facetCut, diamondArgs, 0x8c);
-  const salt = 0;
+  const salt = await getSalt(hooksFactory, facetCut, diamondArgs, 0x24);
+  //const salt = 0;
   console.log("Le salt:", salt);
-  const Diamond = await deploy("Diamond", {
-    from: deployer,
-    args: args,
-    log: true,
-    blockConfirmations: 2,
-  });
-  //await hooksFactory.deploy(facetCut, diamondArgs, salt);
+  // const Diamond = await deploy("Diamond", {
+  //   from: deployer,
+  //   args: args,
+  //   log: true,
+  //   blockConfirmations: 2,
+  // });
+  await hooksFactory.deploy(facetCut, diamondArgs, salt);
   console.log("Finished Deployment\n");
 };
 module.exports.tags = ["all", "Test", "ARBG"];

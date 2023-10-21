@@ -68,6 +68,28 @@ library LeverageLib {
         );
     }
 
+    function closePosition(
+        address providedToken, //USDC
+        address collateral //WETH
+    ) internal {
+        LeverageState storage leverageState = diamondStorage();
+
+        uint256 amountOwed = leverageState.comet.borrowBalanceOf(address(this));
+        FlashLeverage memory leverageInfo = FlashLeverage({
+            collateral: collateral,
+            providedToken: providedToken,
+            userAmount: 0,
+            swapAmount: amountOwed
+        });
+        //Swap has been called
+        bytes memory data = UniswapLib.flashSwapTokens(
+            providedToken,
+            collateral,
+            -int256(amountOwed),
+            leverageInfo
+        );
+    }
+
     struct FlashLeverage {
         address collateral;
         address providedToken;
@@ -186,7 +208,17 @@ library LeverageLib {
         return leverageState.comet.isLiquidatable(account);
     }
 
-    function closePosition() internal view returns (uint256) {}
+    function returnProfit(
+        uint256 userProfit,
+        uint256 positionId
+    ) internal view returns (uint256) {
+        LeverageState storage leverageState = diamondStorage();
+        uint256 amountOwed = leverageState.comet.borrowBalanceOf(address(this));
+        //Use price of tokens or build a quoter to determine how much the user
+        //collateral would swap for and then compare that to how much they
+        //put in originally
+        leverageState.compPositons[positionId].borrowedAmount;
+    }
 }
 
 contract LeverageFacet {
@@ -201,6 +233,16 @@ contract LeverageFacet {
             providedToken, //USDC
             userAmount,
             swapAmount
+        );
+    }
+
+    function closePosition(
+        address collateral, //USDC
+        address providedToken //WETH
+    ) external {
+        LeverageLib.closePosition(
+            collateral, //USDC
+            providedToken //WETH
         );
     }
 

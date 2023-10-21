@@ -13,6 +13,7 @@ describe("System Test ", async function () {
   let hyperFacet;
   let uniswapFacet;
   let leverageFacet;
+  let diamondAddress;
   let deployer;
   let user;
   let poolManager;
@@ -27,14 +28,15 @@ describe("System Test ", async function () {
     user = accounts.user;
     await deployments.fixture(["all"]);
     hookFactory = await ethers.getContract("UniswapHooksFactory");
-    //let diamondAddress = await hookFactory.hooks(0);
+    diamondAddress = await hookFactory.hooks(0);
 
-    Diamond = await ethers.getContract("Diamond");
-    diamondAddress = Diamond.target;
+    //Diamond = await ethers.getContract("Diamond");
+    //diamondAddress = Diamond.target;
     poolManager = await ethers.getContract("PoolManager");
     testFacet = await ethers.getContractAt("Test1Facet", diamondAddress);
     hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
     uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
+    hookFacet = await ethers.getContractAt("HookFacet", diamondAddress);
     console.log("Pool Manager:", poolManager.target);
 
     await uniswapFacet.setPoolManager(poolManager.target);
@@ -54,7 +56,7 @@ describe("System Test ", async function () {
     DAI = await ethers.getContractAt("IERC20", daiAddress);
   });
 
-  it("can store numbers and read them", async () => {
+  it("can store numbers and read them ", async () => {
     await testFacet.setNum("3");
     const num = await testFacet.num();
     console.log(num.toString());
@@ -143,7 +145,7 @@ describe("System Test ", async function () {
       );
     });
     describe("Uniswap Tests", function () {
-      it("can add liquidty and initialze a pool ", async () => {
+      it("can add liquidty and initialze a pool 211", async () => {
         //I need to add ETH/USDC liquidty to my v4 pool
         //First, initailze pool, addys must be sorted
         let addresses = [WETH.target, USDC.target];
@@ -181,10 +183,12 @@ describe("System Test ", async function () {
         console.log("howdy");
         console.log(sqrtPrice.toFixed(0));
         console.log(poolManager.target);
+        console.log(hookFacet.target);
         await uniswapFacet.initializePool(
           addresses[0].toString().trim(),
           addresses[1].toString().trim(),
           sqrtPrice.toFixed(0),
+          hookFacet.target,
           "0x"
         );
         console.log("howdy");
@@ -245,6 +249,9 @@ describe("System Test ", async function () {
 
         liq = await uniswapFacet.getPoolLiquidity(USDC.target, WETH.target);
         console.log("Liquidity", liq.toString());
+
+        const awesomeCounter = await hookFacet.getLeAwesomeCounter();
+        console.log(awesomeCounter.toString());
       });
     });
     describe("Compound Tests", function () {
@@ -351,7 +358,7 @@ describe("System Test ", async function () {
         let liq = await uniswapFacet.getPoolLiquidity(USDC.target, WETH.target);
         console.log("Liquidity", liq.toString());
       });
-      it("can leverage up 211", async () => {
+      it("can leverage up ", async () => {
         console.log("-----------------------------------");
         console.log("  Oh yeah, its leverage time\n");
         let decimalAdj = Decimal.pow(10, 18);
@@ -366,6 +373,9 @@ describe("System Test ", async function () {
           wethAmount.toFixed(),
           swapAmount.toFixed()
         );
+        console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+        await leverageFacet.closePosition(WETH.target, USDC.target);
+        console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
 
         //messsing around with the interst
         // console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());

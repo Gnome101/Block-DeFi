@@ -272,6 +272,7 @@ library UniswapLib {
         address token0,
         address token1,
         uint160 poolStartPrice,
+        address hook,
         bytes calldata hookData
     ) internal {
         UniswapState storage uniswapState = diamondStorage();
@@ -282,7 +283,7 @@ library UniswapLib {
             Currency.wrap(token1),
             3000,
             60,
-            IHooks(0x0000000000000000000000000000000000000000)
+            IHooks(hook)
         );
         uniswapState.tokensToPool[token0][token1] = newKey;
         uniswapState.poolManager.initialize(newKey, poolStartPrice, hookData);
@@ -479,9 +480,16 @@ contract UniswapFacet {
         address token0,
         address token1,
         uint160 poolStartPrice,
+        address hook,
         bytes calldata hookData
     ) external {
-        UniswapLib.initializePool(token0, token1, poolStartPrice, hookData);
+        UniswapLib.initializePool(
+            token0,
+            token1,
+            poolStartPrice,
+            hook,
+            hookData
+        );
     }
 
     function getPoolLiquidity(
