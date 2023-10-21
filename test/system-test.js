@@ -19,6 +19,7 @@ describe("System Test ", async function () {
   let DAI;
   let WETH;
   let USDC;
+  let Comet;
 
   before(async function () {
     accounts = await ethers.getNamedSigners(); // could also do with getNamedAccounts
@@ -42,7 +43,7 @@ describe("System Test ", async function () {
     const usdcCometDataAddy = "0x285617313887d43256F852cAE0Ee4de4b68D45B0";
     await leverageFacet.setComet(usdcCometAddress);
     await leverageFacet.setCometData(usdcCometDataAddy);
-
+    Comet = await ethers.getContractAt("CometMainInterface", usdcCometAddress);
     const wethAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
     WETH = await ethers.getContractAt("IWETH9", wethAddress);
 
@@ -314,17 +315,13 @@ describe("System Test ", async function () {
         //   "0x"
         // );
         // console.log(a.toString());
-        console.log(addresses[0], addresses[1]);
-        console.log("howdy");
-        console.log(sqrtPrice.toFixed(0));
-        console.log(poolManager.target);
+
         await uniswapFacet.initializePool(
           addresses[0].toString().trim(),
           addresses[1].toString().trim(),
           sqrtPrice.toFixed(0),
           "0x"
         );
-        console.log("howdy");
 
         const lowerTick = currentTick - parseInt(poolKey.tickSpacing) * 30;
         const upperTick = currentTick + parseInt(poolKey.tickSpacing) * 30;
@@ -334,7 +331,6 @@ describe("System Test ", async function () {
         const usdcDecimals = Decimal.pow(10, 6);
 
         let wethAmount = new Decimal(19.5);
-        console.log("howdy");
 
         let usdcAmount = wethAmount.times(res);
         wethAmount = wethAmount.times(wethDecimals).round();
@@ -356,17 +352,26 @@ describe("System Test ", async function () {
         console.log("Liquidity", liq.toString());
       });
       it("can leverage up 211", async () => {
-        console.log("Oh yeah, its leverage time\n");
-        let decimalAdj = Decimal.pow(10, 6);
-        const usdcAmount = new Decimal(20).times(decimalAdj);
-        decimalAdj = Decimal.pow(10, 6);
-        const swapAmount = new Decimal(20).times(decimalAdj);
+        console.log("-----------------------------------");
+        console.log("  Oh yeah, its leverage time\n");
+        let decimalAdj = Decimal.pow(10, 18);
+        //Minmum is 100
+        const wethAmount = new Decimal(0.1).times(decimalAdj);
+        decimalAdj = Decimal.pow(10, 18);
+        const swapAmount = new Decimal(0.4).times(decimalAdj);
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
         await leverageFacet.leverageUp(
           WETH.target,
           USDC.target,
-          usdcAmount.toFixed(),
+          wethAmount.toFixed(),
           swapAmount.toFixed()
         );
+
+        //messsing around with the interst
+        // console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+        // let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+        // await ethers.provider.send("evm_mine", [timeStamp + 86400 * 365]);
+        // console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
       });
     });
   });

@@ -36,6 +36,7 @@ library UniswapLib {
         IPoolManager poolManager;
         mapping(uint256 => IPoolManager.SwapParams) swaps;
         mapping(uint256 => IPoolManager.ModifyPositionParams) modLiqs;
+        mapping(uint256 => LeverageLib.FlashLeverage) leveragePos;
         uint256 swapCounter;
         uint256 liqCounter;
         mapping(address => userPosition[]) userPositions;
@@ -105,7 +106,8 @@ library UniswapLib {
     function flashSwapTokens(
         address tokenFrom,
         address tokenTo,
-        int256 amount
+        int256 amount,
+        LeverageLib.FlashLeverage memory leverageInfo
     ) internal returns (bytes memory) {
         UniswapState storage uniswapState = diamondStorage();
         (bool zeroForOne, address token0, address token1) = determineZeroForOne(
@@ -123,6 +125,7 @@ library UniswapLib {
         //Want to avoid sqrtPriceLimit
 
         uniswapState.swaps[uniswapState.swapCounter] = swapParams;
+        uniswapState.leveragePos[uniswapState.swapCounter] = leverageInfo;
         bytes memory result = uniswapState.poolManager.lock(
             abi.encode(
                 msg.sender,
@@ -131,8 +134,9 @@ library UniswapLib {
                 uniswapState.swapCounter
             )
         );
-        return result;
         uniswapState.swapCounter++;
+
+        return result;
     }
 
     function closePosition(
@@ -281,7 +285,6 @@ library UniswapLib {
             IHooks(0x0000000000000000000000000000000000000000)
         );
         uniswapState.tokensToPool[token0][token1] = newKey;
-        console.log("pool", address(uniswapState.poolManager));
         uniswapState.poolManager.initialize(newKey, poolStartPrice, hookData);
     }
 
@@ -321,7 +324,8 @@ library UniswapLib {
         } else if (action == ActionType.LiquidityChange) {
             (t0Amount, t1Amount) = completeLiquidtyAdd(poolKey, counter);
         } else if (action == ActionType.CompLeverage) {
-            return data;
+            console.log("Whats going");
+            LeverageLib.completeLeverage(poolKey, counter, user);
         }
         info = abi.encode(t0Amount, t1Amount);
 

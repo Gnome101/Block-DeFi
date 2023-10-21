@@ -11,6 +11,11 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 import "./UniswapFacet.sol";
+struct levPos {
+    uint256 userAmount;
+    uint256 collateralAmount;
+    uint256 borrowedAmount;
+}
 
 library LeverageLib {
     using CurrencyLibrary for Currency;
@@ -20,6 +25,9 @@ library LeverageLib {
     struct LeverageState {
         CometMainInterface comet;
         CometExtInterface cometData;
+        mapping(uint256 => levPos) compPositons;
+        uint256 posCounter;
+        mapping(address => uint256[]) userPositions;
     }
 
     function diamondStorage() internal pure returns (LeverageState storage ds) {
@@ -45,40 +53,80 @@ library LeverageLib {
         uint256 userAmount,
         uint256 swapAmount
     ) internal {
-        UniswapLib.UniswapState storage uniswapState = UniswapLib
-            .diamondStorage();
-
+        FlashLeverage memory leverageInfo = FlashLeverage({
+            collateral: collateral,
+            providedToken: providedToken,
+            userAmount: userAmount,
+            swapAmount: swapAmount
+        });
         //Swap has been called
         bytes memory data = UniswapLib.flashSwapTokens(
             providedToken,
             collateral,
-            -int256(swapAmount)
+            -int256(swapAmount),
+            leverageInfo
         );
-        (
-            address user,
-            PoolKey memory poolKey,
-            ActionType action,
-            uint256 counter
-        ) = abi.decode(data, (address, PoolKey, ActionType, uint256));
+    }
 
+    struct FlashLeverage {
+        address collateral;
+        address providedToken;
+        uint256 userAmount;
+        uint256 swapAmount;
+    }
+
+    function completeLeverage(
+        PoolKey memory poolKey,
+        uint256 counter,
+        address user
+    ) internal {
+        LeverageState storage leverageState = diamondStorage();
+
+        UniswapLib.UniswapState storage uniswapState = UniswapLib
+            .diamondStorage();
         BalanceDelta delta;
+
+        FlashLeverage memory leverageInfo = uniswapState.leveragePos[counter];
 
         delta = uniswapState.poolManager.swap(
             poolKey,
             uniswapState.swaps[counter],
             "0x"
         );
-        supply(collateral, swapAmount + userAmount);
-        if (providedToken < collateral) {
-            //Provided is token0
-            withdraw(providedToken, uint128(delta.amount0()));
+        uint128 amountNeededToBorrow;
+        if (leverageInfo.providedToken < leverageInfo.collateral) {
+            //Provided token is t0
+            //We receved collateral
+            UniswapLib._settleCurrencyBalance(
+                poolKey.currency1,
+                delta.amount1()
+            );
+            amountNeededToBorrow = uint128(delta.amount0());
         } else {
-            //Provided is token1
-            withdraw(providedToken, uint128(delta.amount1()));
+            UniswapLib._settleCurrencyBalance(
+                poolKey.currency0,
+                delta.amount0()
+            );
+            amountNeededToBorrow = uint128(delta.amount1());
         }
 
-        UniswapLib._settleCurrencyBalance(poolKey.currency0, delta.amount0());
-        UniswapLib._settleCurrencyBalance(poolKey.currency1, delta.amount1());
+        supply(
+            leverageInfo.collateral,
+            leverageInfo.swapAmount + leverageInfo.userAmount
+        );
+        withdraw(leverageInfo.providedToken, amountNeededToBorrow);
+
+        leverageState.compPositons[leverageState.posCounter] = levPos({
+            userAmount: leverageInfo.userAmount,
+            collateralAmount: leverageInfo.swapAmount,
+            borrowedAmount: amountNeededToBorrow
+        });
+        leverageState.userPositions[user].push(leverageState.posCounter);
+        leverageState.posCounter++;
+        UniswapLib._settleCurrencyBalance(
+            Currency.wrap(leverageInfo.providedToken),
+            int128(amountNeededToBorrow)
+        );
 
         //Then we need to call supply with the amount we recieved
         //Then we need to call withdraw to take the new tokens out
@@ -137,6 +185,8 @@ library LeverageLib {
         LeverageState storage leverageState = diamondStorage();
         return leverageState.comet.isLiquidatable(account);
     }
+
+    function closePosition() internal view returns (uint256) {}
 }
 
 contract LeverageFacet {
