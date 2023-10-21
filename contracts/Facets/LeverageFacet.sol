@@ -54,7 +54,9 @@ library LeverageLib {
         address providedToken, //USDC
         uint256 userAmount,
         uint256 swapAmount
-    ) internal {
+    ) internal returns (uint256) {
+        LeverageState storage leverageState = diamondStorage();
+
         UniswapLib.FlashLeverage memory leverageInfo = UniswapLib
             .FlashLeverage({
                 collateral: collateral,
@@ -70,14 +72,15 @@ library LeverageLib {
             ActionType.CompLeverage,
             leverageInfo
         );
+        return leverageState.posCounter - 1;
     }
 
-    function closePosition(
-        address providedToken, //USDC
-        address collateral, //WETH
-        uint256 counter
-    ) internal {
+    function closePosition(uint256 counter) internal {
         LeverageState storage leverageState = diamondStorage();
+
+        address providedToken = leverageState.compPositons[counter].collateral;
+        address collateral = leverageState.compPositons[counter].providedToken;
+
         UniswapLib.UniswapState storage uniswapState = UniswapLib
             .diamondStorage();
 
@@ -249,11 +252,7 @@ library LeverageLib {
             leverageState.compPositons[positionId].collateral,
             leverageState.compPositons[positionId].providedToken
         );
-        closePosition(
-            leverageState.compPositons[positionId].collateral,
-            leverageState.compPositons[positionId].providedToken,
-            positionId
-        );
+        closePosition(positionId);
 
         uint256 collateralBalanceAfter = IERC20(
             leverageState.compPositons[positionId].collateral
@@ -277,25 +276,18 @@ contract LeverageFacet {
         address providedToken, //USDC
         uint256 userAmount,
         uint256 swapAmount
-    ) external {
-        LeverageLib.leverageUp(
-            collateral, //WETH
-            providedToken, //USDC
-            userAmount,
-            swapAmount
-        );
+    ) external returns (uint256) {
+        return
+            LeverageLib.leverageUp(
+                collateral, //WETH
+                providedToken, //USDC
+                userAmount,
+                swapAmount
+            );
     }
 
-    function closePosition(
-        address collateral, //USDC
-        address providedToken, //WETH
-        uint256 id
-    ) external {
-        LeverageLib.closePosition(
-            collateral, //USDC
-            providedToken, //WETH
-            id
-        );
+    function closePosition(uint256 id) external {
+        LeverageLib.closePosition(id);
     }
 
     function supply(address asset, uint256 amount) external {

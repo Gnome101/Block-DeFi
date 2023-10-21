@@ -41,12 +41,6 @@ library SparkLib {
         sparkState.pool.supply(asset, amount, address(this), 0);
     }
 
-    function repay(address asset, uint256 amount) internal {
-        SparkState storage sparkState = diamondStorage();
-        IERC20(asset).approve(address(sparkState.pool), amount);
-        sparkState.pool.repay(asset, amount, 2, address(this));
-    }
-
     //Borrow DAI
     function borrow(address asset, uint256 amount) internal {
         SparkState storage sparkState = diamondStorage();
@@ -114,7 +108,6 @@ library SparkLib {
             uniswapState.swaps[counter],
             "0x"
         );
-
         uint128 amountNeededToBorrow;
         if (leverageInfo.providedToken < leverageInfo.collateral) {
             //Provided token is t0
@@ -131,17 +124,12 @@ library SparkLib {
             );
             amountNeededToBorrow = uint128(delta.amount1());
         }
-        console.log(IERC20(leverageInfo.collateral).balanceOf(address(this)));
 
-        repay(
+        supply(
             leverageInfo.collateral,
             leverageInfo.swapAmount + leverageInfo.userAmount
         );
-
-        console.log(leverageInfo.swapAmount + leverageInfo.userAmount);
-        console.log(amountNeededToBorrow);
-        console.log(leverageInfo.providedToken);
-        console.log(leverageInfo.collateral);
+        borrow(leverageInfo.providedToken, amountNeededToBorrow);
 
         sparkState.compPositons[sparkState.posCounter] = levPos({
             userAmount: leverageInfo.userAmount,
@@ -176,8 +164,6 @@ library SparkLib {
             address(uniswapState.poolManager)
         );
         (uint256 amountOwed, , , , , ) = getUserAccountData(address(this));
-        //amountOwed = amountOwed;
-        amountOwed = 787934700420000;
         UniswapLib.FlashLeverage memory leverageInfo = UniswapLib
             .FlashLeverage({
                 collateral: collateral,

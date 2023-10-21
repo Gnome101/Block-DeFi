@@ -24,7 +24,7 @@ describe("System Test ", async function () {
   let Comet;
   let CometData;
 
-  before(async function () {
+  beforeEach(async function () {
     accounts = await ethers.getNamedSigners(); // could also do with getNamedAccounts
     deployer = accounts.deployer;
     user = accounts.user;
@@ -391,7 +391,7 @@ describe("System Test ", async function () {
 
         // console.log((await WETH.balanceOf(diamondAddress)).toString());
 
-        // await leverageFacet.closePosition(WETH.target, USDC.target, 0);
+        await leverageFacet.closePosition(0);
         //await leverageFacet.withdraw(WETH.target, "97587014333073605");
         // console.log((await WETH.balanceOf(diamondAddress)).toString());
         //messsing around with the interst
@@ -480,7 +480,7 @@ describe("System Test ", async function () {
         let liq = await uniswapFacet.getPoolLiquidity(DAI.target, WETH.target);
         console.log("Liquidity", liq.toString());
       });
-      it("can leverage up 211", async () => {
+      it("can leverage up ", async () => {
         console.log("-----------------------------------");
         console.log("  Oh yeah, its leverage time\n");
         let decimalAdj = Decimal.pow(10, 18);
@@ -501,9 +501,9 @@ describe("System Test ", async function () {
 
         // console.log((await WETH.balanceOf(diamondAddress)).toString());
 
-        await sparkFacet.closePositionSpark(DAI.target, WETH.target, 0);
-        info = await sparkFacet.getUserAccountData(diamondAddress);
-        console.log(info.toString());
+        // await sparkFacet.closePositionSpark(DAI.target, WETH.target, 0);
+        // info = await sparkFacet.getUserAccountData(diamondAddress);
+        // console.log(info.toString());
         //await leverageFacet.withdraw(WETH.target, "97587014333073605");
         // console.log((await WETH.balanceOf(diamondAddress)).toString());
         //messsing around with the interst
@@ -512,5 +512,6 @@ describe("System Test ", async function () {
         // await ethers.provider.send("evm_mine", [timeStamp + 86400 * 365]);
       });
     });
+    describe("attempting control flow", function () {});
   });
 });
