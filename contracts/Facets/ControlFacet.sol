@@ -44,7 +44,7 @@ library ControlLib {
     function continueIfOutOfBounds(
         uint256 lowerBound,
         uint256 upperBound
-    ) internal returns (uint256, uint256, uint256, uint256, uint256) {
+    ) internal returns (uint256, uint256) {
         UniswapLib.UniswapState storage uniswapState = UniswapLib
             .diamondStorage();
         uint256 token0 = ManagerLib.convertAddyToNum(
@@ -58,23 +58,17 @@ library ControlLib {
 
         if (hookState.currentPrice < lowerBound) {
             console.log("Current price is below lower bound!");
-            return (token0, token1, lowerBound, 0, hookState.currentPrice);
+            return (token0, token1);
         } else if (hookState.currentPrice > upperBound) {
             console.log("Current price is above upper bound!");
-            return (token0, token1, lowerBound, 1, hookState.currentPrice);
+            return (token0, token1);
         }
         console.log("Current Price is still within bounds");
         ManagerLib.stopExecution();
-        return (0, 0, 0, 0, 0);
+        return (0, 0);
     }
 
-    function adjustBounds(
-        uint256 token0,
-        uint256 token1,
-        uint256 oldLower,
-        uint256 oldUpper,
-        uint256 currentPrice
-    ) internal {
+    function adjustBounds(uint256 token0, uint256 token1) internal {
         // int24 oldLowerTick = TickMath.getTickAtSqrtRatio(oldLower);
         // int24 oldUpperTick = TickMath.getTickAtSqrtRatio(oldUpper);
         (int24 oldLowerTick, int24 oldUpperTick) = UniswapLib
@@ -117,11 +111,11 @@ contract ControlFacet {
 
     function continueIfOutOfBounds(
         uint256[] memory nums
-    ) external returns (uint256, uint256, uint256, uint256, uint256) {
+    ) external returns (uint256, uint256) {
         return ControlLib.continueIfOutOfBounds((nums[0]), (nums[1]));
     }
 
     function adjustBounds(uint256[] memory nums) external {
-        ControlLib.adjustBounds(nums[0], nums[1], nums[2], nums[3], nums[4]);
+        ControlLib.adjustBounds(nums[0], nums[1]);
     }
 }

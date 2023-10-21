@@ -98,13 +98,13 @@ library InstructionLib {
     function instrucContinueIfOutOfBounds(
         bytes4 selc
     ) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, bytes1(0x25));
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x22));
 
         return bytes5(instruction);
     }
 
     function instrucAdjustBounds(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, bytes1(0x50));
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x20));
 
         return bytes5(instruction);
     }

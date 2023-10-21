@@ -1339,6 +1339,10 @@
   dependencies:
     "@openzeppelin/contracts" "4.4.2"
 
+"UMA@https://github.com/UMAprotocol/protocol.git":
+  version "1.0.0"
+  resolved "https://github.com/UMAprotocol/protocol.git#8c997b93123759c5839ecff0403702940124f54d"
+
 "aave@https://github.com/aave/aave-v3-core.git":
   version "1.19.2"
   resolved "https://github.com/aave/aave-v3-core.git#6070e82d962d9b12835c88e68210d0e63f08d035"
