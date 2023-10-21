@@ -10,62 +10,63 @@ import "./Diamond/Test1Facet.sol";
 
 library InstructionLib {
     function instrucLeverageUp(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x41");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x41));
         return bytes5(instruction);
     }
 
     function instrucClosePosition(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x10");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
         return bytes5(instruction);
     }
 
     function instrucIsLiquidatable(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x11");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
         return bytes5(instruction);
     }
 
     function instrucGetBorrowRate(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x01");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x01));
         return bytes5(instruction);
     }
 
     function instrucGetSupplyRate(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x01");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x01));
         return bytes5(instruction);
     }
 
     function instrucgetUtilization(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x01");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x01));
         return bytes5(instruction);
     }
 
     function instrucReturnProfit(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x11");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x11));
         return bytes5(instruction);
     }
 
     function instrucWithdraw(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x20");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x20));
         return bytes5(instruction);
     }
 
     function instrucSupply(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x20");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x20));
         return bytes5(instruction);
     }
 
     function instrucSetNumber(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x12");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x12));
         return bytes5(instruction);
     }
 
     function instrucGetNumber(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x01");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x01));
         return bytes5(instruction);
     }
 
     function instrucGetSum(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, "0x21");
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
+
         return bytes5(instruction);
     }
 }

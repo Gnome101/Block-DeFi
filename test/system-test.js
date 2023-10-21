@@ -14,7 +14,8 @@ describe("System Test ", async function () {
   let uniswapFacet;
   let leverageFacet;
   let sparkFacet;
-  let selectorFacet;
+  let managerFacet;
+  let instructionFacet;
   let diamondAddress;
   let deployer;
   let user;
@@ -40,7 +41,8 @@ describe("System Test ", async function () {
     hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
     uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
     hookFacet = await ethers.getContractAt("HookFacet", diamondAddress);
-    selectorFacet = await ethers.getContractAt(
+    managerFacet = await ethers.getContractAt("ManagerFacet", diamondAddress);
+    instructionFacet = await ethers.getContractAt(
       "InstructionFacet",
       diamondAddress
     );
@@ -519,8 +521,22 @@ describe("System Test ", async function () {
     });
     describe("attempting control flow", function () {
       it("can leverage up from control flow 31", async () => {
-        const instruc = await selectorFacet.instrucGetSum();
-        console.log(instruc);
+        let instructions = [];
+        instructions.push(await instructionFacet.instrucSetNumber());
+        instructions.push(await instructionFacet.instrucGetSum());
+        instructions.push(await instructionFacet.instrucSetNumber());
+        instructions.push(await instructionFacet.instrucGetNumber());
+        console.log(instructions);
+        const packedInstructions =
+          await managerFacet.convertBytes5ArrayToBytes(instructions);
+        console.log(packedInstructions);
+        const instructionsWithInput = await managerFacet.addDataToFront(
+          [2],
+          packedInstructions
+        );
+        console.log(instructionsWithInput);
+        await managerFacet.startWorking(instructionsWithInput);
+        console.log((await testFacet.getNumber()).toString());
       });
     });
   });

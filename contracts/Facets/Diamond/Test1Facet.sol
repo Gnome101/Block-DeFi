@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+import "hardhat/console.sol";
 
 // Example library to show a simple example of diamond storage
 
@@ -22,16 +23,19 @@ library TestLib {
         uint256[] memory n
     ) internal returns (uint256 i, uint256 j) {
         TestState storage testState = diamondStorage();
+        console.log("Set number", n[0]);
         testState.number = n[0];
         return (n[0] + 3, n[0] * 2);
     }
 
     function getNumber() internal view returns (uint256) {
+        console.log("Get Number");
         TestState storage testState = diamondStorage();
         return testState.number;
     }
 
     function getSum(uint256[] memory nums) internal pure returns (uint256) {
+        console.log("Sum", nums[0], nums[1]);
         return nums[0] + nums[1];
     }
 }
