@@ -13,6 +13,7 @@ describe("System Test ", async function () {
   let hyperFacet;
   let uniswapFacet;
   let leverageFacet;
+  let sparkFacet;
   let diamondAddress;
   let deployer;
   let user;
@@ -21,6 +22,7 @@ describe("System Test ", async function () {
   let WETH;
   let USDC;
   let Comet;
+  let CometData;
 
   before(async function () {
     accounts = await ethers.getNamedSigners(); // could also do with getNamedAccounts
@@ -38,7 +40,9 @@ describe("System Test ", async function () {
     uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
     hookFacet = await ethers.getContractAt("HookFacet", diamondAddress);
     console.log("Pool Manager:", poolManager.target);
-
+    sparkFacet = await ethers.getContractAt("SparkFacet", diamondAddress);
+    const sparkPoolAddy = "0xC13e21B648A5Ee794902342038FF3aDAB66BE987";
+    await sparkFacet.setPool(sparkPoolAddy);
     await uniswapFacet.setPoolManager(poolManager.target);
     leverageFacet = await ethers.getContractAt("LeverageFacet", diamondAddress);
     const usdcCometAddress = "0xc3d688B66703497DAA19211EEdff47f25384cdc3";
@@ -46,6 +50,11 @@ describe("System Test ", async function () {
     await leverageFacet.setComet(usdcCometAddress);
     await leverageFacet.setCometData(usdcCometDataAddy);
     Comet = await ethers.getContractAt("CometMainInterface", usdcCometAddress);
+    CometData = await ethers.getContractAt(
+      "CometExtInterface",
+      usdcCometDataAddy
+    );
+
     const wethAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
     WETH = await ethers.getContractAt("IWETH9", wethAddress);
 
@@ -145,7 +154,7 @@ describe("System Test ", async function () {
       );
     });
     describe("Uniswap Tests", function () {
-      it("can add liquidty and initialze a pool 211", async () => {
+      it("can add liquidty and initialze a pool ", async () => {
         //I need to add ETH/USDC liquidty to my v4 pool
         //First, initailze pool, addys must be sorted
         let addresses = [WETH.target, USDC.target];
@@ -327,6 +336,7 @@ describe("System Test ", async function () {
           addresses[0].toString().trim(),
           addresses[1].toString().trim(),
           sqrtPrice.toFixed(0),
+          hookFacet.target,
           "0x"
         );
 
@@ -373,15 +383,29 @@ describe("System Test ", async function () {
           wethAmount.toFixed(),
           swapAmount.toFixed()
         );
-        console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
-        await leverageFacet.closePosition(WETH.target, USDC.target);
-        console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
-
-        //messsing around with the interst
+        let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+        await ethers.provider.send("evm_mine", [timeStamp + 86400 * 20]);
+        const profitLoss = await leverageFacet.returnProfit.staticCall(0);
+        console.log("Profit", profitLoss.toString());
         // console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+
+        // console.log((await WETH.balanceOf(diamondAddress)).toString());
+
+        // await leverageFacet.closePosition(WETH.target, USDC.target, 0);
+        //await leverageFacet.withdraw(WETH.target, "97587014333073605");
+        // console.log((await WETH.balanceOf(diamondAddress)).toString());
+        //messsing around with the interst
+
         // let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
         // await ethers.provider.send("evm_mine", [timeStamp + 86400 * 365]);
-        // console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+      });
+    });
+    describe("Spark Tests", function () {
+      it("can supply and borrow on Spark 211 ", async () => {
+        console.log("Starting");
+        let decimalAdj = Decimal.pow(10, 18);
+        const wethAmount = new Decimal(1).times(decimalAdj);
+        await sparkFacet.supplySpark(WETH.target, wethAmount.toFixed());
       });
     });
   });

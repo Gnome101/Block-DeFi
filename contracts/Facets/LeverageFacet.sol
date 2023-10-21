@@ -13,8 +13,10 @@ import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IER
 import "./UniswapFacet.sol";
 struct levPos {
     uint256 userAmount;
-    uint256 collateralAmount;
+    uint256 swapAmount;
     uint256 borrowedAmount;
+    address collateral;
+    address providedToken;
 }
 
 library LeverageLib {
@@ -70,10 +72,16 @@ library LeverageLib {
 
     function closePosition(
         address providedToken, //USDC
-        address collateral //WETH
+        address collateral, //WETH
+        uint256 counter
     ) internal {
         LeverageState storage leverageState = diamondStorage();
+        UniswapLib.UniswapState storage uniswapState = UniswapLib
+            .diamondStorage();
 
+        uint256 collateralBalanceBefore = IERC20(providedToken).balanceOf(
+            address(uniswapState.poolManager)
+        );
         uint256 amountOwed = leverageState.comet.borrowBalanceOf(address(this));
         FlashLeverage memory leverageInfo = FlashLeverage({
             collateral: collateral,
@@ -88,6 +96,24 @@ library LeverageLib {
             -int256(amountOwed),
             leverageInfo
         );
+
+        uint256 collateralBalanceAfter = IERC20(providedToken).balanceOf(
+            address(uniswapState.poolManager)
+        );
+        console.log(
+            leverageState.compPositons[counter].swapAmount,
+            collateralBalanceAfter,
+            collateralBalanceBefore
+        );
+        uint256 fee = collateralBalanceAfter -
+            collateralBalanceBefore -
+            leverageState.compPositons[counter].swapAmount;
+        uint256 amountRecieved = leverageState
+            .compPositons[counter]
+            .userAmount - fee;
+        console.log(amountRecieved);
+        withdraw(providedToken, amountRecieved);
+        console.log("WITHDRAW!!");
     }
 
     struct FlashLeverage {
@@ -140,16 +166,19 @@ library LeverageLib {
 
         leverageState.compPositons[leverageState.posCounter] = levPos({
             userAmount: leverageInfo.userAmount,
-            collateralAmount: leverageInfo.swapAmount,
-            borrowedAmount: amountNeededToBorrow
+            swapAmount: leverageInfo.swapAmount,
+            borrowedAmount: amountNeededToBorrow,
+            collateral: leverageInfo.collateral,
+            providedToken: leverageInfo.providedToken
         });
         leverageState.userPositions[user].push(leverageState.posCounter);
         leverageState.posCounter++;
+
         UniswapLib._settleCurrencyBalance(
             Currency.wrap(leverageInfo.providedToken),
             int128(amountNeededToBorrow)
         );
-
+        //withdraw(leverageInfo.collateral,)
         //Then we need to call supply with the amount we recieved
         //Then we need to call withdraw to take the new tokens out
         //Then we use the tokens withdrawn to pay off the v4 swap
@@ -208,16 +237,38 @@ library LeverageLib {
         return leverageState.comet.isLiquidatable(account);
     }
 
-    function returnProfit(
-        uint256 userProfit,
-        uint256 positionId
-    ) internal view returns (uint256) {
+    function returnProfit(uint256 positionId) internal returns (int256) {
+        //This should be called optimistaclly
         LeverageState storage leverageState = diamondStorage();
-        uint256 amountOwed = leverageState.comet.borrowBalanceOf(address(this));
         //Use price of tokens or build a quoter to determine how much the user
         //collateral would swap for and then compare that to how much they
         //put in originally
-        leverageState.compPositons[positionId].borrowedAmount;
+        uint256 collateralBalanceBefore = IERC20(
+            leverageState.compPositons[positionId].collateral
+        ).balanceOf(address(this));
+        console.log(
+            leverageState.compPositons[positionId].collateral,
+            leverageState.compPositons[positionId].providedToken
+        );
+        closePosition(
+            leverageState.compPositons[positionId].collateral,
+            leverageState.compPositons[positionId].providedToken,
+            positionId
+        );
+
+        uint256 collateralBalanceAfter = IERC20(
+            leverageState.compPositons[positionId].collateral
+        ).balanceOf(address(this));
+
+        uint256 amountRetrieved = collateralBalanceAfter -
+            collateralBalanceBefore;
+        console.log(
+            leverageState.compPositons[positionId].userAmount,
+            amountRetrieved
+        );
+        return
+            int256(amountRetrieved) -
+            int256(leverageState.compPositons[positionId].userAmount);
     }
 }
 
@@ -238,11 +289,13 @@ contract LeverageFacet {
 
     function closePosition(
         address collateral, //USDC
-        address providedToken //WETH
+        address providedToken, //WETH
+        uint256 id
     ) external {
         LeverageLib.closePosition(
             collateral, //USDC
-            providedToken //WETH
+            providedToken, //WETH
+            id
         );
     }
 
@@ -292,5 +345,9 @@ contract LeverageFacet {
 
     function isLiquidatable(address account) external view returns (bool) {
         return LeverageLib.isLiquidatable(account);
+    }
+
+    function returnProfit(uint256 positionId) external returns (int256) {
+        return LeverageLib.returnProfit(positionId);
     }
 }

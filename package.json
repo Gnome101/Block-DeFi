@@ -17,7 +17,9 @@
     "prettier": "^3.0.3",
     "prettier-plugin-solidity": "^1.1.3",
     "solhint": "^3.6.2",
-    "solidity-coverage": "^0.8.4"
+    "solidity-coverage": "^0.8.4",
+    "sparklend": "https://github.com/marsfoundation/sparklend.git",
+    "aave":"https://github.com/aave/aave-v3-core.git"
   },
   "dependencies": {
     "@nomicfoundation/hardhat-network-helpers": "^1.0.9",

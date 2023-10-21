@@ -2,9 +2,9 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
-
-import "./UniswapFacet.sol";
+import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
 import "../Hooks/BaseHook.sol";
+import {IPoolManager} from "@uniswap/v4-core/contracts/PoolManager.sol";
 
 library HookLib {
     error NotPoolManager();
@@ -35,7 +35,19 @@ library HookLib {
         _;
     }
 
-    function getHooksCalls() internal pure returns (Hooks.Calls memory) {}
+    function getHooksCalls() internal pure returns (Hooks.Calls memory) {
+        return
+            Hooks.Calls({
+                beforeInitialize: false,
+                afterInitialize: false,
+                beforeModifyPosition: true,
+                afterModifyPosition: false,
+                beforeSwap: false,
+                afterSwap: true,
+                beforeDonate: false,
+                afterDonate: false
+            });
+    }
 
     function validateHookAddress(BaseHook _this) internal pure {
         Hooks.validateHookAddress(_this, getHooksCalls());
@@ -77,6 +89,10 @@ library HookLib {
 }
 
 contract HookFacet is IHooks {
+    function getHooksCalls() external pure returns (Hooks.Calls memory) {
+        return HookLib.getHooksCalls();
+    }
+
     function beforeInitialize(
         address,
         PoolKey calldata,
@@ -102,7 +118,7 @@ contract HookFacet is IHooks {
         IPoolManager.ModifyPositionParams calldata,
         bytes calldata
     ) external returns (bytes4) {
-        HookLib.notImplemented();
+        return HookLib.beforeModifyPosition(this.beforeModifyPosition.selector);
     }
 
     function afterModifyPosition(
@@ -125,13 +141,22 @@ contract HookFacet is IHooks {
     }
 
     function afterSwap(
+        address sender,
+        PoolKey calldata key,
+        IPoolManager.SwapParams calldata params,
+        BalanceDelta delta,
+        bytes calldata hookData
+    ) external returns (bytes4) {
+        return HookLib.afterSwap(this.afterSwap.selector);
+    }
+
+    function getFee(
         address,
         PoolKey calldata,
         IPoolManager.SwapParams calldata,
-        BalanceDelta,
         bytes calldata
-    ) external returns (bytes4) {
-        HookLib.notImplemented();
+    ) external view returns (uint24) {
+        return 3000;
     }
 
     function beforeDonate(

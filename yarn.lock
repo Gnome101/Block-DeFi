@@ -1339,6 +1339,10 @@
   dependencies:
     "@openzeppelin/contracts" "4.4.2"
 
+"aave@https://github.com/aave/aave-v3-core.git":
+  version "1.19.2"
+  resolved "https://github.com/aave/aave-v3-core.git#6070e82d962d9b12835c88e68210d0e63f08d035"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -4764,6 +4768,10 @@ source-map@~0.2.0:
   integrity sha512-CBdZ2oa/BHhS4xj5DlhjWNHcan57/5YuvfdLf17iVmIpd9KRm+DFLmC6nBNj+6Ua7Kt3TmOjDpQT1aTYOQtoUA==
   dependencies:
     amdefine ">=0.0.4"
+
+"sparklend@https://github.com/marsfoundation/sparklend.git":
+  version "0.0.0"
+  resolved "https://github.com/marsfoundation/sparklend.git#7bee30e55e8b0135eb7b97f56c39ab18d8d7d4dd"
 
 sprintf-js@~1.0.2:
   version "1.0.3"

@@ -2,7 +2,7 @@ async function getSalt(hookFactory, diamondCutArgs, regularArgs, prefix) {
   let salt;
   let predictedAddy;
 
-  for (let i = 531; i < 3000; i++) {
+  for (let i = 815; i < 3000; i++) {
     //Convert our integer in decimal to hex
     salt = ethers.toBeHex(i);
 
