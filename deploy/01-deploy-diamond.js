@@ -84,11 +84,11 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     functionSelectors: getSelectors(sparkFacet),
   });
 
-  const selectorFacet = await ethers.getContract("SelectorFacet");
+  const instructionFacet = await ethers.getContract("InstructionFacet");
   facetCut.push({
-    facetAddress: selectorFacet.target,
+    facetAddress: instructionFacet.target,
     action: FacetCutAction.Add,
-    functionSelectors: getSelectors(selectorFacet),
+    functionSelectors: getSelectors(instructionFacet),
   });
   //Now that all of the facets and their cut data is organized we continue
   let functionCall = diamondInit.interface.encodeFunctionData("init");

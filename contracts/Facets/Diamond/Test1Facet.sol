@@ -8,9 +8,7 @@ library TestLib {
         keccak256("diamond.standard.test.storage");
 
     struct TestState {
-        address myAddress;
-        uint256 myNum;
-        string word;
+        uint256 number;
     }
 
     function diamondStorage() internal pure returns (TestState storage ds) {
@@ -20,33 +18,38 @@ library TestLib {
         }
     }
 
-    function num() internal view returns (uint256) {
+    function setNumber(
+        uint256[] memory n
+    ) internal returns (uint256 i, uint256 j) {
         TestState storage testState = diamondStorage();
-        return testState.myNum;
+        testState.number = n[0];
+        return (n[0] + 3, n[0] * 2);
     }
 
-    function setNum(uint256 n) internal {
+    function getNumber() internal view returns (uint256) {
         TestState storage testState = diamondStorage();
-        testState.myNum = n * 3;
+        return testState.number;
     }
 
-    function getNum() internal view returns (uint256) {
-        return 5;
+    function getSum(uint256[] memory nums) internal pure returns (uint256) {
+        return nums[0] + nums[1];
     }
 }
 
 contract Test1Facet {
     event TestEvent(address something);
 
-    function num() external view returns (uint256) {
-        return TestLib.num();
+    function setNumber(
+        uint256[] memory n
+    ) public returns (uint256 i, uint256 j) {
+        return TestLib.setNumber(n);
     }
 
-    function setNum(uint256 n) external {
-        TestLib.setNum(n);
+    function getNumber() public view returns (uint256) {
+        return TestLib.getNumber();
     }
 
-    function getNum() external view returns (uint256) {
-        return TestLib.getNum();
+    function getSum(uint256[] memory nums) public pure returns (uint256) {
+        return TestLib.getSum(nums);
     }
 }

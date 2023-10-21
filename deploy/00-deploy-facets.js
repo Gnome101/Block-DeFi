@@ -107,7 +107,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     blockConfirmations: 2,
   });
 
-  const SelectorFacet = await deploy("SelectorFacet", {
+  const InstructionFacet = await deploy("InstructionFacet", {
     from: deployer,
     args: args,
     log: true,

@@ -1630,8 +1630,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/Test1Facet.sol": {
-      "lastModificationDate": 1697696479925,
-      "contentHash": "3fef12b89b7daa299c0f0e84f0740fee",
+      "lastModificationDate": 1697881656655,
+      "contentHash": "54a022d79172fecc349ecc6d7c659028",
       "sourceName": "contracts/Facets/Diamond/Test1Facet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3919,8 +3919,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/SelectorFacet.sol": {
-      "lastModificationDate": 1697880040905,
-      "contentHash": "973a3447225648327916352f6eaa30e0",
+      "lastModificationDate": 1697881612155,
+      "contentHash": "04295b2a72a8f5d0150759795cdcff50",
       "sourceName": "contracts/Facets/SelectorFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3958,7 +3958,8 @@
         "./Hyperlane/HyperFacet.sol",
         "./ManagerFacet.sol",
         "./UniswapFacet.sol",
-        "./SparkFacet.sol"
+        "./SparkFacet.sol",
+        "./Diamond/Test1Facet.sol"
       ],
       "versionPragmas": [
         "^0.8.0"

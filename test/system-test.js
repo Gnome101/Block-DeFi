@@ -14,6 +14,7 @@ describe("System Test ", async function () {
   let uniswapFacet;
   let leverageFacet;
   let sparkFacet;
+  let selectorFacet;
   let diamondAddress;
   let deployer;
   let user;
@@ -39,6 +40,10 @@ describe("System Test ", async function () {
     hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
     uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
     hookFacet = await ethers.getContractAt("HookFacet", diamondAddress);
+    selectorFacet = await ethers.getContractAt(
+      "InstructionFacet",
+      diamondAddress
+    );
     console.log("Pool Manager:", poolManager.target);
     sparkFacet = await ethers.getContractAt("SparkFacet", diamondAddress);
     const sparkPoolAddy = "0xC13e21B648A5Ee794902342038FF3aDAB66BE987";
@@ -512,6 +517,11 @@ describe("System Test ", async function () {
         // await ethers.provider.send("evm_mine", [timeStamp + 86400 * 365]);
       });
     });
-    describe("attempting control flow", function () {});
+    describe("attempting control flow", function () {
+      it("can leverage up from control flow 31", async () => {
+        const instruc = await selectorFacet.instrucGetSum();
+        console.log(instruc);
+      });
+    });
   });
 });
