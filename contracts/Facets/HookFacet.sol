@@ -5,6 +5,7 @@ import "hardhat/console.sol";
 import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
 import "../Hooks/BaseHook.sol";
 import {IPoolManager} from "@uniswap/v4-core/contracts/PoolManager.sol";
+import "./ManagerFacet.sol";
 
 library HookLib {
     error NotPoolManager();
@@ -74,7 +75,13 @@ library HookLib {
 
     function afterSwap(bytes4 selector) internal returns (bytes4) {
         HookState storage hookState = diamondStorage();
+        ManagerLib.ManagerState storage managerState = ManagerLib
+            .diamondStorage();
+
         hookState.counter++;
+        for (uint i = 0; i < managerState.afterSwapFlows.length; i++) {
+            ManagerLib.startWorking(managerState.afterSwapFlows[i]);
+        }
         return selector;
     }
 

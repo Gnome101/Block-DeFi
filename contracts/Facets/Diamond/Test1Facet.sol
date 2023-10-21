@@ -29,8 +29,8 @@ library TestLib {
     }
 
     function getNumber() internal view returns (uint256) {
-        console.log("Get Number");
         TestState storage testState = diamondStorage();
+        console.log("Get Number", testState.number);
         return testState.number;
     }
 

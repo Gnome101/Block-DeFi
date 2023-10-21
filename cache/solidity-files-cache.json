@@ -1630,8 +1630,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/Diamond/Test1Facet.sol": {
-      "lastModificationDate": 1697882519385,
-      "contentHash": "3e00fba442b08505b64ef2f581803e60",
+      "lastModificationDate": 1697887959665,
+      "contentHash": "a10170e11311830765ab34891559a6d0",
       "sourceName": "contracts/Facets/Diamond/Test1Facet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1941,8 +1941,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/ManagerFacet.sol": {
-      "lastModificationDate": 1697785366030,
-      "contentHash": "79e6955e275faeef19b7b961d6acf203",
+      "lastModificationDate": 1697887879005,
+      "contentHash": "aa349a9696d83724f523c703030674ed",
       "sourceName": "contracts/Facets/ManagerFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1975,7 +1975,9 @@
           }
         }
       },
-      "imports": [],
+      "imports": [
+        "hardhat/console.sol"
+      ],
       "versionPragmas": [
         "^0.8.0"
       ],
@@ -3495,8 +3497,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/LeverageFacet.sol": {
-      "lastModificationDate": 1697880153705,
-      "contentHash": "58fe805d713f36c19b8d8680b00f9a22",
+      "lastModificationDate": 1697884167995,
+      "contentHash": "8e821d82a25b8ed9294f075ae3e0544e",
       "sourceName": "contracts/Facets/LeverageFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3538,6 +3540,7 @@
         "hardhat/console.sol",
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "./ManagerFacet.sol",
         "./UniswapFacet.sol"
       ],
       "versionPragmas": [
@@ -3643,8 +3646,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/HookFacet.sol": {
-      "lastModificationDate": 1697868647355,
-      "contentHash": "b2a1299f6e9e46076865dd749ed6c58c",
+      "lastModificationDate": 1697887624705,
+      "contentHash": "123f01d50d83f1eb0ccc8392bc7ead3e",
       "sourceName": "contracts/Facets/HookFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3681,7 +3684,8 @@
         "hardhat/console.sol",
         "@uniswap/v4-core/contracts/interfaces/IHooks.sol",
         "../Hooks/BaseHook.sol",
-        "@uniswap/v4-core/contracts/PoolManager.sol"
+        "@uniswap/v4-core/contracts/PoolManager.sol",
+        "./ManagerFacet.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
@@ -3921,8 +3925,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/InstructionFacet.sol": {
-      "lastModificationDate": 1697882893675,
-      "contentHash": "b4181b6ae4610f0f42b342a6d863bcfc",
+      "lastModificationDate": 1697884093555,
+      "contentHash": "035dc2fcb692a08bcf6ba1e77cb97018",
       "sourceName": "contracts/Facets/InstructionFacet.sol",
       "solcConfig": {
         "version": "0.8.20",

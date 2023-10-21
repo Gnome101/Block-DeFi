@@ -10,6 +10,7 @@ import "hardhat/console.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
+import "./ManagerFacet.sol";
 import "./UniswapFacet.sol";
 struct levPos {
     uint256 userAmount;
@@ -50,13 +51,14 @@ library LeverageLib {
     }
 
     function leverageUp(
-        address collateral, //WETH
-        address providedToken, //USDC
+        uint256 collateralNum, //WETH
+        uint256 providedTokenNum, //USDC
         uint256 userAmount,
         uint256 swapAmount
     ) internal returns (uint256) {
         LeverageState storage leverageState = diamondStorage();
-
+        address collateral = ManagerLib.convertNumToAddy(collateralNum);
+        address providedToken = ManagerLib.convertNumToAddy(providedTokenNum);
         UniswapLib.FlashLeverage memory leverageInfo = UniswapLib
             .FlashLeverage({
                 collateral: collateral,
@@ -239,7 +241,9 @@ library LeverageLib {
         return leverageState.comet.isLiquidatable(account);
     }
 
-    function returnProfit(uint256 positionId) internal returns (int256) {
+    function returnProfit(
+        uint256 positionId
+    ) internal returns (uint256, uint256) {
         //This should be called optimistaclly
         LeverageState storage leverageState = diamondStorage();
         //Use price of tokens or build a quoter to determine how much the user
@@ -264,25 +268,32 @@ library LeverageLib {
             leverageState.compPositons[positionId].userAmount,
             amountRetrieved
         );
-        return
-            int256(amountRetrieved) -
-            int256(leverageState.compPositons[positionId].userAmount);
+        if (
+            amountRetrieved < leverageState.compPositons[positionId].userAmount
+        ) {
+            return (
+                0,
+                leverageState.compPositons[positionId].userAmount -
+                    amountRetrieved
+            );
+        } else {
+            return (
+                1,
+                amountRetrieved -
+                    leverageState.compPositons[positionId].userAmount
+            );
+        }
     }
 }
 
 contract LeverageFacet {
-    function leverageUp(
-        address collateral, //WETH
-        address providedToken, //USDC
-        uint256 userAmount,
-        uint256 swapAmount
-    ) external returns (uint256) {
+    function leverageUp(uint256[] memory inputs) external returns (uint256) {
         return
             LeverageLib.leverageUp(
-                collateral, //WETH
-                providedToken, //USDC
-                userAmount,
-                swapAmount
+                inputs[0], //WETH
+                inputs[1], //USDC
+                inputs[2],
+                inputs[3]
             );
     }
 
@@ -338,7 +349,9 @@ contract LeverageFacet {
         return LeverageLib.isLiquidatable(account);
     }
 
-    function returnProfit(uint256 positionId) external returns (int256) {
-        return LeverageLib.returnProfit(positionId);
+    function returnProfit(
+        uint256[] memory num
+    ) external returns (uint256, uint256) {
+        return LeverageLib.returnProfit(num[0]);
     }
 }

@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 // Example library to show a simple example of diamond storage
+import "hardhat/console.sol";
 
 library ManagerLib {
     bytes32 constant DIAMOND_STORAGE_POSITION =
@@ -9,6 +10,15 @@ library ManagerLib {
 
     struct ManagerState {
         uint256 huh;
+        uint256[] lastResult;
+        mapping(address => uint256[]) userIds;
+        mapping(uint256 => flowGraph) userFlows;
+        bytes[] afterSwapFlows;
+        uint256 flowID;
+    }
+    struct flowGraph {
+        bytes dataFlow;
+        string description;
     }
     uint256 public constant INSTRUCTION_LENGTH = 0x20; //bytes5 type
 
@@ -66,7 +76,7 @@ library ManagerLib {
     function executeInstruction(
         uint256[] memory inputs,
         bytes5 instruction
-    ) internal returns (uint256[] memory outPuts) {
+    ) internal returns (uint256[] memory) {
         (
             bytes4 selector,
             uint8 inputCount,
@@ -103,6 +113,7 @@ library ManagerLib {
                 data,
                 (uint256, uint256)
             );
+
             uint256[] memory newArray = new uint256[](outputCount);
             newArray[0] = outPut1;
             newArray[1] = outPut2;
@@ -138,18 +149,102 @@ library ManagerLib {
         (uint256[] memory inputs, bytes memory packedInstructions) = readData(
             dataFlow
         );
+        ManagerState storage managerState = diamondStorage();
+
         bytes5 instruction;
         (instruction, dataFlow) = testDecodePacked(packedInstructions);
         finalOutputs = executeInstruction(inputs, instruction);
+
         if (dataFlow.length < 3) {
+            managerState.lastResult = finalOutputs;
             return finalOutputs;
         }
         dataFlow = addDataToFront(finalOutputs, dataFlow);
         startWorking(dataFlow);
     }
+
+    function startWorkingFromID(
+        uint256 ID
+    ) internal returns (uint256[] memory finalOutputs) {
+        ManagerState storage managerState = diamondStorage();
+
+        bytes memory dataFlow = managerState.userFlows[ID].dataFlow;
+        (uint256[] memory inputs, bytes memory packedInstructions) = readData(
+            dataFlow
+        );
+
+        bytes5 instruction;
+        (instruction, dataFlow) = testDecodePacked(packedInstructions);
+        finalOutputs = executeInstruction(inputs, instruction);
+
+        if (dataFlow.length < 3) {
+            console.log(finalOutputs[0], finalOutputs[1]);
+            managerState.lastResult = finalOutputs;
+            console.log(finalOutputs.length);
+            return finalOutputs;
+        }
+        dataFlow = addDataToFront(finalOutputs, dataFlow);
+        startWorking(dataFlow);
+    }
+
+    function getLastResult(uint256 index) internal view returns (uint256) {
+        ManagerState storage managerState = diamondStorage();
+        return managerState.lastResult[index];
+    }
+
+    function parseLastResultAndExecute(
+        bytes memory dataFlow,
+        uint256 index
+    ) internal returns (uint256) {
+        startWorking(dataFlow);
+        return getLastResult(index);
+    }
+
+    function createNewFlow(
+        address user,
+        string memory description,
+        bytes memory dataFlow
+    ) internal returns (uint256) {
+        ManagerState storage managerState = diamondStorage();
+        managerState.userFlows[managerState.flowID] = flowGraph({
+            description: description,
+            dataFlow: dataFlow
+        });
+
+        managerState.userIds[user].push(managerState.flowID);
+        managerState.flowID++;
+        return managerState.flowID - 1;
+    }
+
+    function createNewHookFlow(
+        address user,
+        string memory description,
+        bytes memory dataFlow
+    ) internal returns (uint256) {
+        ManagerState storage managerState = diamondStorage();
+        managerState.userFlows[managerState.flowID] = flowGraph({
+            description: description,
+            dataFlow: dataFlow
+        });
+        managerState.afterSwapFlows.push(dataFlow);
+        managerState.userIds[user].push(managerState.flowID);
+        managerState.flowID++;
+        return managerState.flowID - 1;
+    }
 }
 
 contract ManagerFacet {
+    function getLastResult(uint256 index) external view returns (uint256) {
+        return ManagerLib.getLastResult(index);
+    }
+
+    function parseLastResultAndExecute(
+        bytes memory dataFlow,
+        uint256 index
+    ) external returns (uint256) {
+        return ManagerLib.parseLastResultAndExecute(dataFlow, index);
+    }
+
     function convertBytes5ArrayToBytes(
         bytes5[] memory data
     ) external pure returns (bytes memory res) {
@@ -200,5 +295,25 @@ contract ManagerFacet {
         bytes memory dataFlow
     ) external returns (uint256[] memory finalOutputs) {
         return ManagerLib.startWorking(dataFlow);
+    }
+
+    function startWorkingFromID(
+        uint256 id
+    ) external returns (uint256[] memory finalOutputs) {
+        return ManagerLib.startWorkingFromID(id);
+    }
+
+    function createNewFlow(
+        string memory description,
+        bytes memory dataFlow
+    ) external {
+        ManagerLib.createNewFlow(tx.origin, description, dataFlow);
+    }
+
+    function createNewHookFlow(
+        string memory description,
+        bytes memory dataFlow
+    ) external {
+        ManagerLib.createNewHookFlow(tx.origin, description, dataFlow);
     }
 }

@@ -520,7 +520,78 @@ describe("System Test ", async function () {
       });
     });
     describe("attempting control flow", function () {
-      it("can leverage up from control flow 31", async () => {
+      beforeEach(async () => {
+        //I need to add ETH/USDC liquidty to my v4 pool
+        //First, initailze pool, addys must be sorted
+        let addresses = [WETH.target, USDC.target];
+        addresses.sort();
+        const hook = "0x0000000000000000000000000000000000000000";
+        const poolKey = {
+          currency0: addresses[0].toString().trim(),
+          currency1: addresses[1].toString().trim(),
+          fee: "3000",
+          tickSpacing: "60",
+          hooks: hook,
+        };
+        //const sqrtPrice = calculateSqrtPriceX96(price, 6, 18);
+        const currentTick = getNearestUsableTick(
+          202494, //Tick copied from the V3 Pool
+
+          parseInt(poolKey.tickSpacing)
+        );
+
+        let price = Decimal.pow(1.0001, 202494);
+        let dividor = Decimal.pow(10, 12);
+        let res = price.dividedBy(dividor);
+
+        res = new Decimal(1).dividedBy(res);
+        console.log(res.toFixed());
+        let sqrtPrice = await uniswapFacet.getSqrtAtTick(currentTick);
+        sqrtPrice = new Decimal(sqrtPrice.toString());
+        // const a = await poolManager.initialize.staticCall(
+        //   poolKey,
+        //   sqrtPrice.toFixed(),
+        //   "0x"
+        // );
+        // console.log(a.toString());
+
+        await uniswapFacet.initializePool(
+          addresses[0].toString().trim(),
+          addresses[1].toString().trim(),
+          sqrtPrice.toFixed(0),
+          hookFacet.target,
+          "0x"
+        );
+
+        const lowerTick = currentTick - parseInt(poolKey.tickSpacing) * 30;
+        const upperTick = currentTick + parseInt(poolKey.tickSpacing) * 30;
+        //Since price is basically 1:1
+        //we will just use an even amount
+        const wethDecimals = Decimal.pow(10, 18);
+        const usdcDecimals = Decimal.pow(10, 6);
+
+        let wethAmount = new Decimal(19.5);
+
+        let usdcAmount = wethAmount.times(res);
+        wethAmount = wethAmount.times(wethDecimals).round();
+        usdcAmount = usdcAmount.times(usdcDecimals).round();
+        await USDC.transfer(diamondAddress, usdcAmount.toFixed());
+        wethAmount = new Decimal(19.52);
+        wethAmount = wethAmount.times(wethDecimals).round();
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
+
+        await uniswapFacet.addLiquidty(
+          WETH.target,
+          USDC.target,
+          lowerTick,
+          upperTick,
+          wethAmount.toFixed(),
+          usdcAmount.toFixed()
+        );
+        let liq = await uniswapFacet.getPoolLiquidity(USDC.target, WETH.target);
+        console.log("Liquidity", liq.toString());
+      });
+      it("can use test facet with control flow ", async () => {
         let instructions = [];
         instructions.push(await instructionFacet.instrucSetNumber());
         instructions.push(await instructionFacet.instrucGetSum());
@@ -537,6 +608,70 @@ describe("System Test ", async function () {
         console.log(instructionsWithInput);
         await managerFacet.startWorking(instructionsWithInput);
         console.log((await testFacet.getNumber()).toString());
+      });
+      it("can leverage up ", async () => {
+        let instructions = [];
+        instructions.push(await instructionFacet.instrucLeverageUp());
+        instructions.push(await instructionFacet.instrucReturnProfit());
+        console.log(instructions);
+        const packedInstructions =
+          await managerFacet.convertBytes5ArrayToBytes(instructions);
+        console.log(packedInstructions);
+        const wethNumber = managerFacet.convertAddyToNum(WETH.target);
+        const usdcNumber = managerFacet.convertAddyToNum(USDC.target);
+        let decimalAdj = Decimal.pow(10, 18);
+        //Minmum is 100
+        const wethAmount = new Decimal(0.1).times(decimalAdj);
+        decimalAdj = Decimal.pow(10, 18);
+        const swapAmount = new Decimal(0.4).times(decimalAdj);
+
+        const instructionsWithInput = await managerFacet.addDataToFront(
+          [wethNumber, usdcNumber, wethAmount.toFixed(), swapAmount.toFixed()],
+          packedInstructions
+        );
+        console.log(instructionsWithInput);
+        //REMEBER TO TRANSFER THE COLLATERAL IN ⚠⚠⚠⚠⚠🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
+        //ALSO REMBER THAT ALL INPUTS NEED TO BE AN ARRAY OF ONLY UINT256
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
+        const res = await managerFacet.parseLastResultAndExecute.staticCall(
+          instructionsWithInput,
+          1
+        );
+        // const res = await managerFacet.parseLastResultAndExecute.staticCall(
+        //   instructionsWithInput,
+        //   1
+        // );
+        console.log(res.toString());
+      });
+      it("can attach controlFlow to hooks", async () => {
+        let instructions = [];
+        instructions.push(await instructionFacet.instrucGetNumber());
+        console.log(instructions);
+        const packedInstructions =
+          await managerFacet.convertBytes5ArrayToBytes(instructions);
+        console.log(packedInstructions);
+
+        const instructionsWithInput = await managerFacet.addDataToFront(
+          [0],
+          packedInstructions
+        );
+        //console.log(instructionsWithInput);
+
+        await managerFacet.startWorking(instructionsWithInput);
+        await managerFacet.createNewHookFlow(
+          "Gets a number",
+          instructionsWithInput
+        );
+        const swapAmount = ethers.parseEther("1");
+        console.log(swapAmount.toString());
+
+        await WETH.transfer(diamondAddress, swapAmount.toString());
+
+        await uniswapFacet.swap(
+          WETH.target,
+          USDC.target,
+          swapAmount.toString()
+        );
       });
     });
   });
