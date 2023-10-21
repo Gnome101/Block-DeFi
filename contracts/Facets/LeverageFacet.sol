@@ -74,6 +74,9 @@ library LeverageLib {
             ActionType.CompLeverage,
             leverageInfo
         );
+        leverageState.userPositions[address(this)].push(
+            leverageState.posCounter - 1
+        );
         return leverageState.posCounter - 1;
     }
 
@@ -122,7 +125,6 @@ library LeverageLib {
             .userAmount - fee;
         console.log(amountRecieved);
         withdraw(providedToken, amountRecieved);
-        console.log("WITHDRAW!!");
     }
 
     function completeLeverage(
@@ -236,9 +238,18 @@ library LeverageLib {
         return leverageState.comet.withdraw(asset, amount);
     }
 
-    function isLiquidatable(address account) internal view returns (bool) {
+    function isLiquidatable(
+        uint256 numAddy
+    ) internal view returns (uint256, uint256) {
         LeverageState storage leverageState = diamondStorage();
-        return leverageState.comet.isLiquidatable(account);
+        address account = ManagerLib.convertNumToAddy(numAddy);
+        console.log(account, address(this));
+        uint256 id = leverageState.userPositions[account][0];
+        console.log(
+            "Is it liquidateable? ",
+            leverageState.comet.isLiquidatable(account)
+        );
+        return (leverageState.comet.isLiquidatable(account) ? 1 : 0, id);
     }
 
     function returnProfit(
@@ -297,8 +308,8 @@ contract LeverageFacet {
             );
     }
 
-    function closePosition(uint256 id) external {
-        LeverageLib.closePosition(id);
+    function closePosition(uint256[] memory nums) external {
+        LeverageLib.closePosition(nums[0]);
     }
 
     function supply(address asset, uint256 amount) external {
@@ -345,8 +356,10 @@ contract LeverageFacet {
         return LeverageLib.withdraw(asset, amount);
     }
 
-    function isLiquidatable(address account) external view returns (bool) {
-        return LeverageLib.isLiquidatable(account);
+    function isLiquidatable(
+        uint256[] memory nums
+    ) external view returns (uint256, uint256) {
+        return LeverageLib.isLiquidatable(nums[0]);
     }
 
     function returnProfit(

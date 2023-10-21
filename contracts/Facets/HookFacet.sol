@@ -5,7 +5,10 @@ import "hardhat/console.sol";
 import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
 import "../Hooks/BaseHook.sol";
 import {IPoolManager} from "@uniswap/v4-core/contracts/PoolManager.sol";
+import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/contracts/types/PoolId.sol";
+
 import "./ManagerFacet.sol";
+import "./UniswapFacet.sol";
 
 library HookLib {
     error NotPoolManager();
@@ -20,6 +23,7 @@ library HookLib {
     struct HookState {
         IPoolManager poolManager;
         uint256 counter;
+        int24 currentTick;
     }
 
     function diamondStorage() internal pure returns (HookState storage ds) {
@@ -73,15 +77,28 @@ library HookLib {
         return selector;
     }
 
-    function afterSwap(bytes4 selector) internal returns (bytes4) {
+    function afterSwap(
+        PoolKey memory poolKey,
+        bytes4 selector
+    ) internal returns (bytes4) {
         HookState storage hookState = diamondStorage();
         ManagerLib.ManagerState storage managerState = ManagerLib
             .diamondStorage();
+        UniswapLib.UniswapState storage uniswapState = UniswapLib
+            .diamondStorage();
 
         hookState.counter++;
-        for (uint i = 0; i < managerState.afterSwapFlows.length; i++) {
-            ManagerLib.startWorking(managerState.afterSwapFlows[i]);
+        console.log(managerState.executionOccuring);
+        PoolId poolID = PoolIdLibrary.toId(poolKey);
+        (, int24 currentTick, , ) = uniswapState.poolManager.getSlot0(poolID);
+        hookState.currentTick = currentTick;
+        if (!managerState.executionOccuring) {
+            console.log("length", managerState.afterSwapFlows.length);
+            for (uint i = 0; i < managerState.afterSwapFlows.length; i++) {
+                ManagerLib.startWorking(managerState.afterSwapFlows[i]);
+            }
         }
+
         return selector;
     }
 
@@ -154,7 +171,7 @@ contract HookFacet is IHooks {
         BalanceDelta delta,
         bytes calldata hookData
     ) external returns (bytes4) {
-        return HookLib.afterSwap(this.afterSwap.selector);
+        return HookLib.afterSwap(key, this.afterSwap.selector);
     }
 
     function getFee(

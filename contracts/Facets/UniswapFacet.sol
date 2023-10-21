@@ -179,6 +179,13 @@ library UniswapLib {
         return (t0, t1);
     }
 
+    function modifyPosition(
+        address token0,
+        address token1,
+        int24 lowerBound,
+        int24 upperBound
+    ) internal {}
+
     function getTokens(
         address token0Maybe,
         address token1Maybe,
@@ -432,6 +439,11 @@ library UniswapLib {
 
     function getSqrtAtTick(int24 tick) internal pure returns (uint160) {
         return TickMath.getSqrtRatioAtTick(tick);
+    }
+
+    function returnBounds(address token0, address token1) internal returns(int24 lower,int24 upper){
+        UniswapState storage uniswapState = diamondStorage();
+        
     }
 }
 

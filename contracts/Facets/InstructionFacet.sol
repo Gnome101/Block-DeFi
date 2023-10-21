@@ -7,8 +7,16 @@ import "./ManagerFacet.sol";
 import "./UniswapFacet.sol";
 import "./SparkFacet.sol";
 import "./Diamond/Test1Facet.sol";
+import "./ControlFacet.sol";
 
 library InstructionLib {
+    //ManagerFacet
+    function instrucStop(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x00));
+        return bytes5(instruction);
+    }
+
+    //Compound leverage up
     function instrucLeverageUp(bytes4 selc) internal pure returns (bytes5) {
         bytes memory instruction = abi.encodePacked(selc, bytes1(0x41));
         return bytes5(instruction);
@@ -20,7 +28,7 @@ library InstructionLib {
     }
 
     function instrucIsLiquidatable(bytes4 selc) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x12));
         return bytes5(instruction);
     }
 
@@ -54,6 +62,7 @@ library InstructionLib {
         return bytes5(instruction);
     }
 
+    //Test Facet
     function instrucSetNumber(bytes4 selc) internal pure returns (bytes5) {
         bytes memory instruction = abi.encodePacked(selc, bytes1(0x12));
         return bytes5(instruction);
@@ -69,9 +78,32 @@ library InstructionLib {
 
         return bytes5(instruction);
     }
+
+    //Control Facet
+
+    function instrucIfTrueContinue(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x11));
+
+        return bytes5(instruction);
+    }
+
+    function instrucIfTrueContinueWResult(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
+
+        return bytes5(instruction);
+    }
 }
 
 contract InstructionFacet {
+    function instrucStop() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucLeverageUp(
+                ManagerFacet.stopExecution.selector
+            );
+    }
+
     //Leverage Fact for Compound
     function instrucLeverageUp() external pure returns (bytes5) {
         return
@@ -123,5 +155,21 @@ contract InstructionFacet {
 
     function instrucGetSum() external pure returns (bytes5) {
         return InstructionLib.instrucGetSum(Test1Facet.getSum.selector);
+    }
+
+    //ControlFacet
+
+    function instrucIfTrueContinue() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucIfTrueContinue(
+                ControlFacet.ifTrueContinue.selector
+            );
+    }
+
+    function instrucIfTrueContinueWResult() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucIfTrueContinueWResult(
+                ControlFacet.ifTrueContinueWResult.selector
+            );
     }
 }

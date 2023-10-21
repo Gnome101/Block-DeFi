@@ -15,6 +15,8 @@ library ManagerLib {
         mapping(uint256 => flowGraph) userFlows;
         bytes[] afterSwapFlows;
         uint256 flowID;
+        bool work;
+        bool executionOccuring;
     }
     struct flowGraph {
         bytes dataFlow;
@@ -146,17 +148,21 @@ library ManagerLib {
     function startWorking(
         bytes memory dataFlow
     ) internal returns (uint256[] memory finalOutputs) {
+        ManagerState storage managerState = diamondStorage();
+        managerState.work = true;
+        managerState.executionOccuring = true;
+
         (uint256[] memory inputs, bytes memory packedInstructions) = readData(
             dataFlow
         );
-        ManagerState storage managerState = diamondStorage();
 
         bytes5 instruction;
         (instruction, dataFlow) = testDecodePacked(packedInstructions);
         finalOutputs = executeInstruction(inputs, instruction);
 
-        if (dataFlow.length < 3) {
+        if (dataFlow.length < 3 || !managerState.work) {
             managerState.lastResult = finalOutputs;
+            managerState.executionOccuring = false;
             return finalOutputs;
         }
         dataFlow = addDataToFront(finalOutputs, dataFlow);
@@ -167,6 +173,8 @@ library ManagerLib {
         uint256 ID
     ) internal returns (uint256[] memory finalOutputs) {
         ManagerState storage managerState = diamondStorage();
+        managerState.work = true;
+        managerState.executionOccuring = true;
 
         bytes memory dataFlow = managerState.userFlows[ID].dataFlow;
         (uint256[] memory inputs, bytes memory packedInstructions) = readData(
@@ -177,10 +185,11 @@ library ManagerLib {
         (instruction, dataFlow) = testDecodePacked(packedInstructions);
         finalOutputs = executeInstruction(inputs, instruction);
 
-        if (dataFlow.length < 3) {
+        if (dataFlow.length < 3 || !managerState.work) {
             console.log(finalOutputs[0], finalOutputs[1]);
             managerState.lastResult = finalOutputs;
             console.log(finalOutputs.length);
+            managerState.executionOccuring = false;
             return finalOutputs;
         }
         dataFlow = addDataToFront(finalOutputs, dataFlow);
@@ -230,6 +239,11 @@ library ManagerLib {
         managerState.userIds[user].push(managerState.flowID);
         managerState.flowID++;
         return managerState.flowID - 1;
+    }
+
+    function stopExecution() internal {
+        ManagerState storage managerState = diamondStorage();
+        managerState.work = false;
     }
 }
 
@@ -315,5 +329,9 @@ contract ManagerFacet {
         bytes memory dataFlow
     ) external {
         ManagerLib.createNewHookFlow(tx.origin, description, dataFlow);
+    }
+
+    function stopExecution() external {
+        ManagerLib.stopExecution();
     }
 }

@@ -673,6 +673,62 @@ describe("System Test ", async function () {
           swapAmount.toString()
         );
       });
+      it("can attach advanced controlFlow to hooks 31", async () => {
+        let decimalAdj = Decimal.pow(10, 18);
+        //Minmum is 100
+        const wethAmount = new Decimal(0.1).times(decimalAdj);
+        decimalAdj = Decimal.pow(10, 18);
+        let swapAmount = new Decimal(0.4).times(decimalAdj);
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
+        const args = [
+          (await managerFacet.convertAddyToNum(WETH.target)).toString(),
+          (await managerFacet.convertAddyToNum(USDC.target)).toString(),
+          wethAmount.toFixed(),
+          swapAmount.toFixed(),
+        ];
+        await leverageFacet.leverageUp(args);
+        let instructions = [];
+        instructions.push(await instructionFacet.instrucIsLiquidatable());
+        instructions.push(
+          await instructionFacet.instrucIfTrueContinueWResult()
+        );
+        instructions.push(await instructionFacet.instrucClosePosition());
+        //instructions.push(await instructionFacet.instrucStop());
+
+        console.log(instructions);
+        const packedInstructions =
+          await managerFacet.convertBytes5ArrayToBytes(instructions);
+        console.log(packedInstructions);
+
+        const instructionsWithInput = await managerFacet.addDataToFront(
+          [(await managerFacet.convertAddyToNum(diamondAddress)).toString()],
+          packedInstructions
+        );
+        //console.log(instructionsWithInput);
+
+        await managerFacet.startWorking(instructionsWithInput);
+        console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+
+        let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+        await ethers.provider.send("evm_mine", [timeStamp + 86400 * 365 * 2]);
+        await Comet.accrueAccount(diamondAddress);
+
+        await managerFacet.createNewHookFlow(
+          "Gets a number",
+          instructionsWithInput
+        );
+        swapAmount = ethers.parseEther("1");
+        console.log(swapAmount.toString());
+
+        await WETH.transfer(diamondAddress, swapAmount.toString());
+
+        await uniswapFacet.swap(
+          WETH.target,
+          USDC.target,
+          swapAmount.toString()
+        );
+        console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+      });
     });
   });
 });

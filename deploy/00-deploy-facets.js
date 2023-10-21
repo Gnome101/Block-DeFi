@@ -113,5 +113,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+
+  const ControlFacet = await deploy("ControlFacet", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
 };
 module.exports.tags = ["all", "Facets"];
