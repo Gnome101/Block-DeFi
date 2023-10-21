@@ -401,11 +401,115 @@ describe("System Test ", async function () {
       });
     });
     describe("Spark Tests", function () {
-      it("can supply and borrow on Spark 211 ", async () => {
+      it("can supply and borrow on Spark  ", async () => {
         console.log("Starting");
         let decimalAdj = Decimal.pow(10, 18);
         const wethAmount = new Decimal(1).times(decimalAdj);
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
         await sparkFacet.supplySpark(WETH.target, wethAmount.toFixed());
+        const daiAmount = new Decimal(10).times(decimalAdj);
+        await sparkFacet.borrowSpark(DAI.target, daiAmount.toFixed());
+      });
+    });
+    describe("Spark/Uniswap", function () {
+      beforeEach(async () => {
+        //I need to add ETH/USDC liquidty to my v4 pool
+        //First, initailze pool, addys must be sorted
+        let addresses = [WETH.target, DAI.target];
+        addresses.sort();
+        const hook = "0x0000000000000000000000000000000000000000";
+        const poolKey = {
+          currency0: addresses[0].toString().trim(),
+          currency1: addresses[1].toString().trim(),
+          fee: "3000",
+          tickSpacing: "60",
+          hooks: hook,
+        };
+        //const sqrtPrice = calculateSqrtPriceX96(price, 6, 18);
+        const currentTick = getNearestUsableTick(
+          -73799, //Tick copied from the V3 Pool
+
+          parseInt(poolKey.tickSpacing)
+        );
+
+        let price = Decimal.pow(1.0001, -73799);
+        let res = price;
+        res = new Decimal(1).dividedBy(res);
+        console.log(res.toFixed());
+        let sqrtPrice = await uniswapFacet.getSqrtAtTick(currentTick);
+        sqrtPrice = new Decimal(sqrtPrice.toString());
+        // const a = await poolManager.initialize.staticCall(
+        //   poolKey,
+        //   sqrtPrice.toFixed(),
+        //   "0x"
+        // );
+        // console.log(a.toString());
+
+        await uniswapFacet.initializePool(
+          addresses[0].toString().trim(),
+          addresses[1].toString().trim(),
+          sqrtPrice.toFixed(0),
+          hookFacet.target,
+          "0x"
+        );
+
+        const lowerTick = currentTick - parseInt(poolKey.tickSpacing) * 30;
+        const upperTick = currentTick + parseInt(poolKey.tickSpacing) * 30;
+        //Since price is basically 1:1
+        //we will just use an even amount
+        const wethDecimals = Decimal.pow(10, 18);
+
+        let wethAmount = new Decimal(19.5);
+
+        let daiAmount = wethAmount.times(res);
+        wethAmount = wethAmount.times(wethDecimals).round();
+        daiAmount = daiAmount.times(wethDecimals).round();
+        await DAI.transfer(diamondAddress, daiAmount.toFixed());
+        wethAmount = new Decimal(19.52);
+        wethAmount = wethAmount.times(wethDecimals).round();
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
+
+        await uniswapFacet.addLiquidty(
+          WETH.target,
+          DAI.target,
+          lowerTick,
+          upperTick,
+          wethAmount.toFixed(),
+          daiAmount.toFixed()
+        );
+        let liq = await uniswapFacet.getPoolLiquidity(DAI.target, WETH.target);
+        console.log("Liquidity", liq.toString());
+      });
+      it("can leverage up 211", async () => {
+        console.log("-----------------------------------");
+        console.log("  Oh yeah, its leverage time\n");
+        let decimalAdj = Decimal.pow(10, 18);
+        //Minmum is 100
+        const wethAmount = new Decimal(0.1).times(decimalAdj);
+        decimalAdj = Decimal.pow(10, 18);
+        const swapAmount = new Decimal(0.39).times(decimalAdj);
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
+        await sparkFacet.leverageUpSpark(
+          WETH.target,
+          DAI.target,
+          wethAmount.toFixed(),
+          swapAmount.toFixed()
+        );
+        let info = await sparkFacet.getUserAccountData(diamondAddress);
+        console.log(info.toString());
+        // console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+
+        // console.log((await WETH.balanceOf(diamondAddress)).toString());
+
+        await sparkFacet.closePositionSpark(DAI.target, WETH.target, 0);
+        info = await sparkFacet.getUserAccountData(diamondAddress);
+        console.log(info.toString());
+        //await leverageFacet.withdraw(WETH.target, "97587014333073605");
+        // console.log((await WETH.balanceOf(diamondAddress)).toString());
+        //messsing around with the interst
+
+        // let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+        // await ethers.provider.send("evm_mine", [timeStamp + 86400 * 365]);
       });
     });
   });

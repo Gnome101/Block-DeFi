@@ -55,17 +55,19 @@ library LeverageLib {
         uint256 userAmount,
         uint256 swapAmount
     ) internal {
-        FlashLeverage memory leverageInfo = FlashLeverage({
-            collateral: collateral,
-            providedToken: providedToken,
-            userAmount: userAmount,
-            swapAmount: swapAmount
-        });
+        UniswapLib.FlashLeverage memory leverageInfo = UniswapLib
+            .FlashLeverage({
+                collateral: collateral,
+                providedToken: providedToken,
+                userAmount: userAmount,
+                swapAmount: swapAmount
+            });
         //Swap has been called
         bytes memory data = UniswapLib.flashSwapTokens(
             providedToken,
             collateral,
             -int256(swapAmount),
+            ActionType.CompLeverage,
             leverageInfo
         );
     }
@@ -83,17 +85,19 @@ library LeverageLib {
             address(uniswapState.poolManager)
         );
         uint256 amountOwed = leverageState.comet.borrowBalanceOf(address(this));
-        FlashLeverage memory leverageInfo = FlashLeverage({
-            collateral: collateral,
-            providedToken: providedToken,
-            userAmount: 0,
-            swapAmount: amountOwed
-        });
+        UniswapLib.FlashLeverage memory leverageInfo = UniswapLib
+            .FlashLeverage({
+                collateral: collateral,
+                providedToken: providedToken,
+                userAmount: 0,
+                swapAmount: amountOwed
+            });
         //Swap has been called
         bytes memory data = UniswapLib.flashSwapTokens(
             providedToken,
             collateral,
             -int256(amountOwed),
+            ActionType.CompLeverage,
             leverageInfo
         );
 
@@ -116,13 +120,6 @@ library LeverageLib {
         console.log("WITHDRAW!!");
     }
 
-    struct FlashLeverage {
-        address collateral;
-        address providedToken;
-        uint256 userAmount;
-        uint256 swapAmount;
-    }
-
     function completeLeverage(
         PoolKey memory poolKey,
         uint256 counter,
@@ -134,7 +131,9 @@ library LeverageLib {
             .diamondStorage();
         BalanceDelta delta;
 
-        FlashLeverage memory leverageInfo = uniswapState.leveragePos[counter];
+        UniswapLib.FlashLeverage memory leverageInfo = uniswapState.leveragePos[
+            counter
+        ];
 
         delta = uniswapState.poolManager.swap(
             poolKey,

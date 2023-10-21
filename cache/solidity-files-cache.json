@@ -3168,8 +3168,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/UniswapFacet.sol": {
-      "lastModificationDate": 1697869929525,
-      "contentHash": "636253109267d678ecad6a7487963aed",
+      "lastModificationDate": 1697876797885,
+      "contentHash": "94ce6ddbfb4c048ed06bc0f0512ba248",
       "sourceName": "contracts/Facets/UniswapFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3216,6 +3216,7 @@
         "@uniswap/v4-core/contracts/libraries/TickMath.sol",
         "@uniswap/v4-core/contracts/types/PoolId.sol",
         "@uniswap/v4-core/contracts/interfaces/IHooks.sol",
+        "./SparkFacet.sol",
         "./LeverageFacet.sol"
       ],
       "versionPragmas": [
@@ -3492,8 +3493,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/LeverageFacet.sol": {
-      "lastModificationDate": 1697872651385,
-      "contentHash": "c958ad089b2c2916113177abf439d542",
+      "lastModificationDate": 1697876870135,
+      "contentHash": "c089bc704b4f8e3cfbbe2d192e7cfd80",
       "sourceName": "contracts/Facets/LeverageFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3732,8 +3733,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/SparkFacet.sol": {
-      "lastModificationDate": 1697875379445,
-      "contentHash": "2705e5bd24ed1ceb3d25b3a9211b57b3",
+      "lastModificationDate": 1697879160025,
+      "contentHash": "0a38da5212063d68bc712ffd3b19683b",
       "sourceName": "contracts/Facets/SparkFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3774,7 +3775,8 @@
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
         "aave/contracts/interfaces/IPool.sol",
-        "./UniswapFacet.sol"
+        "./UniswapFacet.sol",
+        "./LeverageFacet.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
@@ -3916,10 +3918,10 @@
         "DataTypes"
       ]
     },
-    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/SelectoFacet.sol": {
-      "lastModificationDate": 1697875393405,
+    "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/SelectorFacet.sol": {
+      "lastModificationDate": 1697875526325,
       "contentHash": "d41d8cd98f00b204e9800998ecf8427e",
-      "sourceName": "contracts/Facets/SelectoFacet.sol",
+      "sourceName": "contracts/Facets/SelectorFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {

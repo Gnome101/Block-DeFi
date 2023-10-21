@@ -14,7 +14,7 @@ import "@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol";
 import "@uniswap/v4-core/contracts/libraries/TickMath.sol";
 import "@uniswap/v4-core/contracts/types/PoolId.sol";
 import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
-
+import "./SparkFacet.sol";
 import "./LeverageFacet.sol";
 struct userPosition {
     int24 lowerBound;
@@ -24,7 +24,8 @@ struct userPosition {
 enum ActionType {
     Swap,
     LiquidityChange,
-    CompLeverage
+    CompLeverage,
+    SparkLeverage
 }
 
 library UniswapLib {
@@ -36,7 +37,7 @@ library UniswapLib {
         IPoolManager poolManager;
         mapping(uint256 => IPoolManager.SwapParams) swaps;
         mapping(uint256 => IPoolManager.ModifyPositionParams) modLiqs;
-        mapping(uint256 => LeverageLib.FlashLeverage) leveragePos;
+        mapping(uint256 => FlashLeverage) leveragePos;
         uint256 swapCounter;
         uint256 liqCounter;
         mapping(address => userPosition[]) userPositions;
@@ -103,11 +104,19 @@ library UniswapLib {
         return (t0, t1, zeroForOne);
     }
 
+    struct FlashLeverage {
+        address collateral;
+        address providedToken;
+        uint256 userAmount;
+        uint256 swapAmount;
+    }
+
     function flashSwapTokens(
         address tokenFrom,
         address tokenTo,
         int256 amount,
-        LeverageLib.FlashLeverage memory leverageInfo
+        ActionType action,
+        FlashLeverage memory leverageInfo
     ) internal returns (bytes memory) {
         UniswapState storage uniswapState = diamondStorage();
         (bool zeroForOne, address token0, address token1) = determineZeroForOne(
@@ -127,12 +136,7 @@ library UniswapLib {
         uniswapState.swaps[uniswapState.swapCounter] = swapParams;
         uniswapState.leveragePos[uniswapState.swapCounter] = leverageInfo;
         bytes memory result = uniswapState.poolManager.lock(
-            abi.encode(
-                msg.sender,
-                poolKey,
-                ActionType.CompLeverage,
-                uniswapState.swapCounter
-            )
+            abi.encode(msg.sender, poolKey, action, uniswapState.swapCounter)
         );
         uniswapState.swapCounter++;
 
@@ -327,6 +331,9 @@ library UniswapLib {
         } else if (action == ActionType.CompLeverage) {
             console.log("Whats going");
             LeverageLib.completeLeverage(poolKey, counter, user);
+        } else {
+            console.log("Sparks flying!");
+            SparkLib.completeLeverage(poolKey, counter, user);
         }
         info = abi.encode(t0Amount, t1Amount);
 
