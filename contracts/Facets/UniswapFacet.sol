@@ -15,6 +15,7 @@ import "@uniswap/v4-core/contracts/libraries/TickMath.sol";
 import "@uniswap/v4-core/contracts/types/PoolId.sol";
 import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
 
+import "./LeverageFacet.sol";
 struct userPosition {
     int24 lowerBound;
     int24 upperBound;
@@ -22,13 +23,14 @@ struct userPosition {
 }
 enum ActionType {
     Swap,
-    LiquidityChange
+    LiquidityChange,
+    CompLeverage
 }
 
 library UniswapLib {
     using CurrencyLibrary for Currency;
     bytes32 constant DIAMOND_STORAGE_POSITION =
-        keccak256("diamond.leverage.storage");
+        keccak256("diamond.uniswap.storage");
 
     struct UniswapState {
         IPoolManager poolManager;
@@ -98,6 +100,39 @@ library UniswapLib {
         (int128 t0, int128 t1) = abi.decode(result, (int128, int128));
 
         return (t0, t1, zeroForOne);
+    }
+
+    function flashSwapTokens(
+        address tokenFrom,
+        address tokenTo,
+        int256 amount
+    ) internal returns (bytes memory) {
+        UniswapState storage uniswapState = diamondStorage();
+        (bool zeroForOne, address token0, address token1) = determineZeroForOne(
+            tokenFrom,
+            tokenTo
+        );
+        PoolKey memory poolKey = uniswapState.tokensToPool[token0][token1];
+        IPoolManager.SwapParams memory swapParams = IPoolManager.SwapParams({
+            zeroForOne: zeroForOne,
+            amountSpecified: amount,
+            sqrtPriceLimitX96: zeroForOne
+                ? TickMath.MIN_SQRT_RATIO + 1
+                : TickMath.MAX_SQRT_RATIO - 1
+        });
+        //Want to avoid sqrtPriceLimit
+
+        uniswapState.swaps[uniswapState.swapCounter] = swapParams;
+        bytes memory result = uniswapState.poolManager.lock(
+            abi.encode(
+                msg.sender,
+                poolKey,
+                ActionType.CompLeverage,
+                uniswapState.swapCounter
+            )
+        );
+        return result;
+        uniswapState.swapCounter++;
     }
 
     function closePosition(
@@ -246,7 +281,7 @@ library UniswapLib {
             IHooks(0x0000000000000000000000000000000000000000)
         );
         uniswapState.tokensToPool[token0][token1] = newKey;
-
+        console.log("pool", address(uniswapState.poolManager));
         uniswapState.poolManager.initialize(newKey, poolStartPrice, hookData);
     }
 
@@ -283,8 +318,10 @@ library UniswapLib {
 
         if (action == ActionType.Swap) {
             (t0Amount, t1Amount) = completeSwap(poolKey, counter);
-        } else {
+        } else if (action == ActionType.LiquidityChange) {
             (t0Amount, t1Amount) = completeLiquidtyAdd(poolKey, counter);
+        } else if (action == ActionType.CompLeverage) {
+            return data;
         }
         info = abi.encode(t0Amount, t1Amount);
 
