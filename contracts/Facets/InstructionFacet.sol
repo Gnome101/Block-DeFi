@@ -90,7 +90,103 @@ library InstructionLib {
     function instrucIfTrueContinueWResult(
         bytes4 selc
     ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x22));
+
+        return bytes5(instruction);
+    }
+
+    function instrucContinueIfOutOfBounds(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x25));
+
+        return bytes5(instruction);
+    }
+
+    function instrucAdjustBounds(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x50));
+
+        return bytes5(instruction);
+    }
+
+    //UniswapFacet
+
+    function instrucSwap(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x33));
+
+        return bytes5(instruction);
+    }
+
+    function instrucCloseLP(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x42));
+
+        return bytes5(instruction);
+    }
+
+    function instrucAddLiquidity(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x62));
+
+        return bytes5(instruction);
+    }
+
+    function instrucGetPoolLiquidity(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
         bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
+
+        return bytes5(instruction);
+    }
+
+    function instrucReturnBounds(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x02));
+
+        return bytes5(instruction);
+    }
+
+    function instrucModifyPosition(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x60));
+        return bytes5(instruction);
+    }
+
+    //Spark Facet
+    function instrucSupplySpark(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
+        return bytes5(instruction);
+    }
+
+    function instrucBorrowSpark(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
+        return bytes5(instruction);
+    }
+
+    function instrucRepaySpark(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
+        return bytes5(instruction);
+    }
+
+    function instrucWithdrawSpark(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
+        return bytes5(instruction);
+    }
+
+    function instrucLeverageUpSpark(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x41));
+
+        return bytes5(instruction);
+    }
+
+    function instrucClosePositionSpark(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
+
+        return bytes5(instruction);
+    }
+
+    function instrucGetHFSpark(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x01));
 
         return bytes5(instruction);
     }
@@ -171,5 +267,98 @@ contract InstructionFacet {
             InstructionLib.instrucIfTrueContinueWResult(
                 ControlFacet.ifTrueContinueWResult.selector
             );
+    }
+
+    function instrucContinueIfOutOfBounds() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucContinueIfOutOfBounds(
+                ControlFacet.continueIfOutOfBounds.selector
+            );
+    }
+
+    function instrucAdjustBounds() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucAdjustBounds(
+                ControlFacet.adjustBounds.selector
+            );
+    }
+
+    //Uniswap Facet
+    function instrucSwap() external pure returns (bytes5) {
+        return InstructionLib.instrucSwap(UniswapFacet.swap.selector);
+    }
+
+    function instrucCloseLP() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucCloseLP(UniswapFacet.closePosition.selector);
+    }
+
+    function instrucGetPoolLiquidity() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucGetPoolLiquidity(
+                UniswapFacet.getPoolLiquidity.selector
+            );
+    }
+
+    function instrucReturnBounds() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucReturnBounds(
+                UniswapFacet.returnBounds.selector
+            );
+    }
+
+    function instrucModifyPosition() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucModifyPosition(
+                UniswapFacet.modifyPosition.selector
+            );
+    }
+
+    function instrucAddLiquidty() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucAddLiquidity(
+                UniswapFacet.addLiquidty.selector
+            );
+    }
+
+    //Spark Facet
+
+    function instrucSupplySpark() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucSupplySpark(SparkFacet.supplySpark.selector);
+    }
+
+    function instrucBorrowSpark() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucBorrowSpark(SparkFacet.borrowSpark.selector);
+    }
+
+    function instrucRepaySpark() internal pure returns (bytes5) {
+        return InstructionLib.instrucRepaySpark(SparkFacet.repaySpark.selector);
+    }
+
+    function instrucWithdrawSpark() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucWithdrawSpark(
+                SparkFacet.withdrawSpark.selector
+            );
+    }
+
+    function instrucLeverageUpSpark() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucLeverageUpSpark(
+                SparkFacet.leverageUpSpark.selector
+            );
+    }
+
+    function instrucClosePositionSpark() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucClosePositionSpark(
+                SparkFacet.closePositionSpark.selector
+            );
+    }
+
+    function instrucGetHFSpark() internal pure returns (bytes5) {
+        return InstructionLib.instrucGetHFSpark(SparkFacet.getHF.selector);
     }
 }

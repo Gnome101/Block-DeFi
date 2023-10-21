@@ -88,7 +88,6 @@ library HookLib {
             .diamondStorage();
 
         hookState.counter++;
-        console.log(managerState.executionOccuring);
         PoolId poolID = PoolIdLibrary.toId(poolKey);
         (, int24 currentTick, , ) = uniswapState.poolManager.getSlot0(poolID);
         hookState.currentPrice = TickMath.getSqrtRatioAtTick(currentTick);

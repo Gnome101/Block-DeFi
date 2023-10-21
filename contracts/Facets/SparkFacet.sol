@@ -35,21 +35,27 @@ library SparkLib {
     }
 
     //Supply WETH
-    function supply(address asset, uint256 amount) internal {
+    function supply(address asset, uint256 amount) internal returns (uint256) {
         SparkState storage sparkState = diamondStorage();
         IERC20(asset).approve(address(sparkState.pool), amount);
         sparkState.pool.supply(asset, amount, address(this), 0);
+        return amount;
     }
 
     //Borrow DAI
-    function borrow(address asset, uint256 amount) internal {
+    function borrow(address asset, uint256 amount) internal returns (uint256) {
         SparkState storage sparkState = diamondStorage();
         sparkState.pool.borrow(asset, amount, 2, 0, address(this));
+        return amount;
     }
 
-    function withdraw(address asset, uint256 amount) internal {
+    function withdraw(
+        address asset,
+        uint256 amount
+    ) internal returns (uint256) {
         SparkState storage sparkState = diamondStorage();
         sparkState.pool.withdraw(asset, amount, address(this));
+        return amount;
     }
 
     function getUserAccountData(
@@ -75,7 +81,9 @@ library SparkLib {
         address providedToken, //DAI
         uint256 userAmount,
         uint256 swapAmount
-    ) internal {
+    ) internal returns (uint256) {
+        SparkState storage sparkState = diamondStorage();
+
         UniswapLib.FlashLeverage memory leverageInfo = UniswapLib
             .FlashLeverage({
                 collateral: collateral,
@@ -91,6 +99,7 @@ library SparkLib {
             ActionType.SparkLeverage,
             leverageInfo
         );
+        return sparkState.posCounter - 1;
     }
 
     function completeLeverage(
@@ -281,13 +290,30 @@ contract SparkFacet {
     }
 
     //Supply WETH
-    function supplySpark(address asset, uint256 amount) external {
-        SparkLib.supply(asset, amount);
+    function supplySpark(
+        address asset,
+        uint256 amount
+    ) external returns (uint256) {
+        return SparkLib.supply(asset, amount);
     }
 
     //Borrow DAI
-    function borrowSpark(address asset, uint256 amount) external {
-        SparkLib.borrow(asset, amount);
+    function borrowSpark(
+        address asset,
+        uint256 amount
+    ) external returns (uint256) {
+        return SparkLib.borrow(asset, amount);
+    }
+
+    function repaySpark(address asset, uint256 amount) external {
+        SparkLib.repay(asset, amount);
+    }
+
+    function withdrawSpark(
+        address asset,
+        uint256 amount
+    ) external returns (uint256) {
+        return SparkLib.withdraw(asset, amount);
     }
 
     function getUserAccountData(
@@ -312,20 +338,21 @@ contract SparkFacet {
         address providedToken, //DAI
         uint256 userAmount,
         uint256 swapAmount
-    ) external {
-        SparkLib.leverageUpSpark(
-            collateral,
-            providedToken,
-            userAmount,
-            swapAmount
-        );
+    ) external returns (uint256) {
+        return
+            SparkLib.leverageUpSpark(
+                collateral,
+                providedToken,
+                userAmount,
+                swapAmount
+            );
     }
 
     function closePositionSpark(uint256 counter) external {
         SparkLib.closePosition(counter);
     }
 
-    function getHF() internal returns (uint256) {
+    function getHF() external returns (uint256) {
         return SparkLib.getHF();
     }
 }

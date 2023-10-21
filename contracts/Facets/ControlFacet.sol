@@ -42,18 +42,28 @@ library ControlLib {
     }
 
     function continueIfOutOfBounds(
-        uint256 token0,
-        uint256 token1,
-        uint160 lowerBound,
-        uint160 upperBound
+        uint256 lowerBound,
+        uint256 upperBound
     ) internal returns (uint256, uint256, uint256, uint256, uint256) {
+        UniswapLib.UniswapState storage uniswapState = UniswapLib
+            .diamondStorage();
+        uint256 token0 = ManagerLib.convertAddyToNum(
+            uniswapState.userPositions[address(this)][0].token0
+        );
+        uint256 token1 = ManagerLib.convertAddyToNum(
+            uniswapState.userPositions[address(this)][0].token1
+        );
+
         HookLib.HookState storage hookState = HookLib.diamondStorage();
-        uint160 currentPrice = uint160(hookState.currentPrice);
-        if (currentPrice < lowerBound) {
-            return (token0, token1, lowerBound, 0, currentPrice);
-        } else if (currentPrice > upperBound) {
-            return (token0, token1, lowerBound, 1, currentPrice);
+
+        if (hookState.currentPrice < lowerBound) {
+            console.log("Current price is below lower bound!");
+            return (token0, token1, lowerBound, 0, hookState.currentPrice);
+        } else if (hookState.currentPrice > upperBound) {
+            console.log("Current price is above upper bound!");
+            return (token0, token1, lowerBound, 1, hookState.currentPrice);
         }
+        console.log("Current Price is still within bounds");
         ManagerLib.stopExecution();
         return (0, 0, 0, 0, 0);
     }
@@ -61,25 +71,28 @@ library ControlLib {
     function adjustBounds(
         uint256 token0,
         uint256 token1,
-        uint160 oldLower,
-        uint160 oldUpper,
-        uint160 currentPrice
+        uint256 oldLower,
+        uint256 oldUpper,
+        uint256 currentPrice
     ) internal {
-        UniswapLib.UniswapState storage uniswapState = UniswapLib
-            .diamondStorage();
-        int24 oldLowerTick = TickMath.getTickAtSqrtRatio(oldLower);
-        int24 oldUpperTick = TickMath.getTickAtSqrtRatio(oldUpper);
-        int24 currentTick = TickMath.getTickAtSqrtRatio(currentPrice);
-
+        // int24 oldLowerTick = TickMath.getTickAtSqrtRatio(oldLower);
+        // int24 oldUpperTick = TickMath.getTickAtSqrtRatio(oldUpper);
+        (int24 oldLowerTick, int24 oldUpperTick) = UniswapLib
+            .returnBoundsTicks();
+        HookLib.HookState storage hookState = HookLib.diamondStorage();
+        console.log("adjusting?");
+        int24 currentTick = TickMath.getTickAtSqrtRatio(
+            uint160(hookState.currentPrice)
+        );
+        console.log("Current", uint256(uint24(-oldLowerTick)));
         int24 newLower;
         int24 newUpper;
-
-        newLower = currentTick - 60 * 30;
-        newUpper = currentTick + 60 * 30;
+        newLower = currentTick - 60 * 5;
+        newUpper = currentTick + 60 * 5;
 
         address t0 = ManagerLib.convertNumToAddy(token0);
         address t1 = ManagerLib.convertNumToAddy(token1);
-
+        console.log("Modifying");
         UniswapLib.modifyPosition(
             t0,
             t1,
@@ -100,5 +113,15 @@ contract ControlFacet {
         uint256[] memory nums
     ) external returns (uint256) {
         return ControlLib.ifTrueContinueWResult(nums[0], nums[1]);
+    }
+
+    function continueIfOutOfBounds(
+        uint256[] memory nums
+    ) external returns (uint256, uint256, uint256, uint256, uint256) {
+        return ControlLib.continueIfOutOfBounds((nums[0]), (nums[1]));
+    }
+
+    function adjustBounds(uint256[] memory nums) external {
+        ControlLib.adjustBounds(nums[0], nums[1], nums[2], nums[3], nums[4]);
     }
 }

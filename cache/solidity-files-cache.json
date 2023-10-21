@@ -1941,8 +1941,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/ManagerFacet.sol": {
-      "lastModificationDate": 1697891306875,
-      "contentHash": "e940d1b46b717afccedeaa42c09d6a92",
+      "lastModificationDate": 1697900489288,
+      "contentHash": "1666020994ef0f18bde1ad546ef975c6",
       "sourceName": "contracts/Facets/ManagerFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3172,8 +3172,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/UniswapFacet.sol": {
-      "lastModificationDate": 1697894439968,
-      "contentHash": "5843c4d5b6d42349647c0fe911c80cdf",
+      "lastModificationDate": 1697900950588,
+      "contentHash": "3cebceaf49605773644f0858f032bf78",
       "sourceName": "contracts/Facets/UniswapFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3646,8 +3646,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/HookFacet.sol": {
-      "lastModificationDate": 1697892884688,
-      "contentHash": "9d0c46fd2c4f708bda37fe2459e1895c",
+      "lastModificationDate": 1697900267198,
+      "contentHash": "b92d1afe030594b45805275b8e5978da",
       "sourceName": "contracts/Facets/HookFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3741,8 +3741,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/SparkFacet.sol": {
-      "lastModificationDate": 1697895284238,
-      "contentHash": "974b4e1f11e3370e3c054f8617316a1a",
+      "lastModificationDate": 1697896988558,
+      "contentHash": "f9f777957559d23ff679514e49950668",
       "sourceName": "contracts/Facets/SparkFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3927,8 +3927,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/InstructionFacet.sol": {
-      "lastModificationDate": 1697890944805,
-      "contentHash": "6b5b8ecfe71146e9fe7035773a6d91be",
+      "lastModificationDate": 1697897763118,
+      "contentHash": "62f490d14ca3e466bcc1775bbf3b9bff",
       "sourceName": "contracts/Facets/InstructionFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -3979,8 +3979,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/ControlFacet.sol": {
-      "lastModificationDate": 1697893888668,
-      "contentHash": "a07206f0271b72d88d70a418fa1adc57",
+      "lastModificationDate": 1697901259118,
+      "contentHash": "43a862b9cef26c2ffe2f183c6f7114ab",
       "sourceName": "contracts/Facets/ControlFacet.sol",
       "solcConfig": {
         "version": "0.8.20",

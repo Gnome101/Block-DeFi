@@ -567,20 +567,20 @@ describe("System Test ", async function () {
           "0x"
         );
 
-        const lowerTick = currentTick - parseInt(poolKey.tickSpacing) * 30;
-        const upperTick = currentTick + parseInt(poolKey.tickSpacing) * 30;
+        const lowerTick = currentTick - parseInt(poolKey.tickSpacing) * 5;
+        const upperTick = currentTick + parseInt(poolKey.tickSpacing) * 5;
         //Since price is basically 1:1
         //we will just use an even amount
         const wethDecimals = Decimal.pow(10, 18);
         const usdcDecimals = Decimal.pow(10, 6);
 
-        let wethAmount = new Decimal(19.5);
+        let wethAmount = new Decimal(1.5);
 
         let usdcAmount = wethAmount.times(res);
         wethAmount = wethAmount.times(wethDecimals).round();
         usdcAmount = usdcAmount.times(usdcDecimals).round();
         await USDC.transfer(diamondAddress, usdcAmount.toFixed());
-        wethAmount = new Decimal(19.52);
+        wethAmount = new Decimal(1.52);
         wethAmount = wethAmount.times(wethDecimals).round();
         await WETH.transfer(diamondAddress, wethAmount.toFixed());
 
@@ -677,7 +677,7 @@ describe("System Test ", async function () {
           swapAmount.toString()
         );
       });
-      it("can attach advanced controlFlow to hooks 31", async () => {
+      it("can attach advanced controlFlow to hooks ", async () => {
         let decimalAdj = Decimal.pow(10, 18);
         //Minmum is 100
         const wethAmount = new Decimal(0.1).times(decimalAdj);
@@ -732,6 +732,92 @@ describe("System Test ", async function () {
           swapAmount.toString()
         );
         console.log((await Comet.borrowBalanceOf(diamondAddress)).toString());
+      });
+      it("position manager 112", async () => {
+        let instructions = [];
+        instructions.push(await instructionFacet.instrucReturnBounds());
+        instructions.push(
+          await instructionFacet.instrucContinueIfOutOfBounds()
+        );
+        instructions.push(await instructionFacet.instrucAdjustBounds());
+        //instructions.push(await instructionFacet.instrucStop());
+
+        console.log(instructions);
+        const packedInstructions =
+          await managerFacet.convertBytes5ArrayToBytes(instructions);
+        console.log(packedInstructions);
+
+        const instructionsWithInput = await managerFacet.addDataToFront(
+          [0],
+          packedInstructions
+        );
+        console.log(instructionsWithInput);
+        await managerFacet.createNewHookFlow(
+          "Adjust LP",
+          instructionsWithInput
+        );
+
+        const currentTick = getNearestUsableTick(
+          202494, //Tick copied from the V3 Pool
+
+          parseInt(60)
+        );
+
+        let price = Decimal.pow(1.0001, 202494);
+        let dividor = Decimal.pow(10, 12);
+        let res = price.dividedBy(dividor);
+
+        res = new Decimal(1).dividedBy(res);
+        console.log(res.toFixed());
+        let sqrtPrice = await uniswapFacet.getSqrtAtTick(currentTick);
+        sqrtPrice = new Decimal(sqrtPrice.toString());
+        // const a = await poolManager.initialize.staticCall(
+        //   poolKey,
+        //   sqrtPrice.toFixed(),
+        //   "0x"
+        // );
+        // console.log(a.toString());
+
+        const lowerTick = currentTick - parseInt(60) * 60;
+        const upperTick = currentTick + parseInt(60) * 60;
+        //Since price is basically 1:1
+        //we will just use an even amount
+        const wethDecimals = Decimal.pow(10, 18);
+        const usdcDecimals = Decimal.pow(10, 6);
+
+        let wethAmount = new Decimal(10.5);
+
+        let usdcAmount = wethAmount.times(res);
+        wethAmount = wethAmount.times(wethDecimals).round();
+        usdcAmount = usdcAmount.times(usdcDecimals).round();
+        await USDC.transfer(diamondAddress, usdcAmount.toFixed());
+        wethAmount = new Decimal(10.52);
+        wethAmount = wethAmount.times(wethDecimals).round();
+        await WETH.transfer(diamondAddress, wethAmount.toFixed());
+
+        await uniswapFacet.addLiquidty(
+          WETH.target,
+          USDC.target,
+          lowerTick,
+          upperTick,
+          wethAmount.toFixed(),
+          usdcAmount.toFixed()
+        );
+
+        let swapAmount = ethers.parseEther("3");
+        console.log(swapAmount.toString());
+
+        await WETH.transfer(diamondAddress, swapAmount.toString());
+        const boundsStart = await uniswapFacet.returnBounds();
+        console.log("start", boundsStart.toString());
+        await uniswapFacet.swap(
+          WETH.target,
+          USDC.target,
+          swapAmount.toString()
+        );
+
+        const boundsEnd = await uniswapFacet.returnBounds();
+        console.log(boundsEnd.toString());
       });
     });
   });

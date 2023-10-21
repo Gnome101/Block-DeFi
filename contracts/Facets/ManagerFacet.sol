@@ -95,7 +95,6 @@ library ManagerLib {
                 abi.encodeWithSelector(selector, inputs)
             );
         }
-
         if (outputCount == 0) {
             uint256[] memory newArray = new uint256[](1);
             newArray[0] = 0;
@@ -111,11 +110,12 @@ library ManagerLib {
             return newArray;
         }
         if (outputCount == 2) {
+            console.log("Before");
             (uint256 outPut1, uint256 outPut2) = abi.decode(
                 data,
                 (uint256, uint256)
             );
-
+            console.log(outPut1, outPut2);
             uint256[] memory newArray = new uint256[](outputCount);
             newArray[0] = outPut1;
             newArray[1] = outPut2;
@@ -130,6 +130,58 @@ library ManagerLib {
             newArray[0] = outPut1;
             newArray[1] = outPut2;
             newArray[2] = outPut3;
+            return newArray;
+        }
+        if (outputCount == 4) {
+            (
+                uint256 outPut1,
+                uint256 outPut2,
+                uint256 outPut3,
+                uint256 outPut4
+            ) = abi.decode(data, (uint256, uint256, uint256, uint256));
+            uint256[] memory newArray = new uint256[](outputCount);
+            newArray[0] = outPut1;
+            newArray[1] = outPut2;
+            newArray[2] = outPut3;
+            newArray[3] = outPut4;
+            return newArray;
+        }
+        if (outputCount == 5) {
+            (
+                uint256 outPut1,
+                uint256 outPut2,
+                uint256 outPut3,
+                uint256 outPut4,
+                uint256 outPut5
+            ) = abi.decode(data, (uint256, uint256, uint256, uint256, uint256));
+            uint256[] memory newArray = new uint256[](outputCount);
+            newArray[0] = outPut1;
+            newArray[1] = outPut2;
+            newArray[2] = outPut3;
+            newArray[3] = outPut4;
+            newArray[4] = outPut5;
+            return newArray;
+        }
+        if (outputCount == 6) {
+            (
+                uint256 outPut1,
+                uint256 outPut2,
+                uint256 outPut3,
+                uint256 outPut4,
+                uint256 outPut5,
+                uint256 outPut6
+            ) = abi.decode(
+                    data,
+                    (uint256, uint256, uint256, uint256, uint256, uint256)
+                );
+            uint256[] memory newArray = new uint256[](outputCount);
+            newArray[0] = outPut1;
+            newArray[1] = outPut2;
+            newArray[2] = outPut3;
+            newArray[3] = outPut4;
+            newArray[4] = outPut5;
+            newArray[6] = outPut6;
+
             return newArray;
         }
     }

@@ -20,6 +20,8 @@ struct userPosition {
     int24 lowerBound;
     int24 upperBound;
     PoolId poolID;
+    address token0;
+    address token1;
 }
 enum ActionType {
     Swap,
@@ -188,6 +190,14 @@ library UniswapLib {
         int24 newlowerBound,
         int24 newUpperBound
     ) internal {
+        console.log("Position Modification:");
+        console.log("Old Bounds:", uint24(-lowerBound), uint24(-upperBound));
+        console.log(
+            "New Bounds:",
+            uint24(-newlowerBound),
+            uint24(-newUpperBound)
+        );
+
         (int128 t0Recieved, int128 t1Recieved) = closePosition(
             token0,
             token1,
@@ -201,7 +211,8 @@ library UniswapLib {
             newlowerBound,
             newUpperBound,
             uint256(uint128(t0Recieved)),
-            uint256(uint128(t1Recieved))
+            uint256(uint128(t1Recieved)),
+            true
         );
     }
 
@@ -235,7 +246,8 @@ library UniswapLib {
         int24 tickLower,
         int24 tickUpper,
         uint256 token0Amount,
-        uint256 token1Amount
+        uint256 token1Amount,
+        bool zeroth
     ) internal returns (int256, int256) {
         UniswapState storage uniswapState = diamondStorage();
 
@@ -257,14 +269,27 @@ library UniswapLib {
         PoolKey memory poolKey = uniswapState.tokensToPool[token0][token1];
 
         PoolId id = PoolIdLibrary.toId(poolKey);
-
-        uniswapState.userPositions[msg.sender].push(
-            userPosition({
+        console.log("ADDING", token0, token1);
+        if (zeroth) {
+            uniswapState.userPositions[address(this)][0] = userPosition({
                 lowerBound: tickLower,
                 upperBound: tickUpper,
-                poolID: id
-            })
-        );
+                poolID: id,
+                token0: token0,
+                token1: token1
+            });
+        } else {
+            uniswapState.userPositions[address(this)].push(
+                userPosition({
+                    lowerBound: tickLower,
+                    upperBound: tickUpper,
+                    poolID: id,
+                    token0: token0,
+                    token1: token1
+                })
+            );
+        }
+
         //Need to get ID from pool key
         (uint160 startPrice, , , ) = uniswapState.poolManager.getSlot0(id);
         int256 liquidtyDelta = int256(
@@ -461,19 +486,29 @@ library UniswapLib {
         return TickMath.getSqrtRatioAtTick(tick);
     }
 
-    function returnBounds()
-        internal
-        view
-        returns (uint160 lower, uint160 upper)
-    {
+    function returnBounds() internal view returns (uint256, uint256) {
         UniswapState storage uniswapState = diamondStorage();
+
         return (
-            TickMath.getSqrtRatioAtTick(
-                uniswapState.userPositions[address(this)][0].lowerBound
+            uint256(
+                TickMath.getSqrtRatioAtTick(
+                    uniswapState.userPositions[address(this)][0].lowerBound
+                )
             ),
-            TickMath.getSqrtRatioAtTick(
-                uniswapState.userPositions[address(this)][0].upperBound
+            uint256(
+                TickMath.getSqrtRatioAtTick(
+                    uniswapState.userPositions[address(this)][0].upperBound
+                )
             )
+        );
+    }
+
+    function returnBoundsTicks() internal view returns (int24, int24) {
+        UniswapState storage uniswapState = diamondStorage();
+
+        return (
+            uniswapState.userPositions[address(this)][0].lowerBound,
+            uniswapState.userPositions[address(this)][0].upperBound
         );
     }
 }
@@ -522,7 +557,8 @@ contract UniswapFacet {
                 tickLower,
                 tickUpper,
                 token0Amount,
-                token1Amount
+                token1Amount,
+                false
             );
     }
 
@@ -556,8 +592,35 @@ contract UniswapFacet {
     function returnBounds()
         external
         view
-        returns (uint160 lower, uint160 upper)
+        returns (uint256 lower, uint256 upper)
     {
         return UniswapLib.returnBounds();
+    }
+
+    function returnBoundsTicks()
+        external
+        view
+        returns (int24 lower, int24 upper)
+    {
+        return UniswapLib.returnBoundsTicks();
+    }
+
+    function modifyPosition(
+        address token0,
+        address token1,
+        int24 lowerBound,
+        int24 upperBound,
+        int24 newlowerBound,
+        int24 newUpperBound
+    ) external {
+        return
+            UniswapLib.modifyPosition(
+                token0,
+                token1,
+                lowerBound,
+                upperBound,
+                newlowerBound,
+                newUpperBound
+            );
     }
 }
