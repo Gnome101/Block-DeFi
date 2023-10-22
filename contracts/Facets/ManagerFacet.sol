@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 // Example library to show a simple example of diamond storage
 import "hardhat/console.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 library ManagerLib {
     bytes32 constant DIAMOND_STORAGE_POSITION =
@@ -304,6 +305,20 @@ library ManagerLib {
         ManagerState storage managerState = diamondStorage();
         managerState.work = false;
     }
+
+    function transferEtherToCaller() public {
+        require(address(this).balance > 0, "Contract has no Ether to transfer");
+        payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function transferTokenToCaller(address tokenAddy, uint256 amount) public {
+        IERC20 token = IERC20(tokenAddy);
+        require(
+            token.balanceOf(address(this)) >= amount,
+            "Contract has insufficient tokens"
+        );
+        token.transfer(msg.sender, amount);
+    }
 }
 
 contract ManagerFacet {
@@ -396,5 +411,19 @@ contract ManagerFacet {
 
     function stopExecution() external {
         ManagerLib.stopExecution();
+    }
+
+    function transferEtherToCaller() external {
+        require(address(this).balance > 0, "Contract has no Ether to transfer");
+        payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function transferTokenToCaller(address tokenAddy, uint256 amount) external {
+        IERC20 token = IERC20(tokenAddy);
+        require(
+            token.balanceOf(address(this)) >= amount,
+            "Contract has insufficient tokens"
+        );
+        token.transfer(msg.sender, amount);
     }
 }

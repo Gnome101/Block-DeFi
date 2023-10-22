@@ -7,13 +7,15 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   let args = [];
   console.log("Chain ID", network.config.chainId);
   //Deploy Pool Manager (Big Boy!!)
-  args = [500000];
-  const PoolManager = await deploy("PoolManager", {
-    from: deployer,
-    args: args,
-    log: true,
-    blockConfirmations: 2,
-  });
+  // if (network.config.chainId == 31337) {
+  //   args = [500000];
+  //   const PoolManager = await deploy("PoolManager", {
+  //     from: deployer,
+  //     args: args,
+  //     log: true,
+  //     blockConfirmations: 2,
+  //   });
+  // }
   args = [];
   //Deploying Hook-Factory
   const UniswapHooksFactory = await deploy("UniswapHooksFactory", {
@@ -122,6 +124,13 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
 
   const UMAFacet = await deploy("UMAFacet", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+
+  const WormFacet = await deploy("WormFacet", {
     from: deployer,
     args: args,
     log: true,

@@ -13,7 +13,6 @@ library HyperLib {
     struct HyperState {
         address mailBox;
         address igp;
-        address ism;
         mapping(uint256 => address) domainToAddress;
         uint256 counter;
     }
@@ -97,13 +96,59 @@ library HyperLib {
         );
     }
 
+    uint256 public constant gasCost = 300000;
+
+    function sendDataMumbai(uint256[] memory input) internal {
+        uint32 domainTarget = 80001;
+        uint256 gasEstimate = getQuote(domainTarget, gasCost);
+        bytes memory data = ManagerLib.getCurrentFlow();
+
+        bytes memory dataFlow = ManagerLib.addDataToFront(input, data);
+        sendMessage(domainTarget, gasCost, gasEstimate, dataFlow);
+    }
+
+    function sendDataArbGoerli(uint256[] memory input) internal {
+        uint32 domainTarget = 421613;
+        uint256 gasEstimate = getQuote(domainTarget, gasCost);
+        bytes memory data = ManagerLib.getCurrentFlow();
+        bytes memory dataFlow = ManagerLib.addDataToFront(input, data);
+
+        sendMessage(domainTarget, gasCost, gasEstimate, dataFlow);
+    }
+
+    function sendDataGoerli(uint256[] memory input) internal {
+        uint32 domainTarget = 5;
+        uint256 gasEstimate = getQuote(domainTarget, gasCost);
+        bytes memory data = ManagerLib.getCurrentFlow();
+        bytes memory dataFlow = ManagerLib.addDataToFront(input, data);
+
+        sendMessage(domainTarget, gasCost, gasEstimate, dataFlow);
+    }
+
+    function sendDataBase(uint256[] memory input) internal {
+        uint32 domainTarget = 84531;
+        uint256 gasEstimate = getQuote(domainTarget, gasCost);
+        bytes memory data = ManagerLib.getCurrentFlow();
+        bytes memory dataFlow = ManagerLib.addDataToFront(input, data);
+
+        sendMessage(domainTarget, gasCost, gasEstimate, dataFlow);
+    }
+
+    function sendDataGnosis(uint256[] memory input) internal {
+        uint32 domainTarget = 100;
+        uint256 gasEstimate = getQuote(domainTarget, gasCost);
+        bytes memory data = ManagerLib.getCurrentFlow();
+        bytes memory dataFlow = ManagerLib.addDataToFront(input, data);
+
+        sendMessage(domainTarget, gasCost, gasEstimate, dataFlow);
+    }
+
     function addressToBytes32(address _addr) internal pure returns (bytes32) {
         return bytes32(uint256(uint160(_addr)));
     }
 
     function interchainSecurityModule() internal view returns (address) {
-        HyperState storage hyperState = diamondStorage();
-        return hyperState.ism;
+        return address(this);
     }
 
     function setMailBox(address maiLBox) internal {
@@ -114,11 +159,6 @@ library HyperLib {
     function setGasMaster(address localIGP) internal {
         HyperState storage hyperState = diamondStorage();
         hyperState.igp = localIGP;
-    }
-
-    function setISM(address ism) internal {
-        HyperState storage hyperState = diamondStorage();
-        hyperState.ism = ism;
     }
 
     function getGasMaster() internal view returns (address) {
@@ -215,10 +255,6 @@ contract HyperFacet {
 
     function getGasMaster() external view returns (address) {
         return HyperLib.getGasMaster();
-    }
-
-    function setISM(address ism) external {
-        HyperLib.setISM(ism);
     }
 
     function getCounter() external view returns (uint256) {

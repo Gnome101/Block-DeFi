@@ -104,6 +104,13 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     action: FacetCutAction.Add,
     functionSelectors: getSelectors(umaFacet),
   });
+
+  const wormFacet = await ethers.getContract("WormFacet");
+  facetCut.push({
+    facetAddress: wormFacet.target,
+    action: FacetCutAction.Add,
+    functionSelectors: getSelectors(wormFacet),
+  });
   //Now that all of the facets and their cut data is organized we continue
   let functionCall = diamondInit.interface.encodeFunctionData("init");
 

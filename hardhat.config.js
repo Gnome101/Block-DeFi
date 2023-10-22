@@ -35,8 +35,8 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: MAINNET_RPC_URL,
-        blockNumber: 18394794,
+        url: ARBGOERLI_RPC_URL,
+        blockNumber: 49847785,
       },
       chainId: 31337,
       allowUnlimitedContractSize: true,
@@ -60,7 +60,7 @@ module.exports = {
       chainId: 534351,
     },
     mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com" || "",
+      url: "https://polygon-mumbai-bor.publicnode.com" || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
       chainId: 80001,

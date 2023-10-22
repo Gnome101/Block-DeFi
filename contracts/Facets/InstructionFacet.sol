@@ -90,7 +90,7 @@ library InstructionLib {
     function instrucIfTrueContinueWResult(
         bytes4 selc
     ) internal pure returns (bytes5) {
-        bytes memory instruction = abi.encodePacked(selc, bytes1(0x22));
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x21));
 
         return bytes5(instruction);
     }
