@@ -120,5 +120,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+
+  const UMAFacet = await deploy("UMAFacet", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
 };
 module.exports.tags = ["all", "Facets"];

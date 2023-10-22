@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 import "./Interfaces/IMailbox.sol";
 import "./Interfaces/IInterchainGasPaymaster.sol";
 import "hardhat/console.sol";
+import "../UMAFacet.sol";
+import "../ManagerFacet.sol";
 
 library HyperLib {
     bytes32 constant DIAMOND_STORAGE_POSITION =
@@ -145,12 +147,41 @@ library HyperLib {
         bytes calldata _message
     ) internal returns (bool) {
         HyperState storage hyperState = diamondStorage();
-        hyperState.counter += 3;
+        UMALib.UMAState storage umaState = UMALib.diamondStorage();
+
+        hyperState.counter += 1;
+        if (address(umaState.oov3) != address(0)) {
+            bytes32 dataID = bytes32(hyperState.counter);
+            bytes32 assertionID = UMALib.assertDataFor(
+                dataID,
+                bytes32(_message),
+                address(this)
+            );
+            umaState.messageToAssertionID[bytes32(_message)] = assertionID;
+        }
         //When the validator calls verify, we lock the state so the relayer pauses
         //Then after a 30s period for UMA review re-allow transactions to go through
         //Then the relayer is able to work. Muahhahhah
         return true;
     }
+
+    function receiveMessage(
+        uint32 _origin,
+        bytes32 _sender,
+        bytes calldata _body
+    ) internal {
+        UMALib.UMAState storage umaState = UMALib.diamondStorage();
+        if (address(umaState.oov3) != address(0)) {
+            bytes32 assertionID = umaState.messageToAssertionID[bytes32(_body)];
+            UMALib.settleAndGetAssertionResult(assertionID);
+        }
+
+        HyperLib.increaseCounter();
+        //Now we can continue flow
+        ManagerLib.startWorking(_body);
+    }
+
+    function sendMessageToMumbai() internal {}
 }
 
 contract HyperFacet {

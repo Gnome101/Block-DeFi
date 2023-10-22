@@ -2,7 +2,7 @@ async function getSalt(hookFactory, diamondCutArgs, regularArgs, prefix) {
   let salt;
   let predictedAddy;
 
-  for (let i = 1299; i < 3000; i++) {
+  for (let i = 0; i < 3000; i++) {
     //Convert our integer in decimal to hex
     salt = ethers.toBeHex(i);
 
@@ -16,7 +16,7 @@ async function getSalt(hookFactory, diamondCutArgs, regularArgs, prefix) {
     );
     console.log(predictedAddy);
     if (_doesAddressStartWith(predictedAddy, prefix)) {
-      console.log("BIG W!!", salt);
+      console.log("BIG W!!!", salt);
       break;
     }
   }

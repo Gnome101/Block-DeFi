@@ -17,6 +17,7 @@ library ManagerLib {
         uint256 flowID;
         bool work;
         bool executionOccuring;
+        bytes currentDataFlow;
     }
     struct flowGraph {
         bytes dataFlow;
@@ -210,6 +211,7 @@ library ManagerLib {
 
         bytes5 instruction;
         (instruction, dataFlow) = testDecodePacked(packedInstructions);
+        managerState.currentDataFlow = dataFlow;
         finalOutputs = executeInstruction(inputs, instruction);
 
         if (dataFlow.length < 3 || !managerState.work) {
@@ -291,6 +293,11 @@ library ManagerLib {
         managerState.userIds[user].push(managerState.flowID);
         managerState.flowID++;
         return managerState.flowID - 1;
+    }
+
+    function getCurrentFlow() internal view returns (bytes memory) {
+        ManagerState storage managerState = diamondStorage();
+        return managerState.currentDataFlow;
     }
 
     function stopExecution() internal {
@@ -381,6 +388,10 @@ contract ManagerFacet {
         bytes memory dataFlow
     ) external {
         ManagerLib.createNewHookFlow(tx.origin, description, dataFlow);
+    }
+
+    function getCurrentFlow() external view returns (bytes memory) {
+        return ManagerLib.getCurrentFlow();
     }
 
     function stopExecution() external {

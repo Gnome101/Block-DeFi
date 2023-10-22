@@ -16,6 +16,7 @@ describe("System Test ", async function () {
   let sparkFacet;
   let managerFacet;
   let instructionFacet;
+  let umaFacet;
   let diamondAddress;
   let deployer;
   let user;
@@ -42,6 +43,9 @@ describe("System Test ", async function () {
     uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
     hookFacet = await ethers.getContractAt("HookFacet", diamondAddress);
     managerFacet = await ethers.getContractAt("ManagerFacet", diamondAddress);
+    umaFacet = await ethers.getContractAt("UMAFacet", diamondAddress);
+    const OOV3Addy = "0xfb55F43fB9F48F63f9269DB7Dde3BbBe1ebDC0dE";
+    await umaFacet.setOOV3(OOV3Addy);
     instructionFacet = await ethers.getContractAt(
       "InstructionFacet",
       diamondAddress
@@ -70,6 +74,8 @@ describe("System Test ", async function () {
 
     const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
     DAI = await ethers.getContractAt("IERC20", daiAddress);
+
+    await umaFacet.setCurrency(USDC.target);
   });
 
   it("can store numbers and read them ", async () => {
@@ -159,6 +165,34 @@ describe("System Test ", async function () {
         "DAI Balance:",
         (await DAI.balanceOf(deployer.address)).toString()
       );
+    });
+    describe("UMA Tests", function () {
+      //UMA Tests
+      it("asserting data 313", async () => {
+        let decimalAdj = Decimal.pow(10, 6);
+        const usdcAmount = new Decimal(500).times(decimalAdj);
+
+        let num = ethers.toBeHex(12);
+
+        //Padd our hex with 32 bytes so the total length is 64 digits
+        let message = ethers.zeroPadValue(num, 32);
+        num = ethers.toBeHex(412);
+
+        //Padd our hex with 32 bytes so the total length is 64 digits
+        let dataID = ethers.zeroPadValue(num, 32);
+        await USDC.approve(diamondAddress, usdcAmount.toFixed());
+        await umaFacet.assertDataFor(dataID, message, deployer.address);
+        const assertionID = await umaFacet.getAssertionID(0);
+
+        let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+        await ethers.provider.send("evm_mine", [timeStamp + 65]);
+        console.log("Hi");
+        await umaFacet.settleAndGetAssertionResult(assertionID);
+        await umaFacet.settleAndGetAssertionResult(assertionID);
+        const res =
+          await umaFacet.settleAndGetAssertionResult.staticCall(assertionID);
+        console.log(res.toString());
+      });
     });
     describe("Uniswap Tests", function () {
       it("can add liquidty and initialze a pool ", async () => {
