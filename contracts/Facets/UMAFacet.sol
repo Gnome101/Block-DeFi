@@ -64,10 +64,10 @@ library UMALib {
         address asserter
     ) internal returns (bytes32 assertionId) {
         UMAState storage umaState = diamondStorage();
+
         asserter = asserter == address(0) ? msg.sender : asserter;
 
-        uint256 bond = umaState.oov3.getMinimumBond(address(umaState.currency));
-
+        uint256 bond = umaState.oov3.getMinimumBond(umaState.currency);
         SafeERC20.safeTransferFrom(
             IERC20(umaState.currency),
             msg.sender,

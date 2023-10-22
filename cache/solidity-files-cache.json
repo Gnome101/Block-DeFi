@@ -3744,8 +3744,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/SparkFacet.sol": {
-      "lastModificationDate": 1697896988558,
-      "contentHash": "f9f777957559d23ff679514e49950668",
+      "lastModificationDate": 1697969534279,
+      "contentHash": "5d7920d04e910cb0b6d9f82efd7a9c02",
       "sourceName": "contracts/Facets/SparkFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -4079,8 +4079,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/Facets/UMAFacet.sol": {
-      "lastModificationDate": 1697965266169,
-      "contentHash": "a2b068f3cfcb8019376c6d559139844c",
+      "lastModificationDate": 1697967723579,
+      "contentHash": "c30023e97aa10a16a23f85b9f7d26a55",
       "sourceName": "contracts/Facets/UMAFacet.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -4452,8 +4452,8 @@
       ]
     },
     "/home/gnome2/crpyto-stuff/Block-Defi/contracts/WormHole/interfaces/IERC20.sol": {
-      "lastModificationDate": 1697935627499,
-      "contentHash": "d3f395dc838796643e7a71419900ab23",
+      "lastModificationDate": 1697968539539,
+      "contentHash": "79de0f56730426f0007b18c1e24e406c",
       "sourceName": "contracts/WormHole/interfaces/IERC20.sol",
       "solcConfig": {
         "version": "0.8.20",

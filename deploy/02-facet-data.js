@@ -36,7 +36,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   //UMA
   if (hyperLaneData.OOV3) {
     umaFacet = await ethers.getContractAt("UMAFacet", diamondAddress);
-    await umaFacet.setCurrency(hyperLaneData.OOV3);
+    await umaFacet.setOOV3(hyperLaneData.OOV3);
     await umaFacet.setCurrency(hyperLaneData.USDC);
   }
 

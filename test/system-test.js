@@ -29,6 +29,7 @@ describe("System Test ", async function () {
   let Comet;
   let CometData;
   let networkData;
+  let wstETH;
   beforeEach(async function () {
     accounts = await ethers.getNamedSigners(); // could also do with getNamedAccounts
     deployer = accounts.deployer;
@@ -50,7 +51,6 @@ describe("System Test ", async function () {
     hookFacet = await ethers.getContractAt("HookFacet", diamondAddress);
     managerFacet = await ethers.getContractAt("ManagerFacet", diamondAddress);
     umaFacet = await ethers.getContractAt("UMAFacet", diamondAddress);
-
     instructionFacet = await ethers.getContractAt(
       "InstructionFacet",
       diamondAddress
@@ -74,10 +74,17 @@ describe("System Test ", async function () {
       "contracts/WormHole/interfaces/IERC20.sol:IERC20",
       networkData.USDC
     );
+    if (networkData.wstETH) {
+      wstETH = await ethers.getContractAt(
+        "contracts/WormHole/interfaces/IERC20.sol:IERC20",
+        networkData.wstETH
+      );
+      await wstETH.mint(ethers.parseEther("1000"));
+    }
     if (networkData.DAI) {
       DAI = await ethers.getContractAt(
         "contracts/WormHole/interfaces/IERC20.sol:IERC20",
-        daiAddress
+        networkData.DAI
       );
     }
     if (networkData.OOV3) {
@@ -94,7 +101,7 @@ describe("System Test ", async function () {
     let c = await hyperFacet.getCounter();
     console.log(c.toString());
   });
-  it("can get weth and swap ", async () => {
+  it("can get weth and swap j1", async () => {
     const amount = ethers.parseEther("100");
     //formatEther divides by 10^18
     console.log(amount.toString());
@@ -104,12 +111,14 @@ describe("System Test ", async function () {
       "WETH Balance:",
       (await WETH.balanceOf(deployer.address)).toString()
     );
-    const swapAddy = "0xab7664500b19a7a2362Ab26081e6DfB971B6F1B0";
     //Create swapRouter to interact with
     const swapAmount = ethers.parseEther("25");
-    const swapRouter = await ethers.getContractAt("IV3SwapRouter", swapAddy);
+    const swapRouter = await ethers.getContractAt(
+      "IV3SwapRouter",
+      networkData.SwapRouter
+    );
     let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
-    await WETH.approve(swapAddy, swapAmount.toString());
+    await WETH.approve(networkData.SwapRouter, swapAmount.toString());
     // let ExactInputSingleParams = {
     //   tokenIn: WETH.target,
     //   tokenOut: USDC.target,
@@ -121,10 +130,17 @@ describe("System Test ", async function () {
     //   sqrtPriceLimitX96: 0,
     // };
     console.log(WETH.target, USDC.target);
+    let fee = "3000";
+    if (networkData.Network == "goerli") {
+      fee = "500";
+    }
+    if (networkData.Network == "arbogerli") {
+      fee = "10000";
+    }
     let ExactInputSingleParams = {
       tokenIn: WETH.target,
       tokenOut: USDC.target,
-      fee: "10000",
+      fee: "500",
       recipient: deployer.address,
       amountIn: swapAmount,
       amountOutMinimum: 0,
@@ -136,11 +152,16 @@ describe("System Test ", async function () {
       (await USDC.balanceOf(deployer.address)).toString()
     );
     console.log(networkData);
-    console.log(network.DAI);
+    console.log(networkData.DAI);
     if (networkData.DAI) {
-      await WETH.approve(swapAddy, swapAmount.toString());
+      let decimalAdj = Decimal.pow(10, 6);
+      const usdcAmount = new Decimal(20000).times(decimalAdj);
+      await USDC.approve(networkData.SwapRouter, usdcAmount.toString());
 
       ExactInputSingleParams.tokenOut = DAI.target;
+      ExactInputSingleParams.tokenIn = USDC.target;
+      ExactInputSingleParams.amountIn = usdcAmount.toString();
+
       await swapRouter.exactInputSingle(ExactInputSingleParams);
       console.log(
         "DAI Balance:",
@@ -159,29 +180,36 @@ describe("System Test ", async function () {
         "WETH Balance:",
         (await WETH.balanceOf(deployer.address)).toString()
       );
-      const swapAddy = "0xab7664500b19a7a2362Ab26081e6DfB971B6F1B0";
       //Create swapRouter to interact with
       const swapAmount = ethers.parseEther("25");
-      //const swapRouter = await ethers.getContractAt("ISwapRouter", swapAddy);
-      if (networkData.SparkLend) {
-      const swapRouter = await ethers.getContractAt("IV3SwapRouter", swapAddy);
-
+      const swapRouter = await ethers.getContractAt(
+        "IV3SwapRouter",
+        networkData.SwapRouter
+      );
       let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
-      await WETH.approve(swapAddy, swapAmount.toString());
+      await WETH.approve(networkData.SwapRouter, swapAmount.toString());
       // let ExactInputSingleParams = {
       //   tokenIn: WETH.target,
       //   tokenOut: USDC.target,
-      //   fee: "500",
+      //   fee: "3000",
       //   recipient: deployer.address,
       //   deadline: timeStamp + 10000, //Timestamp is in seconds
       //   amountIn: swapAmount,
       //   amountOutMinimum: 0,
       //   sqrtPriceLimitX96: 0,
       // };
+      console.log(WETH.target, USDC.target);
+      let fee = "3000";
+      if (networkData.Network == "goerli") {
+        fee = "500";
+      }
+      if (networkData.Network == "arbogerli") {
+        fee = "10000";
+      }
       let ExactInputSingleParams = {
         tokenIn: WETH.target,
         tokenOut: USDC.target,
-        fee: "10000",
+        fee: "500",
         recipient: deployer.address,
         amountIn: swapAmount,
         amountOutMinimum: 0,
@@ -192,9 +220,17 @@ describe("System Test ", async function () {
         "USDC Balance:",
         (await USDC.balanceOf(deployer.address)).toString()
       );
-      await WETH.approve(swapAddy, swapAmount.toString());
+      console.log(networkData);
+      console.log(networkData.DAI);
       if (networkData.DAI) {
+        let decimalAdj = Decimal.pow(10, 6);
+        const usdcAmount = new Decimal(20000).times(decimalAdj);
+        await USDC.approve(networkData.SwapRouter, usdcAmount.toString());
+
         ExactInputSingleParams.tokenOut = DAI.target;
+        ExactInputSingleParams.tokenIn = USDC.target;
+        ExactInputSingleParams.amountIn = usdcAmount.toString();
+
         await swapRouter.exactInputSingle(ExactInputSingleParams);
         console.log(
           "DAI Balance:",
@@ -218,14 +254,11 @@ describe("System Test ", async function () {
           //Padd our hex with 32 bytes so the total length is 64 digits
           let dataID = ethers.zeroPadValue(num, 32);
           await USDC.approve(diamondAddress, usdcAmount.toFixed());
-          console.log("Adawd");
-          console.log(deployer.address);
           await umaFacet.assertDataFor(dataID, message, deployer.address);
           const assertionID = await umaFacet.getAssertionID(0);
 
           let timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
           await ethers.provider.send("evm_mine", [timeStamp + 65]);
-          console.log("Hi");
           await umaFacet.settleAndGetAssertionResult(assertionID);
           await umaFacet.settleAndGetAssertionResult(assertionID);
           const res =
@@ -485,13 +518,15 @@ describe("System Test ", async function () {
       });
     });
     describe("Spark Tests", function () {
-      it("can supply and borrow on Spark  ", async () => {
+      it("can supply and borrow on Spark  g1", async () => {
         if (networkData.SparkLend) {
           console.log("Starting");
+          await wstETH.mint(ethers.parseEther("1000"));
           let decimalAdj = Decimal.pow(10, 18);
           const wethAmount = new Decimal(1).times(decimalAdj);
-          await WETH.transfer(diamondAddress, wethAmount.toFixed());
-          await sparkFacet.supplySpark(WETH.target, wethAmount.toFixed());
+          console.log(await wstETH.balanceOf(deployer.address));
+          await wstETH.transfer(diamondAddress, wethAmount.toFixed());
+          await sparkFacet.supplySpark(wstETH.target, wethAmount.toFixed());
           const daiAmount = new Decimal(10).times(decimalAdj);
           await sparkFacet.borrowSpark(DAI.target, daiAmount.toFixed());
         }
@@ -502,7 +537,7 @@ describe("System Test ", async function () {
         if (networkData.SparkLend) {
           //I need to add ETH/USDC liquidty to my v4 pool
           //First, initailze pool, addys must be sorted
-          let addresses = [WETH.target, DAI.target];
+          let addresses = [wstETH.target, DAI.target];
           addresses.sort();
           const hook = "0x0000000000000000000000000000000000000000";
           const poolKey = {
@@ -544,29 +579,29 @@ describe("System Test ", async function () {
           const upperTick = currentTick + parseInt(poolKey.tickSpacing) * 30;
           //Since price is basically 1:1
           //we will just use an even amount
-          const wethDecimals = Decimal.pow(10, 18);
+          const wstETHDecimals = Decimal.pow(10, 18);
 
-          let wethAmount = new Decimal(19.5);
+          let wstETHAmount = new Decimal(3);
 
-          let daiAmount = wethAmount.times(res);
-          wethAmount = wethAmount.times(wethDecimals).round();
-          daiAmount = daiAmount.times(wethDecimals).round();
+          let daiAmount = wstETHAmount.times(res);
+          wstETHAmount = wstETHAmount.times(wstETHDecimals).round();
+          daiAmount = daiAmount.times(wstETHDecimals).round();
           await DAI.transfer(diamondAddress, daiAmount.toFixed());
-          wethAmount = new Decimal(19.52);
-          wethAmount = wethAmount.times(wethDecimals).round();
-          await WETH.transfer(diamondAddress, wethAmount.toFixed());
+          wstETHAmount = new Decimal(3.02);
+          wstETHAmount = wstETHAmount.times(wstETHDecimals).round();
+          await wstETH.transfer(diamondAddress, wstETHAmount.toFixed());
 
           await uniswapFacet.addLiquidty(
-            WETH.target,
+            wstETH.target,
             DAI.target,
             lowerTick,
             upperTick,
-            wethAmount.toFixed(),
+            wstETHAmount.toFixed(),
             daiAmount.toFixed()
           );
           let liq = await uniswapFacet.getPoolLiquidity(
             DAI.target,
-            WETH.target
+            wstETH.target
           );
           console.log("Liquidity", liq.toString());
         }
@@ -577,19 +612,20 @@ describe("System Test ", async function () {
           console.log("  Oh yeah, its leverage time\n");
           let decimalAdj = Decimal.pow(10, 18);
           //Minmum is 100
-          const wethAmount = new Decimal(0.1).times(decimalAdj);
+          const wstETHAmount = new Decimal(0.1).times(decimalAdj);
           decimalAdj = Decimal.pow(10, 18);
-          const swapAmount = new Decimal(0.39).times(decimalAdj);
-          await WETH.transfer(diamondAddress, wethAmount.toFixed());
+          const swapAmount = new Decimal(0.1).times(decimalAdj);
+          await wstETH.transfer(diamondAddress, wstETHAmount.toFixed());
+
           await sparkFacet.leverageUpSpark(
-            WETH.target,
+            wstETH.target,
             DAI.target,
-            wethAmount.toFixed(),
+            wstETHAmount.toFixed(),
             swapAmount.toFixed()
           );
           let info = await sparkFacet.getUserAccountData(diamondAddress);
           console.log(info.toString());
-
+          console.log("here!!");
           await sparkFacet.closePositionSpark(0);
           info = await sparkFacet.getUserAccountData(diamondAddress);
           console.log(info.toString());
@@ -699,7 +735,7 @@ describe("System Test ", async function () {
         await managerFacet.startWorking(instructionsWithInput);
         console.log((await testFacet.getNumber()).toString());
       });
-      it("can leverage up g1", async () => {
+      it("can leverage up ", async () => {
         let instructions = [];
         instructions.push(await instructionFacet.instrucLeverageUp());
         instructions.push(await instructionFacet.instrucReturnProfit());

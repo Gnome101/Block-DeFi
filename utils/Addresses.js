@@ -15,7 +15,7 @@ function getData(domain) {
         TokenBridge: "0x23908A62110e21C04F3A4e011d24F901F911744A",
         Relayer: "0xAd753479354283eEE1b86c9470c84D42f229FF43",
         Wormhole: "0xC7A204bDBFe983FCD8d8E61D02b475D4073fF97e",
-        SwapRouter: "",
+        SwapRouter: "0xab7664500b19a7a2362Ab26081e6DfB971B6F1B0",
       };
     case 5:
       return {
@@ -34,7 +34,8 @@ function getData(domain) {
         TokenBridge: "0x3ee18B2214AFF97000D974cf647E7C347E8fa585",
         Relayer: "0x27428DD2d3DD32A4D7f7C497eAaa23130d894911",
         Wormhole: "0x706abc4E45D419950511e474C7B9Ed348A4a716c",
-        SwapRouter: "",
+        SwapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
+        wstETH: "0x6E4F1e8d4c5E5E6e2781FD814EE0744cc16Eb352",
       };
     case 84531:
       return {
@@ -51,6 +52,7 @@ function getData(domain) {
         TokenBridge: "0xA31aa3FDb7aF7Db93d18DDA4e19F811342EDF780",
         Relayer: "0xea8029CD7FCAEFFcD1F53686430Db0Fc8ed384E1",
         Wormhole: "0x23908A62110e21C04F3A4e011d24F901F911744A",
+        SwapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
       };
     case 80001:
       return {
@@ -69,6 +71,7 @@ function getData(domain) {
         TokenBridge: "0x377D55a7928c046E18eEbb61977e714d2a76472a",
         Relayer: "0x0591C25ebd0580E0d4F27A82Fc2e24E7489CB5e0",
         Wormhole: "0x0CBE91CF822c73C2315FB05100C2F714765d5c20",
+        SwapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
       };
     case 100:
       return {
@@ -78,22 +81,26 @@ function getData(domain) {
         SparkLend: "0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0",
         OOV3: "0x22A9AaAC9c3184f68C7B7C95b1300C4B1D2fB95C",
         PoolManager: "0x8c05fEE7945076d7FB87a9318702eF7858Db19D5",
+        SwapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
       };
     case 31337:
       return {
-        Network: "arbogerli",
+        Network: "mumbai",
         MailBox: "0xCC737a94FecaeC165AbCf12dED095BB13F037685",
         GasPayMaster: "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a",
-        Diamond: "0xDbD0a46Bc529570Ab594b79A8f4467A6A6F289eA",
-        cometUSDC: "0x1d573274E19174260c5aCE3f2251598959d24456",
-        cometExt: "0xB1C86B6f4BA3c997dAC601671418F6B026aaA5b2",
-        USDC: "0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892",
-        WETH: "0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3",
-        PoolManager: "0x4B8c70cF3e595D963cD4A33627d4Ba2718fD706F",
-        WormID: "23",
-        TokenBridge: "0x23908A62110e21C04F3A4e011d24F901F911744A",
-        Relayer: "0xAd753479354283eEE1b86c9470c84D42f229FF43",
-        Wormhole: "0xC7A204bDBFe983FCD8d8E61D02b475D4073fF97e",
+        Diamond: "0x837024764826ec6fdEF5c8a05F36F6cdb62B4759",
+        OOV3: "0x263351499f82C107e540B01F0Ca959843e22464a",
+        cometUSDC: "0xF09F0369aB0a875254fB565E52226c88f10Bc839",
+        cometExt: "0x1c3080d7fd5c97A58E0F2EA19e9Eec4745dC4BDe",
+        USDC: "0xDB3cB4f2688daAB3BFf59C24cC42D4B6285828e9",
+        DAI: "0x4DAFE12E1293D889221B1980672FE260Ac9dDd28",
+        WETH: "0xE1e67212B1A4BF629Bdf828e08A3745307537ccE",
+        PoolManager: "0x5ff8780e4d20e75b8599a9c4528d8ac9682e5c89",
+        WormID: "5",
+        TokenBridge: "0x377D55a7928c046E18eEbb61977e714d2a76472a",
+        Relayer: "0x0591C25ebd0580E0d4F27A82Fc2e24E7489CB5e0",
+        Wormhole: "0x0CBE91CF822c73C2315FB05100C2F714765d5c20",
+        SwapRouter: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
       };
     default:
       console.log(domain, "is not in database");

@@ -28,6 +28,9 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY || "0x";
 const ETHERSCAN_API_KEY =
   process.env.ETHERSCAN_API_KEY || "Your etherscan API key";
 const ARBGOERLI_RPC_URL = process.env.ARBGOERLI_RPC_URL;
+
+const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL;
+
 const REPORT_GAS = process.env.REPORT_GAS || false;
 
 module.exports = {
@@ -35,8 +38,8 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: ARBGOERLI_RPC_URL,
-        blockNumber: 49847785,
+        url: GOERLI_RPC_URL,
+        blockNumber: 9910612,
       },
       chainId: 31337,
       allowUnlimitedContractSize: true,
@@ -70,6 +73,12 @@ module.exports = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
       chainId: 84531,
+    },
+    goerli: {
+      url: GOERLI_RPC_URL || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      chainId: 5,
     },
     sepolia: {
       url: "https://rpc.sepolia.org" || "",
