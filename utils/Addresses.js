@@ -10,6 +10,9 @@ function getData(domain) {
         USDC: "0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892",
         WETH: "0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3",
         PoolManager: "0x4B8c70cF3e595D963cD4A33627d4Ba2718fD706F",
+        WormID: "23",
+        TokenBridge: "0x23908A62110e21C04F3A4e011d24F901F911744A",
+        Relayer: "0xAd753479354283eEE1b86c9470c84D42f229FF43",
       };
     case 5:
       return {
@@ -22,6 +25,9 @@ function getData(domain) {
         USDC: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
         WETH: "0x42a71137C09AE83D8d05974960fd607d40033499",
         PoolManager: "0x862Fa52D0c8Bca8fBCB5213C9FEbC49c87A52912",
+        WormID: "2",
+        TokenBridge: "0x3ee18B2214AFF97000D974cf647E7C347E8fa585",
+        Relayer: "0x27428DD2d3DD32A4D7f7C497eAaa23130d894911",
       };
     case 84531:
       return {
@@ -33,6 +39,9 @@ function getData(domain) {
         USDC: "0x31D3A7711a74b4Ec970F50c3eaf1ee47ba803A95",
         WETH: "0x4200000000000000000000000000000000000006",
         PoolManager: "0x693B1C9fBb10bA64F0d97AE042Ee32aE9Eb5610D",
+        WormID: "30",
+        TokenBridge: "0xA31aa3FDb7aF7Db93d18DDA4e19F811342EDF780",
+        Relayer: "0xea8029CD7FCAEFFcD1F53686430Db0Fc8ed384E1",
       };
     case 80001:
       return {
@@ -46,6 +55,9 @@ function getData(domain) {
         DAI: "0x4DAFE12E1293D889221B1980672FE260Ac9dDd28",
         WETH: "0xE1e67212B1A4BF629Bdf828e08A3745307537ccE",
         PoolManager: "0x5ff8780e4d20e75b8599a9c4528d8ac9682e5c89",
+        WormID: "5",
+        TokenBridge: "0x377D55a7928c046E18eEbb61977e714d2a76472a",
+        Relayer: "0x0591C25ebd0580E0d4F27A82Fc2e24E7489CB5e0",
       };
     case 100:
       return {
@@ -54,7 +66,7 @@ function getData(domain) {
         GasPayMaster: "0x6cA0B6D22da47f091B7613223cD4BB03a2d77918",
         SparkLend: "0x2Dae5307c5E3FD1CF5A72Cb6F698f915860607e0",
         OOV3: "0x22A9AaAC9c3184f68C7B7C95b1300C4B1D2fB95C",
-        PoolManager: "",
+        PoolManager: "0x8c05fEE7945076d7FB87a9318702eF7858Db19D5",
       };
     case 31337:
       return {

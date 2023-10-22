@@ -1,5 +1,5 @@
 Arguments: 
-  /home/gnome2/.nvm/versions/node/v18.12.1/bin/node /home/gnome2/.cache/node/corepack/yarn/1.22.19/bin/yarn.js add @uma/core/contracts/
+  /home/gnome2/.nvm/versions/node/v18.12.1/bin/node /home/gnome2/.cache/node/corepack/yarn/1.22.19/bin/yarn.js add --dev wormwhole-solidity-sdk
 
 PATH: 
   /home/gnome2/.vscode-server/bin/f1b07bd25dfad64b0167beb15359ae573aecd2cc/bin/remote-cli:/home/gnome2/.local/bin:/home/gnome2/.nvm/versions/node/v18.12.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Razer Chroma SDK/bin:/mnt/c/Program Files/Razer Chroma SDK/bin:/mnt/c/Program Files (x86)/Razer/ChromaBroadcast/bin:/mnt/c/Program Files/Razer/ChromaBroadcast/bin:/mnt/c/Python311/Scripts/:/mnt/c/Python311/:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Windows/system32/config/systemprofile/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/MATLAB/R2023a/bin:/mnt/c/Users/alexf/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/alexf/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/alexf/AppData/Roaming/npm:/snap/bin:/home/gnome2/.local/lib/python3.8/site-packages/solc_select/bin:/home/gnome2/.local/lib/python3.8/site-packages/solc_select/bin
@@ -14,8 +14,8 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@uma%2fcore/contracts/: Request "https://registry.yarnpkg.com/@uma%2fcore/contracts/" returned a 405
-      at params.callback [as _callback] (/home/gnome2/.cache/node/corepack/yarn/1.22.19/lib/cli.js:66154:18)
+  Error: https://registry.yarnpkg.com/wormwhole-solidity-sdk: Not found
+      at params.callback [as _callback] (/home/gnome2/.cache/node/corepack/yarn/1.22.19/lib/cli.js:66145:18)
       at self.callback (/home/gnome2/.cache/node/corepack/yarn/1.22.19/lib/cli.js:140890:22)
       at Request.emit (node:events:513:28)
       at Request.<anonymous> (/home/gnome2/.cache/node/corepack/yarn/1.22.19/lib/cli.js:141862:10)
