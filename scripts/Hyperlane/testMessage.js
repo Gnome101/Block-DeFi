@@ -1,13 +1,12 @@
 const { ethers } = require("hardhat");
 async function main() {
-  // const diamondAddress = await hookFactory.hooks(0);
-  let Diamond = await ethers.getContract("Diamond");
-  diamondAddress = Diamond.target;
+  const hookFactory = await ethers.getContract("UniswapHooksFactory");
+  const diamondAddress = await hookFactory.hooks(0);
   hyperFacet = await ethers.getContractAt("HyperFacet", diamondAddress);
   //Test from arbGoerli to Scroll
-
-  let tx = await hyperFacet.hitEmUp(421613, 100000, "1200000000000000", {
-    value: ethers.parseEther("0.01"),
+  let args = [0];
+  let tx = await hyperFacet.hitEmUp(5, 100000, "1200000000000000", {
+    value: ethers.parseEther("0.007"),
   });
   await tx.wait();
 }

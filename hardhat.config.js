@@ -38,8 +38,8 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: GOERLI_RPC_URL,
-        blockNumber: 9911360,
+        url: ARBGOERLI_RPC_URL,
+        blockNumber: 9911547,
       },
       chainId: 31337,
       allowUnlimitedContractSize: true,
@@ -123,6 +123,6 @@ module.exports = {
     ],
   },
   mocha: {
-    timeout: 30000, // 500 seconds max for running tests
+    timeout: 3000000, // 500 seconds max for running tests
   },
 };

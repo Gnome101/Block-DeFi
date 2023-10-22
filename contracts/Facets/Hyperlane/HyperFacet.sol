@@ -96,7 +96,7 @@ library HyperLib {
         );
     }
 
-    uint256 public constant gasCost = 300000;
+    uint256 public constant gasCost = 400000;
 
     function sendDataMumbai(uint256[] memory input) internal {
         uint32 domainTarget = 80001;
@@ -121,7 +121,6 @@ library HyperLib {
         uint256 gasEstimate = getQuote(domainTarget, gasCost);
         bytes memory data = ManagerLib.getCurrentFlow();
         bytes memory dataFlow = ManagerLib.addDataToFront(input, data);
-
         sendMessage(domainTarget, gasCost, gasEstimate, dataFlow);
     }
 
@@ -190,15 +189,15 @@ library HyperLib {
         UMALib.UMAState storage umaState = UMALib.diamondStorage();
 
         hyperState.counter += 1;
-        if (address(umaState.oov3) != address(0)) {
-            bytes32 dataID = bytes32(hyperState.counter);
-            bytes32 assertionID = UMALib.assertDataFor(
-                dataID,
-                bytes32(_message),
-                address(this)
-            );
-            umaState.messageToAssertionID[bytes32(_message)] = assertionID;
-        }
+        // if (address(umaState.oov3) != address(0)) {
+        //     bytes32 dataID = bytes32(hyperState.counter);
+        //     bytes32 assertionID = UMALib.assertDataFor(
+        //         dataID,
+        //         bytes32(_message),
+        //         address(this)
+        //     );
+        //     umaState.messageToAssertionID[bytes32(_message)] = assertionID;
+        // }
         //When the validator calls verify, we lock the state so the relayer pauses
         //Then after a 30s period for UMA review re-allow transactions to go through
         //Then the relayer is able to work. Muahhahhah
@@ -210,15 +209,19 @@ library HyperLib {
         bytes32 _sender,
         bytes calldata _body
     ) internal {
-        UMALib.UMAState storage umaState = UMALib.diamondStorage();
-        if (address(umaState.oov3) != address(0)) {
-            bytes32 assertionID = umaState.messageToAssertionID[bytes32(_body)];
-            UMALib.settleAndGetAssertionResult(assertionID);
-        }
+        // UMALib.UMAState storage umaState = UMALib.diamondStorage();
+        // if (address(umaState.oov3) != address(0)) {
+        //     bytes32 assertionID = umaState.messageToAssertionID[bytes32(_body)];
+        //     UMALib.settleAndGetAssertionResult(assertionID);
+        // }
 
         HyperLib.increaseCounter();
+        (address user, bytes memory dataFlow) = abi.decode(
+            _body,
+            (address, bytes)
+        );
         //Now we can continue flow
-        ManagerLib.startWorking(_body);
+        ManagerLib.startWorking(dataFlow);
     }
 
     function sendMessageToMumbai() internal {}
@@ -230,7 +233,7 @@ contract HyperFacet {
         bytes32 _sender,
         bytes calldata _body
     ) external {
-        HyperLib.increaseCounter();
+        HyperLib.receiveMessage(_origin, _sender, _body);
     }
 
     function hitEmUp(

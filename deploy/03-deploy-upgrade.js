@@ -6,17 +6,20 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts();
   log("------------------------------------------------------------");
   const facetName = "HyperFacet";
-  const Diamond = await ethers.getContract("Diamond");
-  const diamondAddress = Diamond.target;
+  hookFactory = await ethers.getContract("UniswapHooksFactory");
+
+  let diamondAddress = await hookFactory.hooks(0);
+  console.log(diamondAddress);
   console.log("Upgrading", facetName);
   let args = [];
-  const facet = await ethers.getContract(facetName);
-  let oldSelectors = getSelectors(facet);
-  console.log(oldSelectors);
+
   const diamondCutFacet = await ethers.getContractAt(
     "DiamondCutFacet",
     diamondAddress
   );
+  // const facet = await ethers.getContract(facetName);
+  // let oldSelectors = getSelectors(facet);
+  // console.log(oldSelectors);
 
   // tx = await diamondCutFacet.diamondCut(
   //   [

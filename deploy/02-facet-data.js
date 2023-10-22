@@ -11,6 +11,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   hookFactory = await ethers.getContract("UniswapHooksFactory");
 
   let diamondAddress = await hookFactory.hooks(0);
+  console.log(diamondAddress);
   console.log("Failed");
   // let Diamond = await ethers.getContract("Diamond");
   // diamondAddress = Diamond.target;

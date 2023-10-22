@@ -1,8 +1,7 @@
 const { ethers } = require("hardhat");
 async function main() {
-  //const diamondAddress = await hookFactory.hooks(0);
-  let Diamond = await ethers.getContract("Diamond");
-  diamondAddress = Diamond.target;
+  const hookFactory = await ethers.getContract("UniswapHooksFactory");
+  const diamondAddress = await hookFactory.hooks(0);
   diamondLoupeFacet = await ethers.getContractAt(
     "DiamondLoupeFacet",
     diamondAddress
