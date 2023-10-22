@@ -66,14 +66,9 @@ library UMALib {
         UMAState storage umaState = diamondStorage();
 
         asserter = asserter == address(0) ? msg.sender : asserter;
-
+        console.log(umaState.currency);
         uint256 bond = umaState.oov3.getMinimumBond(umaState.currency);
-        SafeERC20.safeTransferFrom(
-            IERC20(umaState.currency),
-            msg.sender,
-            address(this),
-            bond
-        );
+
         SafeERC20.safeApprove(
             IERC20(umaState.currency),
             address(umaState.oov3),

@@ -11,6 +11,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   hookFactory = await ethers.getContract("UniswapHooksFactory");
 
   let diamondAddress = await hookFactory.hooks(0);
+  console.log("Failed");
   // let Diamond = await ethers.getContract("Diamond");
   // diamondAddress = Diamond.target;
   //Hyperlane
@@ -20,11 +21,14 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   await tx.wait();
   tx = await hyperFacet.setGasMaster(hyperLaneData.GasPayMaster);
   await tx.wait();
+  console.log("Now Compound");
 
   //Compound
   leverageFacet = await ethers.getContractAt("LeverageFacet", diamondAddress);
-  await leverageFacet.setComet(hyperLaneData.cometUSDC);
-  await leverageFacet.setCometData(hyperLaneData.cometExt);
+  tx = await leverageFacet.setComet(hyperLaneData.cometUSDC);
+  await tx.wait();
+  tx = await leverageFacet.setCometData(hyperLaneData.cometExt);
+  await tx.wait();
 
   //Spark
   if (hyperLaneData.SparkLend) {
@@ -37,17 +41,26 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   if (hyperLaneData.OOV3) {
     umaFacet = await ethers.getContractAt("UMAFacet", diamondAddress);
     await umaFacet.setOOV3(hyperLaneData.OOV3);
-    await umaFacet.setCurrency(hyperLaneData.USDC);
+    if (hyperLaneData.DBT) {
+      console.log("HIU");
+      await umaFacet.setCurrency(hyperLaneData.DBT);
+    } else {
+      await umaFacet.setCurrency(hyperLaneData.USDC);
+    }
   }
-
+  console.log("Now Wormhole");
   //Wormhole
   wormFacet = await ethers.getContractAt("WormFacet", diamondAddress);
-  await wormFacet.setWormHole(hyperLaneData.Wormhole);
-  await wormFacet.setTokenBridge(hyperLaneData.TokenBridge);
-  await wormFacet.setWormRelayer(hyperLaneData.Relayer);
+  tx = await wormFacet.setWormHole(hyperLaneData.Wormhole);
+  await tx.wait();
+  tx = await wormFacet.setTokenBridge(hyperLaneData.TokenBridge);
+  await tx.wait();
+  tx = await wormFacet.setWormRelayer(hyperLaneData.Relayer);
+  await tx.wait();
 
   //Uniswap
   uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
-  await uniswapFacet.setPoolManager(hyperLaneData.PoolManager);
+  tx = await uniswapFacet.setPoolManager(hyperLaneData.PoolManager);
+  uniswapFacet = await ethers.getContractAt("UniswapFacet", diamondAddress);
 };
 module.exports.tags = ["all", "Test", "gyg"];

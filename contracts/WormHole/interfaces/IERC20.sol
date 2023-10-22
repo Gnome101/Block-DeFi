@@ -58,6 +58,8 @@ interface IERC20 {
 
     function mint(uint256 owner) external returns (bool);
 
+    function allocateTo(address ownerAddress, uint256 value) external;
+
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
      *
@@ -73,6 +75,8 @@ interface IERC20 {
      * Emits an {Approval} event.
      */
     function approve(address spender, uint256 amount) external returns (bool);
+
+    function drip(address token) external;
 
     /**
      * @dev Moves `amount` tokens from `from` to `to` using the

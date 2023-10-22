@@ -291,4 +291,24 @@ contract HyperFacet {
     ) external returns (bool) {
         return HyperLib.verify(_metadata, _message);
     }
+
+    function sendDataMumbai(uint256[] memory inputs) external {
+        HyperLib.sendDataMumbai(inputs);
+    }
+
+    function sendDataArbGoerli(uint256[] memory inputs) external {
+        HyperLib.sendDataArbGoerli(inputs);
+    }
+
+    function sendDataGoerli(uint256[] memory inputs) external {
+        HyperLib.sendDataGoerli(inputs);
+    }
+
+    function sendDataBase(uint256[] memory inputs) external {
+        HyperLib.sendDataBase(inputs);
+    }
+
+    function sendDataGnosis(uint256[] memory inputs) external {
+        HyperLib.sendDataGnosis(inputs);
+    }
 }

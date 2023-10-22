@@ -39,7 +39,7 @@ module.exports = {
     hardhat: {
       forking: {
         url: GOERLI_RPC_URL,
-        blockNumber: 9910612,
+        blockNumber: 9911360,
       },
       chainId: 31337,
       allowUnlimitedContractSize: true,

@@ -8,6 +8,7 @@ import "./UniswapFacet.sol";
 import "./SparkFacet.sol";
 import "./Diamond/Test1Facet.sol";
 import "./ControlFacet.sol";
+import {WormFacet} from "./WormFacet.sol";
 
 library InstructionLib {
     //ManagerFacet
@@ -190,6 +191,61 @@ library InstructionLib {
 
         return bytes5(instruction);
     }
+
+    //HyperFacet
+    function instrucSendDataMumbai(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
+
+        return bytes5(instruction);
+    }
+
+    function instrucSendDataArbGoerli(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
+
+        return bytes5(instruction);
+    }
+
+    function instrucSendDataGoerli(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
+
+        return bytes5(instruction);
+    }
+
+    function instrucSendDataBase(bytes4 selc) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x10));
+        return bytes5(instruction);
+    }
+
+    //WormHole Facet
+    function instrucsendFlowTokensMumbai(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x20));
+        return bytes5(instruction);
+    }
+
+    function instrucsendFlowTokensArbG(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x20));
+        return bytes5(instruction);
+    }
+
+    function instrucsendFlowTokensGoerli(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x20));
+        return bytes5(instruction);
+    }
+
+    function instrucsendFlowTokensBase(
+        bytes4 selc
+    ) internal pure returns (bytes5) {
+        bytes memory instruction = abi.encodePacked(selc, bytes1(0x20));
+        return bytes5(instruction);
+    }
 }
 
 contract InstructionFacet {
@@ -323,42 +379,100 @@ contract InstructionFacet {
 
     //Spark Facet
 
-    function instrucSupplySpark() internal pure returns (bytes5) {
+    function instrucSupplySpark() external pure returns (bytes5) {
         return
             InstructionLib.instrucSupplySpark(SparkFacet.supplySpark.selector);
     }
 
-    function instrucBorrowSpark() internal pure returns (bytes5) {
+    function instrucBorrowSpark() external pure returns (bytes5) {
         return
             InstructionLib.instrucBorrowSpark(SparkFacet.borrowSpark.selector);
     }
 
-    function instrucRepaySpark() internal pure returns (bytes5) {
+    function instrucRepaySpark() external pure returns (bytes5) {
         return InstructionLib.instrucRepaySpark(SparkFacet.repaySpark.selector);
     }
 
-    function instrucWithdrawSpark() internal pure returns (bytes5) {
+    function instrucWithdrawSpark() external pure returns (bytes5) {
         return
             InstructionLib.instrucWithdrawSpark(
                 SparkFacet.withdrawSpark.selector
             );
     }
 
-    function instrucLeverageUpSpark() internal pure returns (bytes5) {
+    function instrucLeverageUpSpark() external pure returns (bytes5) {
         return
             InstructionLib.instrucLeverageUpSpark(
                 SparkFacet.leverageUpSpark.selector
             );
     }
 
-    function instrucClosePositionSpark() internal pure returns (bytes5) {
+    function instrucClosePositionSpark() external pure returns (bytes5) {
         return
             InstructionLib.instrucClosePositionSpark(
                 SparkFacet.closePositionSpark.selector
             );
     }
 
-    function instrucGetHFSpark() internal pure returns (bytes5) {
+    function instrucGetHFSpark() external pure returns (bytes5) {
         return InstructionLib.instrucGetHFSpark(SparkFacet.getHF.selector);
+    }
+
+    //HyperFacet
+    function instrucSendDataMumbai() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucSendDataMumbai(
+                HyperFacet.sendDataMumbai.selector
+            );
+    }
+
+    function instrucSendDataArbGoerli() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucSendDataArbGoerli(
+                HyperFacet.sendDataArbGoerli.selector
+            );
+    }
+
+    function instrucSendDataGoerli() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucSendDataGoerli(
+                HyperFacet.sendDataGoerli.selector
+            );
+    }
+
+    function instrucSendDataBase() external pure returns (bytes5) {
+        return
+            InstructionLib.instrucSendDataBase(
+                HyperFacet.sendDataBase.selector
+            );
+    }
+
+    //WormHole Facet
+    function instrucSendFlowTokensMumbai() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucsendFlowTokensMumbai(
+                WormFacet.sendFlowTokensMumbai.selector
+            );
+    }
+
+    function instrucSendFlowTokensArbG() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucsendFlowTokensArbG(
+                WormFacet.sendFlowTokensArbG.selector
+            );
+    }
+
+    function instrucSendFlowTokensGoerli() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucsendFlowTokensGoerli(
+                WormFacet.sendFlowTokenGoerli.selector
+            );
+    }
+
+    function instrucSendFlowTokensBase() internal pure returns (bytes5) {
+        return
+            InstructionLib.instrucsendFlowTokensBase(
+                WormFacet.sendFlowTokensBase.selector
+            );
     }
 }
