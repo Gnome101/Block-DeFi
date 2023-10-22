@@ -13,7 +13,7 @@ async function main() {
   await tx.wait();
   tx = await hyperFacet.setDomainToAddress(
     421613,
-    "0x24FD1e26436740a34B91F3c0e56167a05f852EE6"
+    "0x249857791a5Ac865C7F4bB56eE6EBa6864B9ecc8"
   ); //ARB GOERLI
   await tx.wait();
   tx = await wormFacet.setAddyForDomain(
@@ -24,7 +24,7 @@ async function main() {
 
   tx = await wormFacet.setAddyForDomain(
     23,
-    "0x24FD1e26436740a34B91F3c0e56167a05f852EE6"
+    "0x249857791a5Ac865C7F4bB56eE6EBa6864B9ecc8"
   ); //ARB GOERLI
   await tx.wait();
 }

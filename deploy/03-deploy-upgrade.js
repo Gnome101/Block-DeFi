@@ -5,7 +5,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
   log("------------------------------------------------------------");
-  const facetName = "HyperFacet";
+  const facetName = "InstructionFacet";
   hookFactory = await ethers.getContract("UniswapHooksFactory");
 
   let diamondAddress = await hookFactory.hooks(0);

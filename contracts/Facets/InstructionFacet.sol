@@ -448,28 +448,28 @@ contract InstructionFacet {
     }
 
     //WormHole Facet
-    function instrucSendFlowTokensMumbai() internal pure returns (bytes5) {
+    function instrucSendFlowTokensMumbai() external pure returns (bytes5) {
         return
             InstructionLib.instrucsendFlowTokensMumbai(
                 WormFacet.sendFlowTokensMumbai.selector
             );
     }
 
-    function instrucSendFlowTokensArbG() internal pure returns (bytes5) {
+    function instrucSendFlowTokensArbG() external pure returns (bytes5) {
         return
             InstructionLib.instrucsendFlowTokensArbG(
                 WormFacet.sendFlowTokensArbG.selector
             );
     }
 
-    function instrucSendFlowTokensGoerli() internal pure returns (bytes5) {
+    function instrucSendFlowTokensGoerli() external pure returns (bytes5) {
         return
             InstructionLib.instrucsendFlowTokensGoerli(
                 WormFacet.sendFlowTokenGoerli.selector
             );
     }
 
-    function instrucSendFlowTokensBase() internal pure returns (bytes5) {
+    function instrucSendFlowTokensBase() external pure returns (bytes5) {
         return
             InstructionLib.instrucsendFlowTokensBase(
                 WormFacet.sendFlowTokensBase.selector

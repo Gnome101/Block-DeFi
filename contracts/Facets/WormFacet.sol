@@ -366,7 +366,7 @@ contract WormFacet is IWormholeReceiver {
         return WormLib.getLastSender();
     }
 
-    function getCounterWorm() external view returns (uint256) {
+    function getCounter() external view returns (uint256) {
         return WormLib.getCounter();
     }
 
