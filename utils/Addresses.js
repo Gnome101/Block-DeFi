@@ -16,7 +16,7 @@ function getData(domain) {
         Relayer: "0xAd753479354283eEE1b86c9470c84D42f229FF43",
         Wormhole: "0xC7A204bDBFe983FCD8d8E61D02b475D4073fF97e",
         SwapRouter: "0xab7664500b19a7a2362Ab26081e6DfB971B6F1B0",
-        Diamond: "0x249857791a5Ac865C7F4bB56eE6EBa6864B9ecc8",
+        Diamond: "0x24B3C6F4297dC1D26C3fE4b262F358cb6445beE4",
       };
     case 5:
       return {

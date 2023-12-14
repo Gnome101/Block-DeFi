@@ -11,24 +11,16 @@ async function main() {
   managerFacet = await ethers.getContractAt("ManagerFacet", diamondAddress);
 
   // Test from arbGoerli to Scroll
-  let inputs = [
-    (
-      await managerFacet.convertAddyToNum(
-        "0x8FB1E3fC51F3b789dED7557E680551d93Ea9d892"
-      )
-    ).toString(),
-    "100000000",
-  ];
   let instructions = [];
-  instructions.push(await instructionFacet.instrucSendFlowTokensGoerli());
-  instructions.push(await instructionFacet.instrucGetNumber());
-
+  instructions.push(await instructionFacet.instrucSetNumber());
+  instructions.push(await instructionFacet.instrucGetSum());
+  instructions.push(await instructionFacet.instrucSendDataGoerli());
+  instructions.push(await instructionFacet.instrucSetNumber());
   console.log(instructions);
-
   const packedInstructions =
     await managerFacet.convertBytes5ArrayToBytes(instructions);
   const instructionsWithInput = await managerFacet.addDataToFront(
-    inputs,
+    [7],
     packedInstructions
   );
   console.log(instructionsWithInput);

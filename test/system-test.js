@@ -1068,7 +1068,7 @@ describe("System Test ", async function () {
         await Comet.accrueAccount(diamondAddress);
 
         await managerFacet.createNewHookFlow(
-          "Gets a number",
+          "Closes Position If Liquidatable",
           instructionsWithInput
         );
         swapAmount = ethers.parseEther("1");
